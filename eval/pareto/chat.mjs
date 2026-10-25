@@ -197,7 +197,11 @@ export async function draftChat(opts = parseArgs()) {
   }
   console.log(`chat ledger ${ledger.spent.toFixed(4)} / ${ledger.cap} ; need ${n} cases for ${langs.length} languages`);
 
-  for (let i = 0; i < langs.length; i += 1) {
+  let doneCount = 0;
+  const queue = langs.map((_, idx) => idx);
+  const worker = async () => {
+  while (queue.length) {
+    const i = queue.shift();
     const lang = langs[i];
     if (ledger.aborted) break;
     const have = (byLang.get(lang) || []).filter((row) => row.kind === "chat")
@@ -283,8 +287,11 @@ export async function draftChat(opts = parseArgs()) {
       if (!langs.includes(langOfRow(row)) && !flat.includes(row)) flat.push(row);
     }
     writeJson(CHAT_FILE, flat.sort((a, b) => String(a.id).localeCompare(String(b.id))));
-    progress("chat", i + 1, langs.length, ledger.spent);
+    doneCount += 1;
+    progress("chat", doneCount, langs.length, ledger.spent);
   }
+  };
+  await Promise.all(Array.from({ length: 6 }, () => worker()));
 
   const finalRows = [];
   const counts = new Map();

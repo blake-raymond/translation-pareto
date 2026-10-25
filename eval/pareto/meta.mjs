@@ -12,7 +12,7 @@ export const CHAT_PER_LANG = 20;
 export const PILOT_BENCH_PER_LANG = 10;
 export const PILOT_CHAT_PER_LANG = 5;
 export const JUDGE_BATCH_SIZE = 150;
-export const TRANSLATE_CONCURRENCY = 4;
+export const TRANSLATE_CONCURRENCY = 8;
 
 export const PARETO_DIR = path.join(rootDir(), "eval", "pareto");
 export const DATA_DIR = path.join(rootDir(), "data");

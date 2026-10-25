@@ -238,7 +238,10 @@ export async function runJudge(opts = parseArgs()) {
   console.log(`judge batches=${batches.length} uncached=${todo.length} cached=${cases.length - todo.length} cands=${slugs.length} spent=$${ledger.spent.toFixed(4)} cap=$${ledger.cap}`);
   progress("judge", cases.length - todo.length, cases.length, ledger.spent);
 
-  for (let b = 0; b < batches.length; b += 1) {
+  const bq = batches.map((_, idx) => idx);
+  const jworker = async () => {
+  while (bq.length) {
+    const b = bq.shift();
     if (ledger.aborted) break;
     const packed = batches[b];
     const order = {};
@@ -293,6 +296,8 @@ export async function runJudge(opts = parseArgs()) {
     meta.push({ batch: b, cases: packed.length, scored: packed.length - missed.length, cost_usd: cost });
     progress("judge", Object.keys(allScores).length, cases.length, ledger.spent);
   }
+  };
+  await Promise.all(Array.from({ length: 3 }, () => jworker()));
 
   writeJson(JUDGEMENTS_FILE, {
     judge: spec.slug,
