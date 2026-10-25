@@ -2,10 +2,10 @@
 // one messy line to translate (typos, missing diacritics, slang, pronouns).
 import fs from "node:fs";
 import path from "node:path";
-import { loadKey, paidChat, parseJsonObject, writeJson } from "../api.mjs";
+import { loadKey, paidChat, parseJsonObject, publicError, writeJson } from "../api.mjs";
 import { languageName } from "./languages.mjs";
-import { invokedDirectly, loadParetoLedger, parseArgs, targetLangs } from "./lib.mjs";
-import { CHAT_FILE, CHAT_PER_LANG, PILOT_CHAT_PER_LANG, RESULTS_DIR } from "./meta.mjs";
+import { invokedDirectly, loadParetoLedger, parseArgs, progress, targetLangs } from "./lib.mjs";
+import { CHAT_FILE, CHAT_PER_LANG, COVERAGE_FILE, PILOT_CHAT_PER_LANG, RESULTS_DIR } from "./meta.mjs";
 
 function catalog() {
   return JSON.parse(fs.readFileSync(new URL("./models.json", import.meta.url), "utf8"));
@@ -53,7 +53,7 @@ function parseCases(text) {
   return out;
 }
 
-function authorMessages(lang, n) {
+function authorMessages(lang, n, avoid = []) {
   const name = languageName(lang);
   const system = [
     "You write evaluation items for a live two-person face-to-face translation chat.",
@@ -70,11 +70,116 @@ function authorMessages(lang, n) {
     "If missing-diacritics does not apply (for example Japanese or Khmer), use typo, slang, or pronoun-reference instead.",
     "Scenarios: market, taxi, food allergy, hotel, pharmacy dose, directions, small talk.",
     "Do not reuse the same numbers, names, or shops across cases.",
-  ].join("\n");
+    avoid.length ? `Do not reuse these source lines:\n${avoid.map((text) => `- ${text}`).join("\n")}` : "",
+  ].filter(Boolean).join("\n");
   return [
     { role: "system", content: system },
     { role: "user", content: user },
   ];
+}
+
+function cachePath(lang) {
+  return path.join(RESULTS_DIR, "cache", "chat", `${lang}.json`);
+}
+
+function readCache(lang) {
+  try {
+    return JSON.parse(fs.readFileSync(cachePath(lang), "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function cacheCases(payload) {
+  if (!payload) return [];
+  const fromCases = Array.isArray(payload.cases) ? payload.cases : [];
+  return parseCases(JSON.stringify(fromCases));
+}
+
+function attemptCount(payload) {
+  if (Array.isArray(payload?.parts) && payload.parts.length) return payload.parts.length;
+  if (payload?.raw || (Array.isArray(payload?.cases) && payload.cases.length)) return 1;
+  return 0;
+}
+
+const MAX_CHAT_ATTEMPTS = 2;
+
+function langOfRow(row) {
+  return row.lang || (row.source === "en" ? row.target : row.source);
+}
+
+function nextChatIndex(rows) {
+  let next = 1;
+  for (const row of rows) {
+    const match = String(row.id || "").match(/-(\d+)$/);
+    if (match) next = Math.max(next, Number(match[1]) + 1);
+  }
+  return next;
+}
+
+function materialize(lang, parsed, startIndex) {
+  return parsed.map((row, index) => ({
+    id: `chat-${lang}-${String(startIndex + index).padStart(2, "0")}`,
+    kind: "chat",
+    lang,
+    source: row.source || ((startIndex + index) % 2 === 0 ? "en" : lang),
+    target: row.target || ((startIndex + index) % 2 === 0 ? lang : "en"),
+    problem: row.problem,
+    history: row.history,
+    text: row.text,
+    meaning: row.meaning,
+    license: "synthetic",
+  }));
+}
+
+function mergeParsed(primary, extra) {
+  const seen = new Set();
+  const out = [];
+  for (const row of [...primary, ...extra]) {
+    const key = String(row.text || "").trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(row);
+  }
+  return out;
+}
+
+function writeCoverageChat(counts) {
+  try {
+    const coverage = JSON.parse(fs.readFileSync(COVERAGE_FILE, "utf8"));
+    let nChat = 0;
+    for (const row of coverage.languages || []) {
+      if (!counts.has(row.lang)) continue;
+      row.n_chat = counts.get(row.lang);
+      nChat += row.n_chat;
+    }
+    coverage.chat_per_lang = CHAT_PER_LANG;
+    coverage.n_chat = nChat;
+    writeJson(COVERAGE_FILE, coverage);
+  } catch {
+    // Coverage is written by the benchmark stage. Chat still saves its own file.
+  }
+}
+
+export function chatWork(opts = parseArgs()) {
+  const langs = targetLangs(opts);
+  const n = opts.pilot ? PILOT_CHAT_PER_LANG : CHAT_PER_LANG;
+  const { map } = existingByLang(CHAT_FILE);
+  let needsPay = 0;
+  let needsWrite = 0;
+  let have = 0;
+  for (const lang of langs) {
+    const rows = (map.get(lang) || []).filter((row) => row.kind === "chat");
+    have += Math.min(rows.length, n);
+    if (rows.length >= n) continue;
+    needsWrite += 1;
+    const cached = readCache(lang);
+    const parsed = mergeParsed(rows, cacheCases(cached));
+    if (parsed.length >= n) continue;
+    if (attemptCount(cached) >= MAX_CHAT_ATTEMPTS) continue;
+    needsPay += 1;
+  }
+  return { langs, n, needsPay, needsWrite, pending: needsPay, have, target: langs.length * n };
 }
 
 export async function draftChat(opts = parseArgs()) {
@@ -83,76 +188,123 @@ export async function draftChat(opts = parseArgs()) {
   const apiKey = loadKey();
   const ledger = loadParetoLedger(opts.pilot);
   const spec = catalog().authoring;
-  const { rows, map } = existingByLang(CHAT_FILE);
-  const kept = rows.filter((row) => {
-    const key = row.lang || (row.source === "en" ? row.target : row.source);
-    if (!langs.includes(key)) return true;
-    return (map.get(key) || []).length >= n;
-  });
+  const { rows } = existingByLang(CHAT_FILE);
+  const byLang = new Map();
+  for (const row of rows) {
+    const key = langOfRow(row);
+    if (!byLang.has(key)) byLang.set(key, []);
+    byLang.get(key).push(row);
+  }
   console.log(`chat ledger ${ledger.spent.toFixed(4)} / ${ledger.cap} ; need ${n} cases for ${langs.length} languages`);
 
-  for (const lang of langs) {
+  for (let i = 0; i < langs.length; i += 1) {
+    const lang = langs[i];
     if (ledger.aborted) break;
-    const have = (map.get(lang) || []).filter((row) => row.kind === "chat");
-    if (have.length >= n) {
-      console.log(`${lang} cached ${have.length}`);
-      continue;
-    }
-    const cacheFile = path.join(RESULTS_DIR, "cache", "chat", `${lang}.json`);
-    fs.mkdirSync(path.dirname(cacheFile), { recursive: true });
-    let parsed = [];
-    if (fs.existsSync(cacheFile)) {
-      try {
-        parsed = parseCases(JSON.stringify(JSON.parse(fs.readFileSync(cacheFile, "utf8")).cases || []));
-      } catch {
-        parsed = [];
-      }
-    }
-    if (parsed.length < n) {
+    const have = (byLang.get(lang) || []).filter((row) => row.kind === "chat")
+      .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+    const cached = readCache(lang);
+    let parsed = mergeParsed(
+      have.map((row) => ({
+        source: row.source,
+        target: row.target,
+        problem: row.problem,
+        history: row.history,
+        text: row.text,
+        meaning: row.meaning,
+      })),
+      cacheCases(cached),
+    );
+    if (parsed.length < n && attemptCount(cached) < MAX_CHAT_ATTEMPTS) {
+      const need = n - parsed.length;
+      const maxTokens = Math.min(16000, Math.max(spec.max_tokens, need * 700));
       const result = await paidChat(
         apiKey,
         ledger,
         spec,
-        authorMessages(lang, n),
-        spec.max_tokens,
+        authorMessages(lang, need, parsed.map((row) => row.text)),
+        maxTokens,
         { kind: "chat-draft", lang },
-        { timeoutMs: 180000, estimateOutputTokens: 3500 },
+        { timeoutMs: 300000, estimateOutputTokens: Math.min(maxTokens, Math.max(2500, need * 500)) },
       );
-      console.log(`${lang} draft $${(result.cost_usd || 0).toFixed(4)} spent=$${ledger.spent.toFixed(4)}${result.error ? ` error=${result.error}` : ""}`);
-      if (!result.ok) continue;
-      parsed = parseCases(result.text);
-      writeJson(cacheFile, { lang, raw: result.text, cases: parsed, cost_usd: result.cost_usd });
+      let paidCost = result.cost_usd || 0;
+      let fresh = result.ok ? parseCases(result.text) : [];
+      if (result.ok && fresh.length === 0 && !ledger.aborted) {
+        console.log(`${lang} draft parsed 0, retrying once`);
+        const retry = await paidChat(
+          apiKey,
+          ledger,
+          spec,
+          authorMessages(lang, need, parsed.map((row) => row.text)),
+          maxTokens,
+          { kind: "chat-draft-retry", lang },
+          { timeoutMs: 300000, estimateOutputTokens: Math.min(maxTokens, Math.max(2500, need * 500)) },
+        );
+        paidCost += retry.cost_usd || 0;
+        console.log(`${lang} draft retry $${(retry.cost_usd || 0).toFixed(4)} spent=$${ledger.spent.toFixed(4)}${retry.error ? ` error=${retry.error}` : ""}`);
+        if (retry.ok) fresh = parseCases(retry.text);
+        if (retry.error === "credits") {
+          ledger.aborted = true;
+          ledger.reason = "OpenRouter rejected the call for credits.";
+        }
+      }
+      console.log(`${lang} draft need=${need} parsed=${fresh.length} total=${parsed.length + fresh.length} $${paidCost.toFixed(4)} spent=$${ledger.spent.toFixed(4)}${result.error ? ` error=${result.error}` : ""}`);
+      if (result.ok) {
+        parsed = mergeParsed(parsed, fresh);
+        const parts = Array.isArray(cached?.parts) ? [...cached.parts] : [];
+        if (!parts.length && attemptCount(cached)) parts.push({ n: cacheCases(cached).length, cost_usd: cached?.cost_usd || 0 });
+        parts.push({ n: fresh.length, cost_usd: paidCost });
+        writeJson(cachePath(lang), {
+          lang,
+          raw: cached?.raw || result.text,
+          cases: parsed,
+          cost_usd: parts.reduce((sum, part) => sum + (Number(part.cost_usd) || 0), 0),
+          parts,
+        });
+      } else if (result.error === "credits") {
+        ledger.aborted = true;
+        ledger.reason = "OpenRouter rejected the call for credits.";
+      }
     } else {
-      console.log(`${lang} draft cache hit ${parsed.length}`);
+      console.log(`${lang} cached ${Math.min(parsed.length, n)}`);
     }
-    const sliced = parsed.slice(0, n).map((row, index) => ({
-      id: `chat-${lang}-${String(index + 1).padStart(2, "0")}`,
-      kind: "chat",
+    const use = parsed.slice(0, n);
+    const keptIds = have.filter((row) => use.some((item) => item.text === row.text));
+    const usedTexts = new Set(keptIds.map((row) => row.text));
+    const appended = materialize(
       lang,
-      source: row.source || (index % 2 === 0 ? "en" : lang),
-      target: row.target || (index % 2 === 0 ? lang : "en"),
-      problem: row.problem,
-      history: row.history,
-      text: row.text,
-      meaning: row.meaning,
-      license: "synthetic",
-    }));
-    const others = kept.filter((row) => (row.lang || (row.source === "en" ? row.target : row.source)) !== lang);
-    kept.length = 0;
-    kept.push(...others, ...sliced);
-    map.set(lang, sliced);
-    writeJson(CHAT_FILE, kept.sort((a, b) => a.id.localeCompare(b.id)));
+      use.filter((row) => !usedTexts.has(row.text)),
+      nextChatIndex(keptIds),
+    );
+    const sliced = [...keptIds, ...appended].slice(0, n);
+    byLang.set(lang, sliced);
+    const flat = [];
+    for (const list of byLang.values()) flat.push(...list);
+    for (const row of rows) {
+      if (!langs.includes(langOfRow(row)) && !flat.includes(row)) flat.push(row);
+    }
+    writeJson(CHAT_FILE, flat.sort((a, b) => String(a.id).localeCompare(String(b.id))));
+    progress("chat", i + 1, langs.length, ledger.spent);
   }
 
-  writeJson(CHAT_FILE, kept.sort((a, b) => String(a.id).localeCompare(String(b.id))));
-  const finalRows = kept;
+  const finalRows = [];
+  const counts = new Map();
+  for (const [lang, list] of byLang) {
+    finalRows.push(...list);
+    counts.set(lang, list.length);
+  }
+  for (const row of rows) {
+    if (!langs.includes(langOfRow(row))) finalRows.push(row);
+  }
+  finalRows.sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  writeJson(CHAT_FILE, finalRows);
+  if (!opts.pilot) writeCoverageChat(counts);
   console.log(`chat cases ${finalRows.length} spent $${ledger.spent.toFixed(4)} aborted=${ledger.aborted} ${ledger.reason || ""}`);
-  return { cases: finalRows, ledger, langs, n };
+  return { cases: finalRows, ledger, langs, n, pending: chatWork(opts).needsPay };
 }
 
 if (invokedDirectly(import.meta.url)) {
   draftChat().catch((error) => {
-    console.error(error);
+    console.error(publicError(error));
     process.exitCode = 1;
   });
 }
