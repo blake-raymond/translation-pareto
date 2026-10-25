@@ -1,8 +1,8 @@
 // One judge, batched: all candidates for ~150 cases in a single prompt.
 import fs from "node:fs";
 import path from "node:path";
-import { hashString, loadKey, paidChat, parseJsonObject, writeJson } from "../api.mjs";
-import { invokedDirectly, letter, loadParetoLedger, parseArgs, seedMix, shuffle } from "./lib.mjs";
+import { hashString, loadKey, paidChat, parseJsonObject, publicError, writeJson } from "../api.mjs";
+import { invokedDirectly, letter, loadParetoLedger, parseArgs, progress, seedMix, shuffle } from "./lib.mjs";
 import {
   JUDGE_BATCH_SIZE,
   JUDGEMENTS_FILE,
@@ -98,6 +98,121 @@ function chunk(items, size) {
   return out;
 }
 
+function judgeDir() {
+  return path.join(RESULTS_DIR, "judge");
+}
+
+function caseFile(id) {
+  const safe = String(id).replace(/[^a-zA-Z0-9._=-]+/g, "_");
+  return path.join(judgeDir(), "cases", `${safe}.json`);
+}
+
+function sameOrder(a, b) {
+  return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((slug, index) => slug === b[index]);
+}
+
+function scoreComplete(cell, slugs) {
+  if (!cell) return false;
+  return slugs.every((slug) => cell[slug] && Number.isFinite(cell[slug].score));
+}
+
+function bindingHash(item, orderSlugs, runs, judgeSlug) {
+  const outs = orderSlugs.map((slug) => {
+    const run = runs.find((row) => row.case_id === item.id && row.slug === slug);
+    return [slug, (run?.output || "").trim()];
+  });
+  return hashString({ v: RUBRIC_VERSION, judge: judgeSlug, id: item.id, outs });
+}
+
+function packCase(item, slugs, runs) {
+  const cands = panel(item, slugs, runs, seedMix("judge", item.id));
+  const order = cands.map((row) => row.s);
+  return { item, cands, order, block: caseBlock(item, cands) };
+}
+
+function readCaseScore(item, order, runs, judgeSlug) {
+  try {
+    const cached = JSON.parse(fs.readFileSync(caseFile(item.id), "utf8"));
+    const hash = bindingHash(item, order, runs, judgeSlug);
+    if (cached.hash === hash && sameOrder(cached.order, order) && cached.scores) return cached.scores;
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function writeCaseScore(item, order, runs, judgeSlug, scores) {
+  writeJson(caseFile(item.id), {
+    hash: bindingHash(item, order, runs, judgeSlug),
+    order,
+    scores,
+    case_id: item.id,
+  });
+}
+
+function ingestLegacyBatches(cases, slugs, runs, judgeSlug) {
+  const dir = judgeDir();
+  if (!fs.existsSync(dir)) return 0;
+  let imported = 0;
+  for (const name of fs.readdirSync(dir)) {
+    if (!/^batch-.*\.json$/i.test(name)) continue;
+    let payload;
+    try {
+      payload = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8"));
+    } catch {
+      continue;
+    }
+    if (!payload?.scores || !payload?.order) continue;
+    for (const item of cases) {
+      const cell = payload.scores[item.id];
+      const order = payload.order[item.id];
+      if (!scoreComplete(cell, slugs) || !Array.isArray(order)) continue;
+      const packed = packCase(item, slugs, runs);
+      if (!sameOrder(order, packed.order)) continue;
+      if (readCaseScore(item, packed.order, runs, judgeSlug)) continue;
+      writeCaseScore(item, packed.order, runs, judgeSlug, cell);
+      imported += 1;
+    }
+  }
+  return imported;
+}
+
+export function judgeWork(opts = parseArgs()) {
+  const cases = loadCases(opts);
+  let runs = [];
+  try {
+    runs = loadRuns();
+  } catch {
+    runs = [];
+  }
+  const spec = catalog().judge;
+  const slugs = catalog().models.map((model) => model.slug);
+  const imported = ingestLegacyBatches(cases, slugs, runs, spec.slug);
+  let cached = 0;
+  for (const item of cases) {
+    const packed = packCase(item, slugs, runs);
+    if (readCaseScore(item, packed.order, runs, spec.slug)) cached += 1;
+  }
+  return { cases: cases.length, cached, pending: cases.length - cached, imported };
+}
+
+async function judgePacked(apiKey, ledger, spec, packed, slugs, tag) {
+  const order = {};
+  for (const row of packed) order[row.item.id] = row.order;
+  const estimateOut = Math.max(4000, packed.length * slugs.length * 8);
+  const result = await paidChat(
+    apiKey,
+    ledger,
+    spec,
+    judgeMessages(packed, slugs),
+    spec.max_tokens,
+    { kind: tag, batch: packed.length },
+    { timeoutMs: 1500000, estimateOutputTokens: estimateOut },
+  );
+  const scores = result.ok ? parseBatch(result.text, order) : null;
+  return { result, scores, order };
+}
+
 export async function runJudge(opts = parseArgs()) {
   const cases = loadCases(opts);
   const runs = loadRuns();
@@ -105,83 +220,78 @@ export async function runJudge(opts = parseArgs()) {
   const slugs = catalog().models.map((model) => model.slug);
   const apiKey = loadKey();
   const ledger = loadParetoLedger(opts.pilot);
-  const batches = chunk(cases, JUDGE_BATCH_SIZE);
+  fs.mkdirSync(path.join(judgeDir(), "cases"), { recursive: true });
+  const imported = ingestLegacyBatches(cases, slugs, runs, spec.slug);
+  if (imported) console.log(`judge imported ${imported} cached cases from existing batches`);
+
   const allScores = {};
+  const todo = [];
+  for (const item of cases) {
+    const packed = packCase(item, slugs, runs);
+    const cached = readCaseScore(item, packed.order, runs, spec.slug);
+    if (cached) allScores[item.id] = cached;
+    else todo.push(packed);
+  }
+  const batches = chunk(todo, JUDGE_BATCH_SIZE);
   const meta = [];
-  fs.mkdirSync(path.join(RESULTS_DIR, "judge"), { recursive: true });
-  console.log(`judge batches=${batches.length} cases=${cases.length} cands=${slugs.length} spent=$${ledger.spent.toFixed(4)} cap=$${ledger.cap}`);
+  let parseFailures = 0;
+  console.log(`judge batches=${batches.length} uncached=${todo.length} cached=${cases.length - todo.length} cands=${slugs.length} spent=$${ledger.spent.toFixed(4)} cap=$${ledger.cap}`);
+  progress("judge", cases.length - todo.length, cases.length, ledger.spent);
 
   for (let b = 0; b < batches.length; b += 1) {
     if (ledger.aborted) break;
-    const batchCases = batches[b];
+    const packed = batches[b];
     const order = {};
-    const packed = batchCases.map((item) => {
-      const rng = seedMix("judge", item.id);
-      const cands = panel(item, slugs, runs, rng);
-      order[item.id] = cands.map((row) => row.s);
-      return { item, cands, block: caseBlock(item, cands) };
-    });
-    const hash = hashString({ v: RUBRIC_VERSION, judge: spec.slug, ids: packed.map((row) => row.item.id), order });
-    const file = path.join(RESULTS_DIR, "judge", `batch-${String(b).padStart(3, "0")}.json`);
-    let scores = null;
-    let cost = 0;
-    let usage = null;
-    if (fs.existsSync(file)) {
-      try {
-        const cached = JSON.parse(fs.readFileSync(file, "utf8"));
-        if (cached.hash === hash && cached.scores) {
-          scores = cached.scores;
-          cost = cached.cost_usd || 0;
-          usage = cached.usage || null;
-          console.log(`judge batch ${b} cache hit cases=${Object.keys(scores).length}`);
-        }
-      } catch {
-        scores = null;
+    for (const row of packed) order[row.item.id] = row.order;
+    let { result, scores } = await judgePacked(apiKey, ledger, spec, packed, slugs, "judge-batch");
+    let cost = result.cost_usd || 0;
+    console.log(`judge batch ${b} $${cost.toFixed(4)} spent=$${ledger.spent.toFixed(4)}${result.error ? ` error=${result.error}` : ""}`);
+    if (!result.ok) {
+      meta.push({ batch: b, error: result.error, cost_usd: cost, cases: packed.length });
+      if (result.error === "credits" || result.error === "spend_cap") {
+        ledger.aborted = true;
+        if (!ledger.reason) ledger.reason = result.error === "credits"
+          ? "OpenRouter rejected the call for credits."
+          : "spend cap";
       }
+      progress("judge", Object.keys(allScores).length, cases.length, ledger.spent);
+      continue;
     }
-    if (!scores) {
-      const estimateOut = Math.max(4000, packed.length * slugs.length * 8);
-      const result = await paidChat(
-        apiKey,
-        ledger,
-        spec,
-        judgeMessages(packed, slugs),
-        spec.max_tokens,
-        { kind: "judge-batch", batch: b },
-        { timeoutMs: 1500000, estimateOutputTokens: estimateOut },
-      );
-      cost = result.cost_usd || 0;
-      usage = {
+    const missing = () => packed.filter((row) => !scoreComplete(scores?.[row.item.id], slugs));
+    let missed = missing();
+    if (missed.length) {
+      console.log(`judge batch ${b} parse incomplete ${packed.length - missed.length}/${packed.length}, retrying missing once`);
+      const retry = await judgePacked(apiKey, ledger, spec, missed, slugs, "judge-batch-retry");
+      cost += retry.result.cost_usd || 0;
+      if (retry.scores) scores = { ...(scores || {}), ...retry.scores };
+      missed = missing();
+    }
+    const hash = hashString({ v: RUBRIC_VERSION, judge: spec.slug, ids: packed.map((row) => row.item.id), order });
+    writeJson(path.join(judgeDir(), `batch-h-${hash}.json`), {
+      hash,
+      order,
+      slugs,
+      scores,
+      cost_usd: cost,
+      usage: {
         prompt_tokens: result.prompt_tokens,
         completion_tokens: result.completion_tokens,
         reasoning_tokens: result.reasoning_tokens,
         cached_tokens: result.cached_tokens,
         cost_source: result.cost_source,
-      };
-      console.log(`judge batch ${b} $${cost.toFixed(4)} spent=$${ledger.spent.toFixed(4)}${result.error ? ` error=${result.error}` : ""}`);
-      if (!result.ok) {
-        meta.push({ batch: b, error: result.error, cost_usd: cost });
+      },
+    });
+    for (const row of packed) {
+      const cell = scores?.[row.item.id];
+      if (!scoreComplete(cell, slugs)) {
+        parseFailures += 1;
         continue;
       }
-      scores = parseBatch(result.text, order);
-      if (!scores || Object.keys(scores).length < packed.length * 0.8) {
-        console.log(`judge batch ${b} parse incomplete, retrying once`);
-        const retry = await paidChat(
-          apiKey,
-          ledger,
-          spec,
-          judgeMessages(packed, slugs),
-          spec.max_tokens,
-          { kind: "judge-batch-retry", batch: b },
-          { timeoutMs: 1500000, estimateOutputTokens: estimateOut },
-        );
-        cost += retry.cost_usd || 0;
-        if (retry.ok) scores = parseBatch(retry.text, order) || scores;
-      }
-      writeJson(file, { hash, order, slugs, scores, cost_usd: cost, usage, raw: result.text });
+      writeCaseScore(row.item, row.order, runs, spec.slug, cell);
+      allScores[row.item.id] = cell;
     }
-    Object.assign(allScores, scores || {});
-    meta.push({ batch: b, cases: packed.length, scored: Object.keys(scores || {}).length, cost_usd: cost, usage });
+    meta.push({ batch: b, cases: packed.length, scored: packed.length - missed.length, cost_usd: cost });
+    progress("judge", Object.keys(allScores).length, cases.length, ledger.spent);
   }
 
   writeJson(JUDGEMENTS_FILE, {
@@ -190,17 +300,20 @@ export async function runJudge(opts = parseArgs()) {
     slugs,
     scores: allScores,
     batches: meta,
+    parse_failures: parseFailures,
+    n_cases: cases.length,
+    n_scored: Object.keys(allScores).length,
     spent_usd: ledger.spent,
     aborted: ledger.aborted,
     abort_reason: ledger.reason,
   });
-  console.log(`judge scored ${Object.keys(allScores).length}/${cases.length} spent=$${ledger.spent.toFixed(4)}`);
-  return { scores: allScores, ledger, cases };
+  console.log(`judge scored ${Object.keys(allScores).length}/${cases.length} parse_failures=${parseFailures} spent=$${ledger.spent.toFixed(4)}`);
+  return { scores: allScores, ledger, cases, parseFailures };
 }
 
 if (invokedDirectly(import.meta.url)) {
   runJudge().catch((error) => {
-    console.error(error);
+    console.error(publicError(error));
     process.exitCode = 1;
   });
 }
