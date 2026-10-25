@@ -1,0 +1,8 @@
+{
+  "name": "translation-pareto",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Open cost-vs-quality benchmark of LLMs for conversational translation.",
+  "scripts": { "eval": "node eval/run.mjs" }
+}

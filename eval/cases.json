@@ -1,0 +1,3842 @@
+[
+  {
+    "id": "en-id-market-first",
+    "source": "en",
+    "target": "id",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the pineapples?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Mangga lima belas ribu rupiah sekilo. Nanas dua puluh ribu rupiah sebuah."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Mangganya sudah manis. Nanasnya juga sudah matang."
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "Kalau begitu tolong beri kami dua kilo mangga dan satu nanas.",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one pineapple. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the pineapples, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-id-food-slang",
+    "source": "en",
+    "target": "id",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the fried rice?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Ya. Mau nasi goreng biasa atau yang pedas?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Cabai dan nasi goreng. Kita bisa tambah telur goreng."
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra fried egg, but tell them no shrimp. My gut is wrecked.",
+    "reference": "Tolong beri saya nasi goreng pedas, tambah telur goreng, dan bilang ke koki jangan pakai udang. Perut saya sedang tidak enak.",
+    "meaning": "Order the spicy fried rice, add fried egg, and tell the cook to leave out shrimp. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-id-taxi-autocorrect",
+    "source": "en",
+    "target": "id",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Taksi biru bisa pergi ke hotel. Sopirnya tidak menerima kartu, hanya tunai."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Pilih sopir yang pakai topi hitam. Taksi perak itu yang menuju bandara."
+      }
+    ],
+    "text": "Pint the driver in the black hat, not the silver taxi. I need crash because the cart machine is down.",
+    "reference": "Tunjuk sopir yang memakai topi hitam, bukan taksi perak. Saya butuh uang tunai karena mesin kartunya rusak.",
+    "meaning": "Get the attention of the driver in the black hat, not the silver taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-id-hotel-formality",
+    "source": "en",
+    "target": "id",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Selamat datang. Atas nama siapa pemesanannya, dan berapa malam?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Rahman. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Saya bisa periksakan itu. Satu kamar menghadap jalan dan satu lagi di bagian belakang."
+      }
+    ],
+    "text": "Could you please check us in under Rahman, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "Mohon daftarkan kami atas nama Rahman untuk dua malam, di kamar yang tenang, bukan kamar yang menghadap jalan.",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Rahman, two nights, the quiet room at the back, not the room facing the street. Polite Indonesian to the receptionist. Anda, Bapak, or Ibu is fine because the clerk's gender was not stated. kamu, lo, or gua is too casual."
+  },
+  {
+    "id": "id-en-station-typo",
+    "source": "id",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Ada dua stasiun di jalan ini."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Stasiun utama ada setelah lampu merah. Stasiun kecil ada di seberang pasar, dan yang itu tidak menuju ke bandara."
+      }
+    ],
+    "text": "Yang kita mua itu di sebleah kiri setelah lampu merah, bukan yang di seberang pasar.",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "id-en-pharmacy-code",
+    "source": "id",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told younger sibling to buy a painkiller, and they gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Apotek di sudut ini menjual lebih dari satu jenis."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Sebutkan nama dan dosisnya, dan bilang kamu tidak mau yang bikin ngantuk."
+      }
+    ],
+    "text": "Apoteknya ada di sebelah kiri. Kita butuh paracetamol 500 mg, bukan yang bikin dia ngantuk.",
+    "reference": "The pharmacy is on the left. We need paracetamol 500 mg, not the one that makes they drowsy.",
+    "meaning": "The pharmacy is on the left. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Younger sibling is the patient."
+  },
+  {
+    "id": "id-en-street-slang",
+    "source": "id",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Kita sudah keluar selama dua jam, dan jalanan mulai ramai."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Kalau kita tetap di sini, kita akan berdiri di tengah kerumunan."
+      }
+    ],
+    "text": "Gue capek banget. Yuk cabut balik ke hotel aja, jalan ini rame banget.",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "id-en-door-pronoun",
+    "source": "id",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Ya. Kakak perempuan saya memakai jaket merah. Pacarnya yang memakai kemeja putih berdiri di sampingnya."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Bicaralah dengan kakak perempuan saya. Pacarnya hanya mengantarnya ke sini. Kakak saya tidak minum alkohol."
+      }
+    ],
+    "text": "Tanyakan pada kakak perempuan saya yang memakai jaket merah, apakah dia mau kursi dekat jendela. Bukan pacarnya. Dan jangan bir, kakak saya tidak minum alkohol.",
+    "reference": "Ask my sister, the one in the red jacket, if she wants the window seat. Not her boyfriend in the white shirt. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the red jacket, whether she wants the window seat. Do not ask her boyfriend in the white shirt. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-th-market-first",
+    "source": "en",
+    "target": "th",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the bananas?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มะม่วงกิโลกรัมละสี่สิบบาท กล้วยลูกละสิบบาท"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มะม่วงหวานแล้วนะคะ กล้วยก็สุกแล้วเหมือนกัน"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "งั้นขอมะม่วงสองกิโลกรัม กับกล้วยหนึ่งลูกค่ะ",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one banana. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the bananas, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-th-food-slang",
+    "source": "en",
+    "target": "th",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the boat noodles?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ได้ครับ จะเอาก๋วยเตี๋ยวเรือธรรมดาหรือแบบเผ็ดดีครับ"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มีพริกกับก๋วยเตี๋ยวเรือครับ ใส่ลูกชิ้นเพิ่มได้นะครับ"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra meatballs, but tell them no MSG. My gut is wrecked.",
+    "reference": "ขอก๋วยเตี๋ยวเรือเผ็ดค่ะ ใส่ลูกชิ้นเพิ่ม แล้วบอกคนทำด้วยว่าไม่ใส่ผงชูรส ท้องฉันไม่ค่อยดี",
+    "meaning": "Order the spicy boat noodles, add meatballs, and tell the cook to leave out MSG. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-th-taxi-autocorrect",
+    "source": "en",
+    "target": "th",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "แท็กซี่สีเขียวไปโรงแรมได้ครับ คนขับไม่รับบัตร รับแต่เงินสด"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ให้ขึ้นคันที่คนขับถือร่มสีแดง ส่วนแท็กซี่สีชมพูคือคันที่จะไปสนามบิน"
+      }
+    ],
+    "text": "Pint the driver holding a red umbrella, not the pink taxi. I need crash because the cart machine is down.",
+    "reference": "ชี้ไปที่คนขับที่ถือร่มสีแดง ไม่ใช่แท็กซี่สีชมพูนะคะ ฉันต้องใช้เงินสดเพราะเครื่องรูดบัตรเสีย",
+    "meaning": "Get the attention of the driver holding a red umbrella, not the pink taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-th-hotel-formality",
+    "source": "en",
+    "target": "th",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ยินดีต้อนรับค่ะ จองภายใต้ชื่ออะไร และพักกี่คืนคะ"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Somsak. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ดิฉันตรวจสอบให้ได้ค่ะ ห้องหนึ่งหันหน้าออกถนน และอีกห้องอยู่ด้านหลังค่ะ"
+      }
+    ],
+    "text": "Could you please check us in under Somsak, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "กรุณาเช็คอินให้ภายใต้ชื่อสมศักดิ์ เป็นเวลาสองคืน ขอห้องที่เงียบ ไม่ใช่ห้องที่หันหน้าออกถนนนะคะ",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Somsak, two nights, the quiet room at the back, not the room facing the street. Polite Thai to the clerk. Either ค่ะ or ครับ is fine because the speaker's gender was not stated. Bare slang with no polite particle is wrong."
+  },
+  {
+    "id": "th-en-station-typo",
+    "source": "th",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มีสถานีสองแห่งบนถนนสายนี้"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "สถานีหลักอยู่หลังสัญญาณไฟ ส่วนสถานีเล็กอยู่ตรงข้ามตลาด และที่นั่นไม่ไปสนามบิน"
+      }
+    ],
+    "text": "อันที่เราต้องกรอยู่ทางซ้ายหลังสัญญาณไฟ ไม่ใช่อันที่อยู่ตรงขามตลาด",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "th-en-pharmacy-code",
+    "source": "th",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told younger sibling to buy a painkiller, and they gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ร้านขายยาที่หัวมุมนี้ขายมากกว่าหนึ่งชนิด"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "บอกชื่อยาและความแรง แล้วบอกว่าไม่เอาตัวที่ทำให้ง่วง"
+      }
+    ],
+    "text": "ร้านขายยาอยู่ทางขวา เราต้องการ paracetamol 500 mg ไม่ใช่ตัวที่ทำให้ง่วง",
+    "reference": "The pharmacy is on the right. We need paracetamol 500 mg, not the one that makes they drowsy.",
+    "meaning": "The pharmacy is on the right. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Younger sibling is the patient."
+  },
+  {
+    "id": "th-en-street-slang",
+    "source": "th",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "เราเดินออกมาแล้วสองชั่วโมง และถนนก็เริ่มคนแน่นขึ้น"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ถ้าเรายังอยู่ตรงนี้ เราจะต้องยืนอยู่ท่ามกลางฝูงชน"
+      }
+    ],
+    "text": "เหนื่อยสุดๆ ไปล่ะ กลับโรงแรมดีกว่า ถนนนี้คนแน่นมาก",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "th-en-door-pronoun",
+    "source": "th",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ใช่ น้องสาวฉันใส่แจ็คเก็ตสีแดง แฟนเธอใส่เสื้อสีขาวยืนอยู่ข้างเธอ"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "คุยกับน้องสาวฉัน แฟนเธอแค่มาส่งเธอที่นี่ เธอไม่ดื่มแอลกอฮอล์"
+      }
+    ],
+    "text": "ถามน้องสาวฉันที่ใส่แจ็คเก็ตสีแดงว่าเธออยากได้ที่นั่งริมหน้าต่างไหม ไม่ใช่แฟนเธอ และไม่เอาเบียร์ เธอไม่ดื่มเหล้า",
+    "reference": "Ask my sister, the one in the red jacket, if she wants the window seat. Not her boyfriend in the white shirt. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the red jacket, whether she wants the window seat. Do not ask her boyfriend in the white shirt. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-vi-market-first",
+    "source": "en",
+    "target": "vi",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the dragon fruit?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Xoài ba mươi nghìn đồng một ký. Thanh long hai mươi lăm nghìn đồng một trái."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Xoài đã ngọt rồi. Thanh long cũng chín rồi."
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "Vậy cho chúng tôi hai ký xoài và một trái thanh long.",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one dragon fruit. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the dragon fruit, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-vi-food-slang",
+    "source": "en",
+    "target": "vi",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the pho?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Vâng. Chị muốn phở thường hay phở cay?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Ớt và phở. Mình có thể thêm bò tái."
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra rare beef, but tell them no peanuts. My gut is wrecked.",
+    "reference": "Cho tôi phở cay, thêm bò tái, và nói với đầu bếp đừng cho đậu phộng. Bụng tôi đang khó chịu.",
+    "meaning": "Order the spicy pho, add rare beef, and tell the cook to leave out peanuts. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-vi-taxi-autocorrect",
+    "source": "en",
+    "target": "vi",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Xe ôm đội mũ bảo hiểm xanh có thể chở đến khách sạn. Tài xế không nhận thẻ, chỉ nhận tiền mặt."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Hãy đi xe mũ bảo hiểm xanh. Mũ bảo hiểm vàng là xe đi sân bay."
+      }
+    ],
+    "text": "Pint the green helmet, not the yellow helmet. I need crash because the cart machine is down.",
+    "reference": "Chỉ vào mũ bảo hiểm xanh, không phải mũ bảo hiểm vàng. Tôi cần tiền mặt vì máy quẹt thẻ bị hỏng.",
+    "meaning": "Get the attention of the green helmet, not the yellow helmet. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-vi-hotel-formality",
+    "source": "en",
+    "target": "vi",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Xin chào quý khách. Đặt phòng dưới tên gì, và ở mấy đêm ạ?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Minh. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Tôi có thể kiểm tra việc đó. Một phòng hướng ra đường và một phòng ở phía sau."
+      }
+    ],
+    "text": "Could you please check us in under Minh, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "Xin vui lòng cho chúng tôi nhận phòng dưới tên Minh trong hai đêm, ở phòng yên tĩnh, không phải phòng hướng ra đường ạ.",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Minh, two nights, the quiet room at the back, not the room facing the street. Polite register to the receptionist. Slang or a familiar pronoun is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "vi-en-station-typo",
+    "source": "vi",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Trên con đường này có hai trạm."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Trạm chính nằm sau đèn giao thông. Trạm nhỏ nằm đối diện chợ, và trạm đó không đi ra sân bay."
+      }
+    ],
+    "text": "Cái mà mìn muốn là cái bên trái sau đèn giao thông, không phải cái đối diên chợ.",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "vi-en-pharmacy-marks",
+    "source": "vi",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor gave child two strengths and I already forgot which box is which."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Nhà thuốc này bán cả loại viên 500 miligam và loại viên 50 miligam."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The paper is in my other bag. Can you read the dose off the box if I point?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Vâng. Chị cho tôi biết hàm lượng nào, tôi sẽ lấy hộp cho chị xem."
+      }
+    ],
+    "text": "Nha thuoc o ben trai. Con can loai vien 500 miligam, khong phai loai 50 miligam.",
+    "reference": "The pharmacy is on the left. Child needs the 500 milligram tablets, not the 50 milligram ones.",
+    "meaning": "The pharmacy is on the left. Child needs the 500 milligram tablets, not the 50 milligram tablets. Keep both numbers and the negation. The pharmacy location is new information in this line."
+  },
+  {
+    "id": "vi-en-cafe-code",
+    "source": "vi",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Quán cà phê này có hai tầng. Tầng trên yên tĩnh hơn."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Cà phê dừa là món mọi người hay gọi. Tầng dưới thì ồn."
+      }
+    ],
+    "text": "Wi-Fi ở đây chậm, nhưng cà phê dừa thì ngon. Mình ngồi ở tầng trên được không?",
+    "reference": "The Wi-Fi here is slow, but the coconut coffee is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the coconut coffee. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "vi-en-door-pronoun",
+    "source": "vi",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Vâng. Chị tôi đang mặc váy xanh. Bạn trai của chị ấy mặc áo hoodie xám đang đứng cạnh chị ấy."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Hãy nói chuyện với chị tôi. Bạn trai của chị ấy chỉ đưa chị ấy đến đây thôi. Chị ấy không uống rượu."
+      }
+    ],
+    "text": "Hỏi chị mặc váy xanh, tức là chị tôi, xem chị ấy có muốn ngồi ghế cạnh cửa sổ không. Không phải anh bạn trai. Và đừng mang bia, chị ấy không uống rượu.",
+    "reference": "Ask my sister, the one in the blue dress, if she wants the window seat. Not her boyfriend in the grey hoodie. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the blue dress, whether she wants the window seat. Do not ask her boyfriend in the grey hoodie. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-my-market-first",
+    "source": "en",
+    "target": "my",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the papayas?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "သရက်သီးတစ်ကီလို သုံးထောင်ကျပ်ပါ။ သင်္ဘောသီးတစ်လုံးကို နှစ်ထောင်ကျပ်ပါ။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "သရက်သီးတွေက ချိုနေပြီ။ သင်္ဘောသီးတွေလည်း မှည့်နေပြီ။"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "ဒါဆို သရက်သီးနှစ်ကီလိုနဲ့ သင်္ဘောသီးတစ်လုံး ပေးပါဦး။",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one papaya. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the papayas, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-my-food-slang",
+    "source": "en",
+    "target": "my",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the tea-leaf salad?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဟုတ်ကဲ့။ ပုံမှန် လက်ဖက်သုပ်ကို လိုချင်သလား၊ အစပ်ကိုလိုချင်သလား။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ငရုတ်သီးနဲ့ လက်ဖက်သုပ်ပါ။ ကြက်သွန်ဖြူကြော်ထပ်ထည့်နိုင်ပါတယ်။"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra fried garlic, but tell them no dried shrimp. My gut is wrecked.",
+    "reference": "အစပ်လက်ဖက်သုပ် ပေးပါ၊ ကြက်သွန်ဖြူကြော်ထပ်ထည့်ပေးပါ၊ ပုဇွန်ခြောက်တော့ မထည့်ပါနဲ့လို့ စားဖိုမှူးကို ပြောပေးပါ။ ကျွန်မ ဗိုက်မကောင်းလို့ပါ။",
+    "meaning": "Order the spicy tea-leaf salad, add fried garlic, and tell the cook to leave out dried shrimp. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-my-taxi-autocorrect",
+    "source": "en",
+    "target": "my",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "အပြာရောင်တက္ကစီက ဟိုတယ်ကိုသွားနိုင်ပါတယ်။ ယာဉ်မောင်းက ကတ်မယူဘူး၊ ငွေသားပဲယူပါတယ်။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "အဝတ်ဖြူဝတ်ထားတဲ့ ယာဉ်မောင်းကို စီးပါ။ လေဆိပ်သွားမယ့်ကားက အညိုရောင်တက္ကစီပါ။"
+      }
+    ],
+    "text": "Pint the driver in the white shirt, not the brown taxi. I need crash because the cart machine is down.",
+    "reference": "အဝတ်ဖြူဝတ်ထားတဲ့ ယာဉ်မောင်းကို ညွှန်ပြပါ၊ အညိုရောင်တက္ကစီမဟုတ်ပါဘူး။ ကတ်စက်ပျက်နေလို့ ငွေသားလိုပါတယ်။",
+    "meaning": "Get the attention of the driver in the white shirt, not the brown taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-my-hotel-formality",
+    "source": "en",
+    "target": "my",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ကြိုဆိုပါတယ်ခင်ဗျာ။ ဘွတ်ကင်ကို ဘယ်နာမည်နဲ့ လုပ်ထားပါသလဲ၊ ဘယ်နှစ်ညနေပါသလဲ။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under U Than. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "စစ်ဆေးပေးပါ့မယ်ခင်ဗျာ။ တစ်ခန်းက လမ်းဘက်မျက်နှာမူပြီး၊ တစ်ခန်းက နောက်ဘက်မှာရှိပါတယ်။"
+      }
+    ],
+    "text": "Could you please check us in under U Than, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "ကျေးဇူးပြုပြီး ဦးသန်းနာမည်နဲ့ နှစ်ညအတွက် စာရင်းသွင်းပေးပါ၊ တိတ်ဆိတ်တဲ့အခန်းမှာနေချင်ပါတယ်၊ လမ်းဘက်မျက်နှာမူတဲ့အခန်းမဟုတ်ပါဘူး။",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name U Than, two nights, the quiet room at the back, not the room facing the street. Polite register to the receptionist. Slang or a familiar pronoun is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "my-en-station-which",
+    "source": "my",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဒီလမ်းပေါ်မှာ စခန်းနှစ်ခု ရှိပါတယ်။ ကျွန်တော်ပြပေးနိုင်ပါတယ်။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "အဓိကစခန်းက မီးပွိုင့်ရဲ့ နောက်ဘက်မှာ ရှိပါတယ်။ စခန်းသေးလေးက စျေးနဲ့ ဆန့်ကျင်ဘက်မှာ ရှိပြီး၊ ဒီစခန်းကတော့ လေဆိပ်ကို မသွားပါဘူး။"
+      }
+    ],
+    "text": "မင်းပြောခဲ့တဲ့ ပထမစခန်း၊ မီးပွိုင့်ရဲ့ နောက်ဘက်က အဓိကစခန်းကို ကျွန်တော်တို့ သွားမှာပါ၊ စျေးနဲ့ ဆန့်ကျင်ဘက်က စခန်းသေးလေးကို မဟုတ်ပါဘူး။",
+    "reference": "We'll take the first one you mentioned, the station after the traffic light, not the one across from the market.",
+    "meaning": "B is the guide. The speaker wants the main station, the one B described first, after the traffic light, and not the small station across from the market. Do not swap the stations. No person other than the guide is being pointed at."
+  },
+  {
+    "id": "my-en-pharmacy-code",
+    "source": "my",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told aunt to buy a painkiller, and she gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဒီထောင့်မှာရှိတဲ့ ဆေးဆိုင်က ဆေးအမျိုးအစား တစ်မျိုးထက်ပိုပြီး ရောင်းပါတယ်။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဆေးနာမည်နဲ့ ပမာဏကို ပြောပြီး၊ အိပ်ငိုက်စေတဲ့ ဆေးကို မလိုချင်ဘူးလို့ ပြောပါ။"
+      }
+    ],
+    "text": "ဆေးဆိုင်က ညာဘက်မှာ ရှိပါတယ်။ paracetamol 500 mg လိုချင်တာပါ၊ သူ့ကို အိပ်ငိုက်စေတဲ့ ဆေးကို မလိုချင်ပါဘူး။",
+    "reference": "The pharmacy is on the right. We need paracetamol 500 mg, not the one that makes she drowsy.",
+    "meaning": "The pharmacy is on the right. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Aunt is the patient."
+  },
+  {
+    "id": "my-en-cafe-code",
+    "source": "my",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဒီကော်ဖီဆိုင်မှာ ထပ်နှစ်ထပ် ရှိပါတယ်။ အပေါ်ထပ်က ပိုတိတ်ဆိတ်ပါတယ်။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "နို့လက်ဖက်ရည်က လူတွေအများဆုံး မှာကြတဲ့ ဟာပါ။ အောက်ထပ်က ဆူညံပါတယ်။"
+      }
+    ],
+    "text": "ဒီမှာ Wi-Fi က နှေးပေမယ့်၊ နို့လက်ဖက်ရည်ကတော့ ကောင်းပါတယ်။ အပေါ်ထပ်မှာ ထိုင်လို့ရမလား။",
+    "reference": "The Wi-Fi here is slow, but the milk tea is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the milk tea. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "my-en-door-pronoun",
+    "source": "my",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ဟုတ်ကဲ့။ ကျွန်တော့်အစ်မကို စိမ်းရောင်လုံချည်ဝတ်ထားတာ တွေ့ရပါလိမ့်မယ်။ သူမရဲ့ရည်းစားကတော့ အနက်ရောင်ဂျာကက်ဝတ်ထားပြီး သူမဘေးမှာ ရပ်နေပါတယ်။"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "my",
+        "text": "ကျွန်တော့်အစ်မကို ပြောပါ။ သူမရဲ့ရည်းစားက သူမကို ဒီကိုလိုက်ပို့ရုံပါပဲ။ သူမက အရက်မသောက်ပါဘူး။"
+      }
+    ],
+    "text": "စိမ်းရောင်လုံချည်ဝတ်ထားတဲ့ ကျွန်တော့်အစ်မကို၊ ပြတင်းပေါက်ဘက်ထိုင်ခုံလိုချင်သလား မေးပေးပါ။ သူမရဲ့ရည်းစားကိုတော့ မဟုတ်ပါဘူး။ ပြီးတော့ ဘီယာလည်း မလိုအပ်ပါဘူး၊ ကျွန်တော့်အစ်မက အရက်မသောက်ပါဘူး။",
+    "reference": "Ask my sister, the one in the green longyi, if she wants the window seat. Not her boyfriend in the black jacket. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the green longyi, whether she wants the window seat. Do not ask her boyfriend in the black jacket. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-km-market-first",
+    "source": "en",
+    "target": "km",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the rambutans?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ស្វាយមួយគីឡូប្រាំមួយពាន់រៀល។ សាវម៉ាវមួយផ្លែបួនពាន់រៀល។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ស្វាយផ្អែមហើយ។ សាវម៉ាវក៏ទុំដែរ។"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "អញ្ចឹងសូមឱ្យស្វាយពីរគីឡូ និងសាវម៉ាវមួយផ្លែ។",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one rambutan. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the rambutans, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-km-food-slang",
+    "source": "en",
+    "target": "km",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the fish amok?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "បាទ/ចាស។ អ្នកចង់បានអាម៉ុកត្រីធម្មតា ឬបែបហឹរ?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ម្ទេស និងអាម៉ុកត្រី។ យើងអាចបន្ថែមបាយបាន។"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra rice, but tell them no peanuts. My gut is wrecked.",
+    "reference": "សូមឱ្យខ្ញុំអាម៉ុកត្រីហឹរ បន្ថែមបាយ ហើយប្រាប់ចុងភៅកុំដាក់សណ្តែកដី។ ក្រពះខ្ញុំមិនស្រួល។",
+    "meaning": "Order the spicy fish amok, add rice, and tell the cook to leave out peanuts. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-km-taxi-autocorrect",
+    "source": "en",
+    "target": "km",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "តុកតុកក្រហមអាចទៅសណ្ឋាគារបាន។ អ្នកបើកបរមិនទទួលកាត ទទួលតែលុយសុទ្ធ។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "សូមជិះជាមួយអ្នកបើកបរដែលពាក់មួកពណ៌ខៀវ។ តុកតុកពណ៌ខៀវគឺជារថដែលទៅព្រលានយន្តហោះ។"
+      }
+    ],
+    "text": "Pint the driver in the blue cap, not the blue tuk-tuk. I need crash because the cart machine is down.",
+    "reference": "សូមចង្អុលទៅអ្នកបើកបរដែលពាក់មួកពណ៌ខៀវ មិនមែនតុកតុកពណ៌ខៀវទេ។ ខ្ញុំត្រូវការលុយសុទ្ធ ព្រោះម៉ាស៊ីនកាតខូច។",
+    "meaning": "Get the attention of the driver in the blue cap, not the blue tuk-tuk. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-km-hotel-formality",
+    "source": "en",
+    "target": "km",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "សូមស្វាគមន៍។ ការកក់បន្ទប់នេះធ្វើឡើងក្រោមឈ្មោះអ្វី ហើយសម្រាប់ប៉ុន្មានយប់?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Dara. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ខ្ញុំអាចពិនិត្យបាន។ បន្ទប់មួយបែរមុខទៅផ្លូវ ហើយមួយទៀតនៅខាងក្រោយ។"
+      }
+    ],
+    "text": "Could you please check us in under Dara, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "សូមមេត្តាចុះឈ្មោះចូលស្នាក់ឱ្យយើងខ្ញុំក្រោមឈ្មោះដារ៉ា សម្រាប់ពីរយប់ ក្នុងបន្ទប់ស្ងប់ស្ងាត់ មិនមែនបន្ទប់ដែលបែរមុខទៅផ្លូវនោះទេ។",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Dara, two nights, the quiet room at the back, not the room facing the street. Polite register to the receptionist. Slang or a familiar pronoun is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "km-en-station-which",
+    "source": "km",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "មានស្ថានីយពីរនៅផ្លូវនេះ។ ខ្ញុំអាចបង្ហាញបាន។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ស្ថានីយធំស្ថិតនៅក្រោយភ្លើងចរាចរណ៍។ ស្ថានីយតូចស្ថិតនៅទល់មុខផ្សារ ហើយស្ថានីយនោះមិនទៅព្រលានយន្តហោះទេ។"
+      }
+    ],
+    "text": "យើងនឹងយកស្ថានីយធំដែលនៅក្រោយភ្លើងចរាចរណ៍ដែលអ្នកបានលើកឡើងមុននេះ មិនមែនស្ថានីយដែលនៅទល់មុខផ្សារនោះទេ។",
+    "reference": "We'll take the first one you mentioned, the station after the traffic light, not the one across from the market.",
+    "meaning": "B is the guide. The speaker wants the main station, the one B described first, after the traffic light, and not the small station across from the market. Do not swap the stations. No person other than the guide is being pointed at."
+  },
+  {
+    "id": "km-en-pharmacy-code",
+    "source": "km",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told younger sibling to buy a painkiller, and they gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ឱសថស្ថាននៅជ្រុងនេះលក់ច្រើនប្រភេទ។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "និយាយឈ្មោះថ្នាំ និងកម្រិតថ្នាំ ហើយប្រាប់ថាអ្នកមិនចង់បានប្រភេទដែលធ្វើឱ្យងងុយគេងទេ។"
+      }
+    ],
+    "text": "ឱសថស្ថាននៅខាងឆ្វេង។ យើងត្រូវការ paracetamol 500 mg មិនមែនប្រភេទដែលធ្វើឱ្យងងុយគេងទេ។",
+    "reference": "The pharmacy is on the left. We need paracetamol 500 mg, not the one that makes they drowsy.",
+    "meaning": "The pharmacy is on the left. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Younger sibling is the patient."
+  },
+  {
+    "id": "km-en-cafe-code",
+    "source": "km",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "កាហ្វេនេះមានពីរជាន់។ ជាន់លើស្ងាត់ជាង។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "កាហ្វេទឹកកកគឺជាប្រភេទដែលគេបញ្ជាទិញ។ ជាន់ក្រោមគឺគ្រឹកគ្រហឹម។"
+      }
+    ],
+    "text": "Wi-Fi នៅទីនេះយឺត ប៉ុន្តែកាហ្វេទឹកកកឆ្ងាញ់។ តើយើងអាចអង្គុយនៅជាន់លើបានទេ?",
+    "reference": "The Wi-Fi here is slow, but the iced coffee is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the iced coffee. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "km-en-door-pronoun",
+    "source": "km",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "បាទ/ចាស។ បងស្រីរបស់ខ្ញុំពាក់អាវពណ៌លឿង។ សង្សាររបស់គាត់ពាក់អាវឆូតឈរនៅក្បែរគាត់។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "និយាយជាមួយបងស្រីរបស់ខ្ញុំចុះ។ សង្សាររបស់គាត់គ្រាន់តែដើរជូនគាត់មកទីនេះប៉ុណ្ណោះ។ គាត់មិនផឹកស្រាទេ។"
+      }
+    ],
+    "text": "សួរបងស្រីរបស់ខ្ញុំដែលពាក់អាវពណ៌លឿងមើលថា តើគាត់ចង់អង្គុយកន្លែងអង្គុយជាប់បង្អួចដែរឬទេ។ មិនមែនសួរសង្សាររបស់គាត់ដែលពាក់អាវឆូតទេ។ ហើយកុំយកស្រាបៀរមក គាត់មិនផឹកស្រាទេ។",
+    "reference": "Ask my sister, the one in the yellow blouse, if she wants the window seat. Not her boyfriend in the striped shirt. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the yellow blouse, whether she wants the window seat. Do not ask her boyfriend in the striped shirt. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-zh-market-first",
+    "source": "en",
+    "target": "zh-CN",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the apples and the pears?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "苹果八块钱一斤,梨六块钱一个。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The apples look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "苹果已经很甜了,梨也熟了。"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "那请给我们两公斤苹果和一个梨。",
+    "meaning": "The buyer wants two kilograms of apples, the fruit they asked about first, and one pear. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the pears, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-zh-food-slang",
+    "source": "en",
+    "target": "zh-CN",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the beef noodles?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "好的,您要普通牛肉面还是麻辣的?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "辣的牛肉面,可以加香菜。"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra cilantro, but tell them no peanuts. My gut is wrecked.",
+    "reference": "请给我麻辣牛肉面,加香菜,告诉厨师不要放花生,我的肠胃不舒服。",
+    "meaning": "Order the spicy beef noodles, add cilantro, and tell the cook to leave out peanuts. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-zh-taxi-autocorrect",
+    "source": "en",
+    "target": "zh-CN",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "蓝色的出租车可以到酒店,司机不收卡,只收现金。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "坐戴眼镜那位司机的车,红色的出租车是去机场的那辆。"
+      }
+    ],
+    "text": "Pint the driver with the glasses, not the red taxi. I need crash because the cart machine is down.",
+    "reference": "请指给那位戴眼镜的司机,不是红色的出租车,我需要现金,因为刷卡机坏了。",
+    "meaning": "Get the attention of the driver with the glasses, not the red taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-zh-hotel-formality",
+    "source": "en",
+    "target": "zh-CN",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "欢迎光临,请问预订是用什么名字,住几晚呢?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Wang. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "我可以查一下,一间房朝街,一间在后面。"
+      }
+    ],
+    "text": "Could you please check us in under Wang, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "麻烦您用王这个名字为我们办理入住，住两晚，请安排您提到的那间安静的房间，不要朝街的那间。",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Wang, two nights, the quiet room at the back, not the room facing the street. Polite Mandarin to the clerk. 您 is the expected address. A bare 你 is too casual. Guest gender was not stated."
+  },
+  {
+    "id": "zh-en-station-which",
+    "source": "zh-CN",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "这条路上有两个车站,我可以带你看看。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "主站在红绿灯之后,小站在市场对面,那个站不去机场。"
+      }
+    ],
+    "text": "我们就坐你刚才提到的第一个,就是红绿灯后面那个主站,不是市场对面那个。",
+    "reference": "We'll take the first one you mentioned, the station after the traffic light, not the one across from the market.",
+    "meaning": "B is the guide. The speaker wants the main station, the one B described first, after the traffic light, and not the small station across from the market. Do not swap the stations. No person other than the guide is being pointed at."
+  },
+  {
+    "id": "zh-en-pharmacy-code",
+    "source": "zh-CN",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told mother to buy a painkiller, and she gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "这个拐角的药店卖好几种药。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "说出药名和剂量,并且说明你不要会让人犯困的那种。"
+      }
+    ],
+    "text": "药店在右边。我们需要500 mg的paracetamol，不要会让她犯困的那种。",
+    "reference": "The pharmacy is on the right. We need paracetamol 500 mg, not the one that makes she drowsy.",
+    "meaning": "The pharmacy is on the right. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Mother is the patient."
+  },
+  {
+    "id": "zh-en-street-slang",
+    "source": "zh-CN",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "我们已经出来两个小时了,这条街越来越挤了。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "如果我们留下来,就会被挤在人群里。"
+      }
+    ],
+    "text": "我累瘫了,咱们闪回酒店吧,这条街挤爆了。",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "zh-en-door-pronoun",
+    "source": "zh-CN",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "对,我妹妹穿着白色外套。她男朋友穿黑色T恤,站在她旁边。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "zh-CN",
+        "text": "跟我妹妹说话就行。她男朋友只是送她过来的。她不喝酒。"
+      }
+    ],
+    "text": "问问穿白色外套的我妹妹,问她要不要靠窗的座位。不是问穿黑色T恤的她男朋友。还有不要啤酒,她不喝酒。",
+    "reference": "Ask my sister, the one in the white coat, if she wants the window seat. Not her boyfriend in the black t-shirt. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the white coat, whether she wants the window seat. Do not ask her boyfriend in the black t-shirt. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-ja-market-first",
+    "source": "en",
+    "target": "ja",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the peaches and the grapes?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "桃は一キロ四百円です。ぶどうは一房五百円です。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The peaches look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "桃はもう甘いですよ。ぶどうも熟しています。"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "それでは、桃を二キロとぶどうを一房ください。",
+    "meaning": "The buyer wants two kilograms of peaches, the fruit they asked about first, and one bunch of grapes. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the grapes, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-ja-food-slang",
+    "source": "en",
+    "target": "ja",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the ramen?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "はい。普通のラーメンと辛いラーメン、どちらがいいですか。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "唐辛子とラーメン。ゆで卵を追加できますよ。"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra boiled egg, but tell them no pork. My gut is wrecked.",
+    "reference": "辛いラーメンをください、ゆで卵を追加して、豚肉は入れないでくださいと料理人に伝えてください。お腹の調子が悪いんです。",
+    "meaning": "Order the spicy ramen, add boiled egg, and tell the cook to leave out pork. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-ja-taxi-autocorrect",
+    "source": "en",
+    "target": "ja",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "黒いタクシーならホテルまで行けます。運転手はカードを使えないので、現金だけです。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "緑のサインライトがついている運転手に乗ってください。白い車は空港へ行く車です。"
+      }
+    ],
+    "text": "Pint the driver with the green sign light on, not the white car. I need crash because the cart machine is down.",
+    "reference": "白い車ではなく、緑のサインライトがついている運転手を指してください。カード機が壊れているので現金が必要です。",
+    "meaning": "Get the attention of the driver with the green sign light on, not the white car. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-ja-hotel-formality",
+    "source": "en",
+    "target": "ja",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "いらっしゃいませ。ご予約はどちらのお名前で、何泊のご予定でしょうか。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Sato. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "確認いたします。お部屋の一つは通り側で、もう一つは裏側になります。"
+      }
+    ],
+    "text": "Could you please check us in under Sato, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "佐藤の名前で二泊、通りに面した部屋ではなく静かな部屋にチェックインさせていただけますでしょうか。",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Sato, two nights, the quiet room at the back, not the room facing the street. Polite Japanese to the clerk (です/ます and a request form). Plain casual form is wrong. Guest gender and clerk gender were not stated, so any polite first person and any polite address is fine."
+  },
+  {
+    "id": "ja-en-station-typo",
+    "source": "ja",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "この道には駅が二つあります。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "本当の駅は信号の先にあります。小さい駅は市場の向かいにあって、そちらは空港には行きません。"
+      }
+    ],
+    "text": "ほしのは信号をすきて左にあるほうで、市場の向かいにあるのではない。",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "ja-en-pharmacy-code",
+    "source": "ja",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told younger sibling to buy a painkiller, and they gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "この角の薬局は何種類も扱っています。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "名前と強さを言って、眠くなるタイプは要らないと伝えてください。"
+      }
+    ],
+    "text": "薬局は左側にあります。paracetamol 500 mgが必要で、眠くなるタイプのものは要りません。",
+    "reference": "The pharmacy is on the left. We need paracetamol 500 mg, not the one that makes they drowsy.",
+    "meaning": "The pharmacy is on the left. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Younger sibling is the patient."
+  },
+  {
+    "id": "ja-en-street-slang",
+    "source": "ja",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "もう二時間も外にいて、通りがどんどん混んできた。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "このままいたら人混みの中に突っ立つことになるよ。"
+      }
+    ],
+    "text": "もうマジ疲れた。ホテル戻ろ、この通りめっちゃ混んでる。",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "ja-en-door-pronoun",
+    "source": "ja",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "うん。姉はネイビーのコートを着てるよ。グレーのスーツの彼氏が隣に立ってる。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "姉に話しかけて。彼氏はただ姉を送ってきただけだから。姉はお酒を飲まないよ。"
+      }
+    ],
+    "text": "ネイビーのコートを着てる姉に、窓側の席がいいか聞いて。グレーのスーツの彼氏にじゃなくて。それからビールはなし、姉はお酒を飲まないから。",
+    "reference": "Ask my sister, the one in the navy coat, if she wants the window seat. Not her boyfriend in the grey suit. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the navy coat, whether she wants the window seat. Do not ask her boyfriend in the grey suit. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-ko-market-first",
+    "source": "en",
+    "target": "ko",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the strawberries and the apples?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "딸기는 한 상자에 팔천 원이에요. 사과는 한 개에 이천 원이에요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The strawberries look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "딸기는 벌써 달아요. 사과도 잘 익었어요."
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "그럼 딸기 이 킬로그램하고 사과 한 개 주세요.",
+    "meaning": "The buyer wants two kilograms of strawberries, the fruit they asked about first, and one apple. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the apples, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-ko-food-slang",
+    "source": "en",
+    "target": "ko",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the kimchi stew?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "네. 일반 김치찌개로 드릴까요, 매운 걸로 드릴까요?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "고추하고 김치찌개요. 두부를 추가할 수 있어요."
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra tofu, but tell them no seafood. My gut is wrecked.",
+    "reference": "매운 김치찌개 주시고 두부 추가해 주시고요, 주방에 해산물은 빼 달라고 전해 주세요. 배가 안 좋아서요.",
+    "meaning": "Order the spicy kimchi stew, add tofu, and tell the cook to leave out seafood. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-ko-taxi-autocorrect",
+    "source": "en",
+    "target": "ko",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "주황색 택시가 호텔로 갈 수 있어요. 기사님은 카드를 안 받고 현금만 받으세요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "검은 모자를 쓴 기사님을 타세요. 은색 택시는 공항으로 가는 차예요."
+      }
+    ],
+    "text": "Pint the driver in the black cap, not the silver taxi. I need crash because the cart machine is down.",
+    "reference": "은색 택시 말고 검은 모자를 쓴 기사님을 가리켜 주세요. 카드 기계가 고장 나서 현금이 필요해요.",
+    "meaning": "Get the attention of the driver in the black cap, not the silver taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-ko-hotel-formality",
+    "source": "en",
+    "target": "ko",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "환영합니다. 예약은 어떤 이름으로 되어 있으시고, 며칠 묵으실 예정이신가요?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Kim. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "확인해 드리겠습니다. 방 하나는 거리 쪽을 향해 있고 하나는 뒤쪽에 있습니다."
+      }
+    ],
+    "text": "Could you please check us in under Kim, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "김 씨 이름으로 이박 체크인해 주시고, 거리 쪽 방 말고 조용한 방으로 부탁드립니다.",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Kim, two nights, the quiet room at the back, not the room facing the street. Polite Korean to the clerk (요 or 습니다). Banmal is wrong. Guest gender and clerk gender were not stated."
+  },
+  {
+    "id": "ko-en-station-typo",
+    "source": "ko",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "이 길에는 역이 두 개 있어요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "큰 역은 신호등 지나서 있고, 작은 역은 시장 건너편에 있는데 그쪽은 공항에 안 가요."
+      }
+    ],
+    "text": "우리가 훤하는 곶은 신호등 지나서 왼쪽에 있는 거예요, 시장 건너편에 있는 거 말고요.",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "ko-en-pharmacy-code",
+    "source": "ko",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told father to buy a painkiller, and he gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "이 모퉁이에 있는 약국은 한 가지 이상의 종류를 팔아요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "이름이랑 용량을 말하고, 졸린 거는 원하지 않는다고 말하세요."
+      }
+    ],
+    "text": "약국은 오른쪽에 있어요. paracetamol 500 mg이 필요한데, 졸리게 만드는 거는 말고요.",
+    "reference": "The pharmacy is on the right. We need paracetamol 500 mg, not the one that makes he drowsy.",
+    "meaning": "The pharmacy is on the right. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Father is the patient."
+  },
+  {
+    "id": "ko-en-street-slang",
+    "source": "ko",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "우리는 벌써 두 시간째 나와 있는데, 거리가 점점 붐비고 있어요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "계속 있으면 사람들 틈에 끼어 서 있게 될 거예요."
+      }
+    ],
+    "text": "나 완전 뻗었어. 호텔로 튀자, 이 거리 완전 미어터져.",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "ko-en-door-pronoun",
+    "source": "ko",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "네. 제 여동생은 분홍색 가디건을 입고 있어요. 데님 재킷을 입은 그녀의 남자친구가 그녀 옆에 서 있어요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "제 여동생한테 말하세요. 그녀의 남자친구는 그냥 그녀를 여기까지 데려다주는 것뿐이에요. 그녀는 술을 안 마셔요."
+      }
+    ],
+    "text": "분홍색 가디건을 입은 제 여동생한테 창가 자리를 원하는지 물어봐 주세요. 남자친구 말고요. 그리고 맥주는 안 돼요, 그녀는 술을 안 마셔요.",
+    "reference": "Ask my sister, the one in the pink cardigan, if she wants the window seat. Not her boyfriend in the denim jacket. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the pink cardigan, whether she wants the window seat. Do not ask her boyfriend in the denim jacket. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-hi-market-first",
+    "source": "en",
+    "target": "hi",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the pomegranates?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "आम अस्सी रुपये किलो हैं। अनार चालीस रुपये प्रत्येक हैं।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "आम पहले से ही मीठे हैं। अनार भी पके हुए हैं।"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "तो कृपया हमें दो किलो आम और एक अनार दे दीजिए।",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one pomegranate. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the pomegranates, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-hi-food-slang",
+    "source": "en",
+    "target": "hi",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the biryani?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "जी हाँ। आपको सादा बिरयानी चाहिए या तीखी वाली?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मिर्च और बिरयानी। हम रायता भी डाल सकते हैं।"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra raita, but tell them no peanuts. My gut is wrecked.",
+    "reference": "कृपया मुझे तीखी बिरयानी दीजिए, रायता डाल दीजिए, और रसोइए से कह दीजिए कि मूंगफली न डाले। मेरा पेट खराब है।",
+    "meaning": "Order the spicy biryani, add raita, and tell the cook to leave out peanuts. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-hi-taxi-autocorrect",
+    "source": "en",
+    "target": "hi",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "पीली टैक्सी होटल तक जा सकती है। ड्राइवर कार्ड नहीं लेता, केवल नकद लेता है।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "उस ड्राइवर को लीजिए जिसकी गाड़ी के दरवाजे पर काली पट्टी है। हरी टैक्सी वह है जो हवाई अड्डे जा रही है।"
+      }
+    ],
+    "text": "Pint the driver with the black stripe on the door, not the green taxi. I need crash because the cart machine is down.",
+    "reference": "उस ड्राइवर की ओर इशारा कीजिए जिसकी गाड़ी के दरवाजे पर काली पट्टी है, हरी टैक्सी की ओर नहीं। मुझे नकद चाहिए क्योंकि कार्ड मशीन खराब है।",
+    "meaning": "Get the attention of the driver with the black stripe on the door, not the green taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-hi-hotel-formality",
+    "source": "en",
+    "target": "hi",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "स्वागत है। बुकिंग किस नाम से है, और कितनी रातों के लिए है?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Sharma. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मैं यह जाँच सकता हूँ। एक कमरा सड़क की ओर है और एक पीछे की ओर है।"
+      }
+    ],
+    "text": "Could you please check us in under Sharma, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "कृपया हमें शर्मा के नाम से दो रातों के लिए चेक-इन कर दीजिए, शांत कमरे में, सड़क की ओर वाले कमरे में नहीं।",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Sharma, two nights, the quiet room at the back, not the room facing the street. Polite Hindi with आप, not तू or तुम, because this is said to the receptionist."
+  },
+  {
+    "id": "hi-en-station-typo",
+    "source": "hi",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "इस सड़क पर दो स्टेशन हैं।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मुख्य स्टेशन ट्रैफिक लाइट के बाद है। छोटा स्टेशन बाज़ार के सामने है, और वह हवाई अड्डे तक नहीं जाता।"
+      }
+    ],
+    "text": "जो हमें चाहिय वह ट्रैफिक लाइट के बाद बाईं ओर है, वह नहीं जो बाज़ार के समाने है।",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "hi-en-pharmacy-marks",
+    "source": "hi",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor gave son two strengths and I already forgot which box is which."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "यह फार्मेसी 500 मिलीग्राम की गोलियाँ और 50 मिलीग्राम की गोलियाँ दोनों बेचती है।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The paper is in my other bag. Can you read the dose off the box if I point?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "हाँ। मुझे बताइए कौन सी मात्रा चाहिए, मैं आपको डिब्बा दिखाता हूँ।"
+      }
+    ],
+    "text": "फारमेसी बाइ ओर है। बेटे को 500 मिलीग्राम की गोलिया चाहिए, 50 मिलीग्राम वाली नहि।",
+    "reference": "The pharmacy is on the left. Son needs the 500 milligram tablets, not the 50 milligram ones.",
+    "meaning": "The pharmacy is on the left. Son needs the 500 milligram tablets, not the 50 milligram tablets. Keep both numbers and the negation. The pharmacy location is new information in this line."
+  },
+  {
+    "id": "hi-en-cafe-code",
+    "source": "hi",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "इस कैफे में दो मंज़िलें हैं। ऊपर वाली मंज़िल ज़्यादा शांत है।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मसाला चाय वही है जो लोग मंगवाते हैं। नीचे वाली मंज़िल शोरगुल वाली है।"
+      }
+    ],
+    "text": "यहाँ का Wi-Fi धीमा है, लेकिन मसाला चाय अच्छी है। क्या हम ऊपर बैठ सकते हैं?",
+    "reference": "The Wi-Fi here is slow, but the masala chai is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the masala chai. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "hi-en-door-pronoun",
+    "source": "hi",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "हाँ। मेरी बहन लाल सलवार पहने हुए है। उसका बॉयफ्रेंड नीली शर्ट में उसके बगल में खड़ा है।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मेरी बहन से बात करो। उसका बॉयफ्रेंड उसे बस यहाँ तक छोड़ने आया है। वह शराब नहीं पीती।"
+      }
+    ],
+    "text": "मेरी बहन से पूछो, जो लाल सलवार में है, कि क्या उसे खिड़की वाली सीट चाहिए। उसके बॉयफ्रेंड से मत पूछो। और बीयर नहीं, मेरी बहन शराब नहीं पीती।",
+    "reference": "Ask my sister, the one in the red salwar, if she wants the window seat. Not her boyfriend in the blue shirt. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the red salwar, whether she wants the window seat. Do not ask her boyfriend in the blue shirt. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-bn-market-first",
+    "source": "en",
+    "target": "bn",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the guavas?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "আম একশো টাকা কেজি। পেয়ারা তিরিশ টাকা করে।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "আমগুলো এমনিতেই মিষ্টি। পেয়ারাগুলোও পাকা।"
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "তাহলে আমাদের দুই কেজি আম আর একটা পেয়ারা দিন।",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one guava. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the guavas, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-bn-food-slang",
+    "source": "en",
+    "target": "bn",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the fish curry?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "হ্যাঁ। আপনি কি সাধারণ মাছের ঝোল চান নাকি ঝাল ঝাল টা?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "মরিচ আর মাছের ঝোল। আমরা ভাতও দিতে পারি।"
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra rice, but tell them no dried chili. My gut is wrecked.",
+    "reference": "আমাকে ঝাল মাছের ঝোলটা দিন, ভাত যোগ করুন, আর বাবুর্চিকে বলুন শুকনো মরিচ দেবেন না। আমার পেট খারাপ।",
+    "meaning": "Order the spicy fish curry, add rice, and tell the cook to leave out dried chili. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-bn-taxi-autocorrect",
+    "source": "en",
+    "target": "bn",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "হলুদ ট্যাক্সিটা হোটেলে যেতে পারবে। চালক কার্ড নেয় না, শুধু নগদ নেয়।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "সবুজ শার্ট পরা চালককে নিন। কালো ট্যাক্সিটা বিমানবন্দরে যাচ্ছে।"
+      }
+    ],
+    "text": "Pint the driver in the green shirt, not the black taxi. I need crash because the cart machine is down.",
+    "reference": "সবুজ শার্ট পরা চালকের দিকে ইশারা করুন, কালো ট্যাক্সির দিকে নয়। আমার নগদ টাকা দরকার কারণ কার্ড মেশিনটা নষ্ট।",
+    "meaning": "Get the attention of the driver in the green shirt, not the black taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-bn-hotel-formality",
+    "source": "en",
+    "target": "bn",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "স্বাগতম। বুকিংটি কোন নামে করা, এবং কত রাতের জন্য?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Karim. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "আমি সেটা দেখে নিতে পারি। একটি রুম রাস্তার দিকে মুখ করা এবং একটি পেছনের দিকে।"
+      }
+    ],
+    "text": "Could you please check us in under Karim, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "অনুগ্রহ করে করিমের নামে দুই রাতের জন্য আমাদের চেক-ইন করিয়ে দিন, শান্ত রুমে, রাস্তার দিকে মুখ করা রুমে নয়।",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Karim, two nights, the quiet room at the back, not the room facing the street. Polite Bengali with আপনি, not তুই, because this is said to the receptionist."
+  },
+  {
+    "id": "bn-en-station-typo",
+    "source": "bn",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "এই রাস্তায় দুটি স্টেশন আছে।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "প্রধান স্টেশনটি ট্রাফিক লাইটের পরে। ছোট স্টেশনটি বাজারের উল্টো দিকে, আর সেটি বিমানবন্দরে যায় না।"
+      }
+    ],
+    "text": "আম্রা যেটা চাহই সেটা ট্রাফিক লাইটের পরে বামদিকে, বাজারের উল্টো দিকেরটা না।",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "bn-en-pharmacy-marks",
+    "source": "bn",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor gave daughter two strengths and I already forgot which box is which."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "এই ফার্মেসিতে ৫০০ মিলিগ্রাম ট্যাবলেট এবং ৫০ মিলিগ্রাম ট্যাবলেট উভয়ই পাওয়া যায়।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The paper is in my other bag. Can you read the dose off the box if I point?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "হ্যাঁ। কোন মাত্রা বলুন, আমি বাক্সটি দেখাবো।"
+      }
+    ],
+    "text": "ফারমেসিটা ডানদিকে। মেয়ের ৫০০ মিলিগ্রাম ট্যাবলেট লাগব, ৫০ মিলিগ্রামরটা না।",
+    "reference": "The pharmacy is on the right. Daughter needs the 500 milligram tablets, not the 50 milligram ones.",
+    "meaning": "The pharmacy is on the right. Daughter needs the 500 milligram tablets, not the 50 milligram tablets. Keep both numbers and the negation. The pharmacy location is new information in this line."
+  },
+  {
+    "id": "bn-en-cafe-code",
+    "source": "bn",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "এই ক্যাফেতে দুটি তলা আছে। উপরের তলা বেশি শান্ত।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "মিল্ক টি হলো সেটা যা মানুষ অর্ডার করে। নিচের তলা কোলাহলপূর্ণ।"
+      }
+    ],
+    "text": "এখানে Wi-Fi স্লো, কিন্তু মিল্ক টি ভালো। আমরা কি উপরে বসতে পারি?",
+    "reference": "The Wi-Fi here is slow, but the milk tea is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the milk tea. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "bn-en-door-pronoun",
+    "source": "bn",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "হ্যাঁ। আমার বোন কমলা রঙের স্কার্ফ পরে আছে। তার বয়ফ্রেন্ড সাদা পাঞ্জাবি পরে তার পাশে দাঁড়িয়ে আছে।"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "bn",
+        "text": "আমার বোনের সাথে কথা বলুন। তার বয়ফ্রেন্ড শুধু তাকে এখানে নিয়ে এসেছে। সে মদ খায় না।"
+      }
+    ],
+    "text": "কমলা স্কার্ফ পরা আমার বোনকে জিজ্ঞেস করুন, সে জানালার পাশের সিট চায় কিনা। বয়ফ্রেন্ডকে নয়। আর বিয়ারও না, আমার বোন মদ খায় না।",
+    "reference": "Ask my sister, the one in the orange scarf, if she wants the window seat. Not her boyfriend in the white panjabi. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the orange scarf, whether she wants the window seat. Do not ask her boyfriend in the white panjabi. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-ar-market-first",
+    "source": "en",
+    "target": "ar",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the oranges and the figs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "البرتقال بخمسة دراهم للكيلو. التين بدرهم للواحدة."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The oranges look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "البرتقال حلو بالفعل. التين ناضج أيضًا."
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "إذن من فضلكم أعطونا كيلوين من البرتقال وتينة واحدة.",
+    "meaning": "The buyer wants two kilograms of oranges, the fruit they asked about first, and one fig. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the figs, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-ar-food-slang",
+    "source": "en",
+    "target": "ar",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the chicken shawarma?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "نعم. هل تريد شاورما الدجاج العادية أم الحارة؟"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "فلفل وشاورما دجاج. يمكننا إضافة صلصة الثوم."
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra garlic sauce, but tell them no sesame. My gut is wrecked.",
+    "reference": "من فضلك أعطني شاورما الدجاج الحارة، وأضف صلصة الثوم، وقل للطباخ بدون سمسم. معدتي مضطربة.",
+    "meaning": "Order the spicy chicken shawarma, add garlic sauce, and tell the cook to leave out sesame. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-ar-taxi-autocorrect",
+    "source": "en",
+    "target": "ar",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "التاكسي الأبيض يمكنه الذهاب إلى الفندق. السائق لا يقبل البطاقات، فقط نقدًا."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "خذ السائق الذي لديه علامة السقف الأزرق. التاكسي الأصفر هو الذي يذهب إلى المطار."
+      }
+    ],
+    "text": "Pint the driver with the blue roof sign, not the yellow taxi. I need crash because the cart machine is down.",
+    "reference": "أشر إلى السائق الذي لديه علامة السقف الأزرق، وليس التاكسي الأصفر. أحتاج إلى نقد لأن جهاز البطاقات معطل.",
+    "meaning": "Get the attention of the driver with the blue roof sign, not the yellow taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-ar-hotel-formality",
+    "source": "en",
+    "target": "ar",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "أهلاً وسهلاً. باسم من تم الحجز، وكم عدد الليالي؟"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under Hassan. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "يمكنني التحقق من ذلك. غرفة تطل على الشارع وأخرى في الخلف."
+      }
+    ],
+    "text": "Could you please check us in under Hassan, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "من فضلكم، سجلونا باسم حسن لمدة ليلتين، في الغرفة الهادئة، وليس الغرفة المطلة على الشارع.",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name Hassan, two nights, the quiet room at the back, not the room facing the street. Polite Modern Standard Arabic to the clerk. A polite dialect line that keeps every fact is acceptable. Rude slang is not. Guest gender was not stated."
+  },
+  {
+    "id": "ar-en-station-typo",
+    "source": "ar",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "يوجد محطتان على هذا الطريق."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "المحطة الرئيسية بعد إشارة المرور. المحطة الصغيرة مقابل السوق، وتلك لا تذهب إلى المطار."
+      }
+    ],
+    "text": "اللي نبيها على اليسر بعد اشارة المرور، مو اللي مقابل السووق.",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "ar-en-pharmacy-code",
+    "source": "ar",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor told son to buy a painkiller, and he gets drowsy on the strong one."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "الصيدلية في هذه الزاوية تبيع أكثر من نوع."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I can point at the box if you tell me the name they will recognize."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "قل الاسم والتركيز، وقل إنك لا تريد النوع الذي يسبب النعاس."
+      }
+    ],
+    "text": "الصيدلية على اليسار. نحتاج paracetamol 500 mg، ليس النوع الذي يجعله يشعر بالنعاس.",
+    "reference": "The pharmacy is on the left. We need paracetamol 500 mg, not the one that makes he drowsy.",
+    "meaning": "The pharmacy is on the left. Buy paracetamol 500 mg, not the medicine that causes drowsiness. Keep the Latin token \"paracetamol\" and the number 500. Do not swap in a different drug. Son is the patient."
+  },
+  {
+    "id": "ar-en-street-slang",
+    "source": "ar",
+    "target": "en",
+    "problem": "slang",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you want to keep walking the market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "نحن بالفعل خارج البيت منذ ساعتين، والشارع بدأ يزدحم."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The hotel is ten minutes back that way."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "إذا بقينا، سنكون واقفين وسط الزحمة."
+      }
+    ],
+    "text": "أنا خربان من التعب. يلا نرجع عالفندق، هالشارع مليان ناس.",
+    "reference": "I'm exhausted. Let's go back to the hotel. This street is too crowded.",
+    "meaning": "The speaker is exhausted and wants to return to the hotel because the street is uncomfortably crowded. This is not a medical emergency and nobody is being crushed. Use natural young-adult slang in the source language for tired and crowded. The only reading is: stop walking and go back to the hotel."
+  },
+  {
+    "id": "ar-en-door-pronoun",
+    "source": "ar",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "نعم. أختي ترتدي العباءة السوداء ذات الحافة الفضية. زوجها بالثوب الرمادي واقف بجانبها."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "تكلم مع أختي. زوجها فقط يرافقها إلى هنا. هي لا تشرب الكحول."
+      }
+    ],
+    "text": "اسألها، أختي ذات العباءة السوداء والحافة الفضية، إذا كانت تريد مقعد النافذة. ليس هو. ولا بيرة، فهي لا تشرب.",
+    "reference": "Ask my sister, the one in the black abaya with the silver trim, if she wants the window seat. Not her husband in the grey thobe. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the black abaya with the silver trim, whether she wants the window seat. Do not ask her husband in the grey thobe. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "en-es-market-first",
+    "source": "en",
+    "target": "es",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for the mangoes and the papayas?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Los mangos están a treinta pesos el kilo. Las papayas están a veinte pesos cada una."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The mangoes look a bit underripe. Are they sweet?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Los mangos ya están dulces. Las papayas también están maduras."
+      }
+    ],
+    "text": "Then give us two kilos of the first one, and one of the other.",
+    "reference": "Entonces por favor dennos dos kilos de mangos y una papaya.",
+    "meaning": "The buyer wants two kilograms of mangoes, the fruit they asked about first, and one papaya. Swapping the fruits or the amounts is wrong. \"Us\" is the buyers. \"The other\" is the papayas, which are sold by the piece, not by the kilo."
+  },
+  {
+    "id": "en-es-food-slang",
+    "source": "en",
+    "target": "es",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is this the stall with the tacos?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Sí. ¿Quiere los tacos normales o el picante?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What is in the spicy one?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Chile y tacos. Podemos añadir salsa."
+      }
+    ],
+    "text": "Hook me up with the spicy one, extra salsa, but tell them no cilantro. My gut is wrecked.",
+    "reference": "Por favor déme los tacos picantes, agregue salsa, y dígale al cocinero que sin cilantro. Mi estómago está mal.",
+    "meaning": "Order the spicy tacos, add salsa, and tell the cook to leave out cilantro. \"Hook me up\" means please give me that. \"My gut is wrecked\" means the speaker's stomach is upset, not that an object is broken. \"Them\" is the cook at this stall."
+  },
+  {
+    "id": "en-es-taxi-autocorrect",
+    "source": "en",
+    "target": "es",
+    "problem": "autocorrect",
+    "scenario": "taxi",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need a ride to the hotel, not the airport."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "El taxi blanco con una franja verde puede ir al hotel. El conductor no acepta tarjetas, solo efectivo."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I see two cars that could be it."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Tome el conductor con la franja verde. El taxi rojo es el que va al aeropuerto."
+      }
+    ],
+    "text": "Pint the driver with the green stripe, not the red taxi. I need crash because the cart machine is down.",
+    "reference": "Señale al conductor con la franja verde, no al taxi rojo. Necesito efectivo porque la máquina de tarjetas está dañada.",
+    "meaning": "Get the attention of the driver with the green stripe, not the red taxi. The speaker needs cash because the card machine is broken. Autocorrect: \"pint\" means point to, not a beer and not paint. \"Crash\" means cash, not an accident. \"Cart\" means card, not a shopping cart. The airport car is the one to refuse."
+  },
+  {
+    "id": "en-es-hotel-formality",
+    "source": "en",
+    "target": "es",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Excuse me, we have a reservation."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Bienvenido. ¿A qué nombre está la reserva, y cuántas noches?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "It should be under García. We also asked for a quiet room."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Puedo verificar eso. Una habitación da a la calle y otra está en la parte de atrás."
+      }
+    ],
+    "text": "Could you please check us in under García, for two nights, the quiet room you mentioned? Not the one facing the street.",
+    "reference": "Por favor regístrenos a nombre de García para dos noches, en la habitación tranquila, no en la habitación que da a la calle.",
+    "meaning": "Polite request to the hotel receptionist, not to a friend. Booking name García, two nights, the quiet room at the back, not the room facing the street. Address the receptionist with usted, not tú."
+  },
+  {
+    "id": "es-en-station-typo",
+    "source": "es",
+    "target": "en",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How do we walk to the station from here?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Hay dos estaciones en esta calle."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which one has the train to the airport?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "La estación principal está después del semáforo. La estación pequeña está frente al mercado, y esa no va al aeropuerto."
+      }
+    ],
+    "text": "La que qeremos está a la izquierda después del semáforo, no la que está frnete al mercado.",
+    "reference": "The one we want is on the left after the traffic light, not the one across from the market.",
+    "meaning": "The speaker wants the station on the left after the traffic light, and explicitly not the station across from the market. The typos are recoverable misspellings. Do not flip left and right, and do not drop the negation. The main station is the airport one; the market station is the one to refuse."
+  },
+  {
+    "id": "es-en-pharmacy-marks",
+    "source": "es",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "scenario": "medical",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The doctor gave son two strengths and I already forgot which box is which."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Esta farmacia vende tanto las tabletas de 500 miligramos como las tabletas de 50 miligramos."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "The paper is in my other bag. Can you read the dose off the box if I point?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Sí. Dime qué concentración y te muestro la caja."
+      }
+    ],
+    "text": "La farmacia esta a la derecha. Mi hijo necesita las tabletas de 500 miligramos, no las de 50.",
+    "reference": "The pharmacy is on the right. Son needs the 500 milligram tablets, not the 50 milligram ones.",
+    "meaning": "The pharmacy is on the right. Son needs the 500 milligram tablets, not the 50 milligram tablets. Keep both numbers and the negation. The pharmacy location is new information in this line."
+  },
+  {
+    "id": "es-en-cafe-code",
+    "source": "es",
+    "target": "en",
+    "problem": "code-switching",
+    "scenario": "smalltalk",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "We need somewhere to sit and charge the phone."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Este café tiene dos pisos. Arriba es más tranquilo."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is the drink any good, or just the chairs?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "El café helado es el que la gente pide. Abajo es ruidoso."
+      }
+    ],
+    "text": "El Wi-Fi aquí es lento, pero el café helado está bueno. ¿Podemos sentarnos arriba?",
+    "reference": "The Wi-Fi here is slow, but the iced coffee is good. Can we sit upstairs?",
+    "meaning": "The speaker wants to sit upstairs because downstairs is noisy, and wants the iced coffee. Keep the Latin token \"Wi-Fi\" and the fact that the connection is slow. Do not move them downstairs."
+  },
+  {
+    "id": "es-en-door-pronoun",
+    "source": "es",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "scenario": "dating",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Are the people by the door with you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Sí. Mi hermana lleva la chaqueta de mezclilla. Su novio con la gorra roja está parado junto a ella."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Which of them should I talk to? I saved one seat."
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Habla con mi hermana. Su novio solo la está acompañando aquí. Ella no toma alcohol."
+      }
+    ],
+    "text": "Pregúntale a mi hermana, la de la chaqueta de mezclilla, si quiere el asiento de la ventana. No al novio de la gorra roja. Y nada de cerveza, ella no toma.",
+    "reference": "Ask my sister, the one in the denim jacket, if she wants the window seat. Not her boyfriend in the red cap. And no beer: she does not drink alcohol.",
+    "meaning": "Ask my sister, who is wearing the denim jacket, whether she wants the window seat. Do not ask her boyfriend in the red cap. She does not drink alcohol, so the speaker is not offering beer. Flipping her and him, or dropping the negation, is wrong."
+  },
+  {
+    "id": "id-th-market-first",
+    "source": "id",
+    "target": "th",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Berapa harga mangga dan nanasnya?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มะม่วงกิโลกรัมละหนึ่งหมื่นห้าพันรูเปียห์ สับปะรดลูกละสองหมื่นรูเปียห์ค่ะ"
+      },
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Mangganya kelihatan belum matang. Apakah manis?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มะม่วงหวานแล้วค่ะ สับปะรดก็สุกแล้ว"
+      }
+    ],
+    "text": "Kalau begitu, tolong beri kami dua kilo yang pertama, dan satu yang lainnya.",
+    "reference": "ถ้างั้นขอมะม่วงสองกิโลและสับปะรดหนึ่งลูกค่ะ",
+    "meaning": "The buyer wants two kilograms of mangoes, mentioned first, and one pineapple. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "id-th-food-slang",
+    "source": "id",
+    "target": "th",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Apakah ini tempat yang ada nasi gorengnya?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ใช่ค่ะ ธรรมดาหรือเผ็ด?"
+      },
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Yang tidak pedas saja kalau yang pedas benar-benar panas."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "แบบเผ็ดมีพริก เราสามารถเพิ่มไข่ดาวได้ และไม่ใส่กุ้งก็ได้"
+      }
+    ],
+    "text": "Kasih aku yang pedas, tambah telur ceplok, tapi jangan pakai udang ya. Perutku lagi mules banget.",
+    "reference": "ขอข้าวผัดเผ็ดค่ะ ใส่ไข่ดาวเพิ่ม และไม่ใส่กุ้ง ท้องฉันไม่สบาย",
+    "meaning": "Order the spicy fried rice, add fried egg, and leave out shrimp. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "id-th-hotel-formality",
+    "source": "id",
+    "target": "th",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Permisi, kami ada reservasi."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ยินดีต้อนรับค่ะ ชื่ออะไร และกี่คืนคะ?"
+      },
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Atas nama Rahman. Kami meminta kamar yang tenang."
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "ห้องหนึ่งหันหน้าไปทางถนน และอีกห้องอยู่ด้านหลังค่ะ"
+      }
+    ],
+    "text": "Bisakah Anda membantu kami check-in atas nama Rahman, untuk dua malam, kamar yang tenang? Bukan yang menghadap jalan.",
+    "reference": "กรุณาเช็คอินให้เราในชื่อราห์มาน สองคืน ห้องที่เงียบ ไม่ใช่ห้องที่หันหน้าไปทางถนนค่ะ",
+    "meaning": "Polite request to the receptionist. Booking name Rahman, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "id-th-station-typo",
+    "source": "id",
+    "target": "th",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Bagaimana cara kami berjalan ke stasiun?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "มีสถานีสองแห่งบนถนนนี้ค่ะ"
+      },
+      {
+        "speaker": "A",
+        "lang": "id",
+        "text": "Yang mana yang ada kereta ke bandara?"
+      },
+      {
+        "speaker": "B",
+        "lang": "th",
+        "text": "สถานีหลักอยู่หลังสัญญาณไฟจราจร ส่วนสถานีเล็กอยู่ตรงข้ามตลาดและไม่ไปสนามบินค่ะ"
+      }
+    ],
+    "text": "Yang kani mau ada di kiri setelah lampu lalu lintas, bukan yang ada di seberanh pasar.",
+    "reference": "อันที่เราต้องการอยู่ทางซ้ายหลังสัญญาณไฟจราจร ไม่ใช่อันที่อยู่ตรงข้ามตลาด",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  },
+  {
+    "id": "th-id-market-first",
+    "source": "th",
+    "target": "id",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "มะม่วงกับกล้วยราคาเท่าไหร่คะ"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Mangga empat puluh baht per kilo. Pisang sepuluh baht per buah."
+      },
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "มะม่วงดูเหมือนยังไม่สุก หวานไหมคะ"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Mangganya sudah manis. Pisangnya matang."
+      }
+    ],
+    "text": "งั้นเอาอย่างแรกสองกิโล แล้วก็อย่างหลังหนึ่งลูกค่ะ",
+    "reference": "Kalau begitu tolong berikan kami dua kilo mangga dan satu buah pisang.",
+    "meaning": "The buyer wants two kilograms of mangoes, mentioned first, and one banana. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "th-id-food-slang",
+    "source": "th",
+    "target": "id",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "ที่นี่ใช่ร้านก๋วยเตี๋ยวเรือไหม"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Ya. Yang biasa atau yang pedas?"
+      },
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "เอาแบบไม่เผ็ดก็ได้ถ้าแบบเผ็ดมันเผ็ดจริงๆ"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Yang pedas ada cabai. Kita bisa tambah bakso. Kita bisa tidak pakai MSG."
+      }
+    ],
+    "text": "ขอแบบเผ็ดเลยนะ เพิ่มลูกชิ้นด้วย แต่ไม่ใส่ผงชูรสนะ ท้องไส้ปั่นป่วนอยู่",
+    "reference": "Tolong berikan saya mi kuah pedas dengan tambahan bakso, dan tanpa MSG. Perut saya sedang tidak enak.",
+    "meaning": "Order the spicy boat noodles, add meatballs, and leave out MSG. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "th-id-hotel-formality",
+    "source": "th",
+    "target": "id",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "ขอโทษค่ะ เรามีการจองไว้"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Selamat datang. Atas nama siapa, dan berapa malam?"
+      },
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "น่าจะอยู่ภายใต้ชื่อสมศักดิ์ค่ะ เราขอห้องที่เงียบ"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Satu kamar menghadap jalan dan satu lagi di belakang."
+      }
+    ],
+    "text": "รบกวนเช็คอินให้ภายใต้ชื่อสมศักดิ์ เป็นเวลาสองคืน ขอห้องที่เงียบนะคะ ไม่ใช่ห้องที่หันหน้าไปทางถนน",
+    "reference": "Mohon check-in kami atas nama Somsak untuk dua malam, di kamar yang tenang, bukan kamar yang menghadap jalan.",
+    "meaning": "Polite request to the receptionist. Booking name Somsak, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "th-id-station-typo",
+    "source": "th",
+    "target": "id",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "เราจะเดินไปสถานียังไงคะ"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Ada dua stasiun di jalan ini."
+      },
+      {
+        "speaker": "A",
+        "lang": "th",
+        "text": "สถานีไหนมีรถไฟไปสนามบิน"
+      },
+      {
+        "speaker": "B",
+        "lang": "id",
+        "text": "Stasiun utama ada setelah lampu lalu lintas. Yang kecil ada di seberang pasar dan tidak ke bandara."
+      }
+    ],
+    "text": "ที่เราตองการอยู่ทางซ้ายหลังไฟจราจร ไม่ใช่ที่อยุ่ตรงข้ามตลาด",
+    "reference": "Yang kami inginkan ada di sebelah kiri setelah lampu lalu lintas, bukan yang di seberang pasar.",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  },
+  {
+    "id": "ja-ko-market-first",
+    "source": "ja",
+    "target": "ko",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "桃とぶどうはいくらですか？"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "복숭아는 1킬로에 400엔이에요. 포도는 한 송이에 500엔이에요."
+      },
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "桃はまだ熟していないように見えます。甘いですか？"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "복숭아는 이미 달아요. 포도도 익었어요."
+      }
+    ],
+    "text": "じゃあ、最初のものを2キロと、もう一方を1房ください。",
+    "reference": "그럼 복숭아 2킬로그램과 포도 한 송이 주세요.",
+    "meaning": "The buyer wants two kilograms of peaches, mentioned first, and one bunch of grapes. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "ja-ko-food-slang",
+    "source": "ja",
+    "target": "ko",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "ここがラーメンのあるお店ですか？"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "네. 보통 맛이요, 매운 맛이요?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "辛いのが本当に辛いなら、普通のでいいです。"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "매운 것은 고추가 들어가요. 삶은 계란을 추가할 수 있어요. 돼지고기는 뺄 수 있어요."
+      }
+    ],
+    "text": "辛いやつでよろしく、ゆで卵多めで、豚肉抜きで。腹の調子がやばいんだ。",
+    "reference": "매운 라면 주세요, 삶은 계란 추가하고, 돼지고기는 빼주세요. 배가 안 좋아요.",
+    "meaning": "Order the spicy ramen, add boiled egg, and leave out pork. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "ja-ko-hotel-formality",
+    "source": "ja",
+    "target": "ko",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "すみません、予約をしております。"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "어서 오세요. 성함이 어떻게 되시고, 며칠 묵으실 예정이신가요?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "佐藤の名前で予約しております。静かな部屋をお願いしておりました。"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "한 객실은 거리 쪽을 향하고 있고, 다른 한 객실은 안쪽에 있습니다."
+      }
+    ],
+    "text": "佐藤の名前で、2泊、静かな部屋でチェックインをお願いできますでしょうか。通りに面した部屋ではなく。",
+    "reference": "사토 이름으로 이틀 밤, 조용한 방으로 체크인 부탁드립니다. 거리 쪽을 향한 방이 아니고요.",
+    "meaning": "Polite request to the receptionist. Booking name Sato, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "ja-ko-station-typo",
+    "source": "ja",
+    "target": "ko",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "駅までどう歩けばいいですか？"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "이 길에는 역이 두 개 있어요."
+      },
+      {
+        "speaker": "A",
+        "lang": "ja",
+        "text": "空港行きの電車があるのはどちらですか？"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "큰 역은 신호등 지나서 있어요. 작은 역은 시장 건너편에 있고 공항으로는 가지 않아요."
+      }
+    ],
+    "text": "私たちが行きだいのは信号機の後の左側にあるぼうで、市場の向かいのほうではありません。",
+    "reference": "우리가 가고 싶은 곳은 신호등을 지나 왼쪽에 있는 역이지, 시장 건너편에 있는 역이 아니에요.",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  },
+  {
+    "id": "ko-ja-market-first",
+    "source": "ko",
+    "target": "ja",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "딸기랑 사과 얼마예요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "いちごは一箱八千ウォンです。りんごは一個二千ウォンです。"
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "딸기가 덜 익은 것 같은데요. 달아요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "いちごはもう甘いですよ。りんごは熟しています。"
+      }
+    ],
+    "text": "그럼 첫 번째 것으로 두 킬로 주시고, 다른 것으로 하나 주세요.",
+    "reference": "それでは、いちごを二キロと、りんごを一つください。",
+    "meaning": "The buyer wants two kilograms of strawberries, mentioned first, and one apple. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "ko-ja-food-slang",
+    "source": "ko",
+    "target": "ja",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "여기가 김치찌개 하는 집 맞아요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "はい。普通ですか、辛いのですか?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "매운 게 너무 맵다면 순한 걸로 할게요."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "辛いのには唐辛子が入っています。豆腐を追加できます。海鮮は抜けます。"
+      }
+    ],
+    "text": "매운 걸로 주시고 두부 많이 넣어주세요, 근데 해산물은 빼주세요. 배가 완전 꼬였어요.",
+    "reference": "辛いキムチチゲをください。豆腐を多めにして、海鮮は抜いてください。お腹の調子が悪いです。",
+    "meaning": "Order the spicy kimchi stew, add tofu, and leave out seafood. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "ko-ja-hotel-formality",
+    "source": "ko",
+    "target": "ja",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "실례합니다, 예약했는데요."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "いらっしゃいませ。お名前と、何泊でしょうか?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "김으로 예약되어 있을 거예요. 조용한 방을 부탁드렸어요."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "一つの部屋は通り側で、もう一つは奥にございます。"
+      }
+    ],
+    "text": "김으로 이틀 밤 체크인 부탁드려도 될까요, 조용한 방으로요? 거리 쪽을 향한 방 말고요.",
+    "reference": "キムという名前で二泊、静かな部屋でチェックインをお願いいたします。通りに面した部屋ではなく。",
+    "meaning": "Polite request to the receptionist. Booking name Kim, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "ko-ja-station-typo",
+    "source": "ko",
+    "target": "ja",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "역까지 어떻게 걸어가요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "この道には駅が二つあります。"
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "공항 가는 기차는 어디서 타요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "本駅は信号の後にあります。小さい方は市場の向かいにあり、空港には行きません。"
+      }
+    ],
+    "text": "우리가 원허는 곶은 신호등 지나서 왼쪽에 있어요, 시장 맞은편에 있는 곳이 아니고.",
+    "reference": "私たちが行きたいのは信号の後の左側です。市場の向かいのところではありません。",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  },
+  {
+    "id": "hi-ar-market-first",
+    "source": "hi",
+    "target": "ar",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "आम और अनार कितने के हैं?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "المانجو بثمانين روبية للكيلو. الرمان بأربعين روبية للحبة."
+      },
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "आम कच्चे लग रहे हैं। क्या ये मीठे हैं?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "المانجو حلوة بالفعل. الرمان ناضج."
+      }
+    ],
+    "text": "तो पहले वाले के दो किलो दे दीजिए, और दूसरे का एक।",
+    "reference": "إذن أعطنا من فضلك كيلوين من المانجو وحبة رمان واحدة.",
+    "meaning": "The buyer wants two kilograms of mangoes, mentioned first, and one pomegranate. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "hi-ar-food-slang",
+    "source": "hi",
+    "target": "ar",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "क्या यही वो जगह है जहाँ बिरयानी मिलती है?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "نعم. عادية أم حارة؟"
+      },
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "अगर तीखी वाली सच में बहुत तेज़ है, तो हल्की वाली ठीक रहेगी।"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "الحارة فيها فلفل حار. يمكننا إضافة الرايتا. يمكننا حذف الفول السوداني."
+      }
+    ],
+    "text": "भाई, तीखी वाली ही दे दे, रायता ज़्यादा डाल देना, पर मूंगफली बिल्कुल मत डालना। पेट खराब है मेरा।",
+    "reference": "من فضلك أعطني البرياني الحار، مع رايتا إضافية، وبدون فول سوداني. معدتي مضطربة.",
+    "meaning": "Order the spicy biryani, add raita, and leave out peanuts. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "hi-ar-hotel-formality",
+    "source": "hi",
+    "target": "ar",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "माफ़ कीजिए, हमारा आरक्षण है।"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "مرحباً. ما الاسم، وكم عدد الليالي؟"
+      },
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "यह शर्मा के नाम पर होना चाहिए। हमने शांत कमरे का अनुरोध किया था।"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "إحدى الغرف تطل على الشارع والأخرى في الخلف."
+      }
+    ],
+    "text": "क्या आप कृपया हमें शर्मा के नाम से चेक इन कर देंगे, दो रातों के लिए, शांत वाला कमरा? वो नहीं जो सड़क की तरफ है।",
+    "reference": "من فضلك سجّلنا باسم شارما لمدة ليلتين، في الغرفة الهادئة، وليس الغرفة المطلة على الشارع.",
+    "meaning": "Polite request to the receptionist. Booking name Sharma, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "hi-ar-station-typo",
+    "source": "hi",
+    "target": "ar",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "स्टेशन तक हम कैसे पैदल जाएँ?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "في هذا الطريق محطتان."
+      },
+      {
+        "speaker": "A",
+        "lang": "hi",
+        "text": "किस वाली में एयरपोर्ट की ट्रेन है?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ar",
+        "text": "المحطة الرئيسية بعد إشارة المرور. المحطة الصغيرة مقابل السوق ولا تذهب إلى المطار."
+      }
+    ],
+    "text": "जो स्टेसन हमें चाहिय वो बाईं तरफ ट्रैफ़िक लाइट के बाद है, वो नहीं जो बाज़ार के सामने है।",
+    "reference": "المحطة التي نريدها على اليسار بعد إشارة المرور، وليست التي مقابل السوق.",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  },
+  {
+    "id": "ar-hi-market-first",
+    "source": "ar",
+    "target": "hi",
+    "problem": "pronoun-reference",
+    "scenario": "market",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "بكم البرتقال والتين؟"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "संतरे पांच दिरहम किलो हैं। अंजीर एक दिरहम प्रति अंजीर है।"
+      },
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "البرتقال يبدو غير ناضج. هل هو حلو؟"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "संतरे पहले से ही मीठे हैं। अंजीर पके हुए हैं।"
+      }
+    ],
+    "text": "إذن أعطنا كيلوين من الأولى، وواحدًا من الأخرى.",
+    "reference": "फिर कृपया हमें दो किलो संतरे और एक अंजीर दे दीजिए।",
+    "meaning": "The buyer wants two kilograms of oranges, mentioned first, and one fig. Do not swap the fruits or the amounts."
+  },
+  {
+    "id": "ar-hi-food-slang",
+    "source": "ar",
+    "target": "hi",
+    "problem": "slang",
+    "scenario": "food",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "هل هذا هو المكان الذي يقدم شاورما الدجاج؟"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "हाँ। सामान्य या तीखी?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "العادية تكفي إذا كانت الحارة حارة جدًا فعلاً."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "तीखी वाली में मिर्च होती है। हम लहसुन की चटनी डाल सकते हैं। हम तिल छोड़ सकते हैं।"
+      }
+    ],
+    "text": "جهزلي الحارة، زيادة ثوم، بس من غير سمسم. معدتي مش مزبوطة خالص.",
+    "reference": "कृपया मुझे तीखी चिकन शावरमा दीजिए, ज्यादा लहसुन की चटनी के साथ, और तिल नहीं। मेरा पेट खराब है।",
+    "meaning": "Order the spicy chicken shawarma, add garlic sauce, and leave out sesame. The speaker's stomach is upset. Do not translate any idiom as physical destruction."
+  },
+  {
+    "id": "ar-hi-hotel-formality",
+    "source": "ar",
+    "target": "hi",
+    "problem": "honorific/formality",
+    "scenario": "hotel",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "عفوًا، لدينا حجز."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "स्वागत है। किस नाम से, और कितनी रातों के लिए?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "يجب أن يكون باسم حسن. لقد طلبنا غرفة هادئة."
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "एक कमरा सड़क की ओर है और एक पीछे की ओर है।"
+      }
+    ],
+    "text": "هل يمكنكم تسجيل دخولنا باسم حسن، لليلتين، في الغرفة الهادئة؟ ليس الغرفة المطلة على الشارع.",
+    "reference": "कृपया हमें हसन के नाम से दो रातों के लिए चेक-इन करें, शांत कमरे में, सड़क की ओर वाले कमरे में नहीं।",
+    "meaning": "Polite request to the receptionist. Booking name Hassan, two nights, the quiet back room, not the street-facing room. Use a polite register in both the source line and the reference. Familiar slang is wrong. Clerk gender was not stated."
+  },
+  {
+    "id": "ar-hi-station-typo",
+    "source": "ar",
+    "target": "hi",
+    "problem": "typo",
+    "scenario": "directions",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "كيف نمشي إلى المحطة؟"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "इस सड़क पर दो स्टेशन हैं।"
+      },
+      {
+        "speaker": "A",
+        "lang": "ar",
+        "text": "أيهما فيه القطار إلى المطار؟"
+      },
+      {
+        "speaker": "B",
+        "lang": "hi",
+        "text": "मुख्य स्टेशन ट्रैफिक लाइट के बाद है। छोटा स्टेशन बाजार के सामने है और हवाई अड्डे के लिए नहीं जाता।"
+      }
+    ],
+    "text": "الذي نريدة هو على اليسار بعد الإشارة الضوئية، وليس الذي اماو السوق.",
+    "reference": "जो हमें चाहिए वह ट्रैफिक लाइट के बाद बाईं ओर है, न कि वह जो बाजार के सामने है।",
+    "meaning": "The speaker wants the station on the left after the traffic light, not the one across from the market. Typos must be recoverable and must not flip left, right, or the negation."
+  }
+]

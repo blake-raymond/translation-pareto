@@ -1,0 +1,756 @@
+{
+  "reviewed_at": "2026-10-25T04:09:19.715Z",
+  "localizer": "anthropic/claude-sonnet-5",
+  "reviewer": "google/gemini-3.1-pro-preview",
+  "specs": 120,
+  "kept": 120,
+  "dropped": 0,
+  "results": [
+    {
+      "id": "en-id-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-id-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-id-taxi-autocorrect",
+      "verdict": "fix",
+      "reasons": [
+        "'Naik sopir' literally means 'ride the driver', which is unnatural and incorrect. Changed to 'Pilih sopir' (choose the driver) or 'Naik taksi dengan sopir' (ride the taxi with the driver)."
+      ]
+    },
+    {
+      "id": "en-id-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and scenario perfectly."
+      ]
+    },
+    {
+      "id": "id-en-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "The source text added 'itu stasuin kecil' which is not in the reference or the expected meaning. Removed the extra clause and kept two typos ('setleah', 'paasr').",
+        "The source misspelled 'pasar' (market), which violates the negative constraint 'Do not change the words for left, traffic light, market, or not.'"
+      ]
+    },
+    {
+      "id": "id-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "Fixed grammatical errors in the English history ('they gets') and reference ('makes they drowsy') to use proper singular 'they' grammar ('they get', 'makes them').",
+        "Grammar errors in English history and reference ('they gets', 'makes they')"
+      ]
+    },
+    {
+      "id": "id-en-street-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches meaning and uses appropriate slang."
+      ]
+    },
+    {
+      "id": "id-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Accurately reflects the constraints and history."
+      ]
+    },
+    {
+      "id": "en-th-market-first",
+      "verdict": "ok",
+      "reasons": [
+        "Correctly resolves the references based on history."
+      ]
+    },
+    {
+      "id": "en-th-food-slang",
+      "verdict": "fix",
+      "reasons": [
+        "History B2 has unnatural Thai translation for 'Chili and boat noodles' ('เผ็ดกับก๋วยเตี๋ยวเรือ' means 'spicy and boat noodles'). Fixed to 'มีพริกกับก๋วยเตี๋ยวเรือครับ'."
+      ]
+    },
+    {
+      "id": "en-th-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-th-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-en-station-typo",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "Grammar error in English reference and history ('makes they drowsy', 'they gets drowsy').",
+        "Grammar error in English history and reference ('they gets drowsy', 'makes they drowsy')."
+      ]
+    },
+    {
+      "id": "th-en-street-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-vi-market-first",
+      "verdict": "fix",
+      "reasons": [
+        "The reference uses 'tôi' (me) instead of 'chúng tôi' (us) as specified in the meaning note."
+      ]
+    },
+    {
+      "id": "en-vi-food-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-vi-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract."
+      ]
+    },
+    {
+      "id": "en-vi-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract."
+      ]
+    },
+    {
+      "id": "vi-en-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "The source misspelled 'traffic light' and 'market', violating the negative constraint. Fixed by misspelling 'mình' and 'diện' instead."
+      ]
+    },
+    {
+      "id": "vi-en-pharmacy-marks",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "vi-en-cafe-code",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "vi-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-my-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-my-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-my-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-my-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "my-en-station-which",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "my-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "Grammar error in reference: 'makes she drowsy' should be 'makes her drowsy'.",
+        "The reference has a grammatical error ('makes she drowsy' instead of 'makes her drowsy')."
+      ]
+    },
+    {
+      "id": "my-en-cafe-code",
+      "verdict": "fix",
+      "reasons": [
+        "'နို့ဈေး' means 'milk price', not 'milk tea'. Replaced with 'နို့လက်ဖက်ရည်' (milk tea)."
+      ]
+    },
+    {
+      "id": "my-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-km-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-km-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-km-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-km-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "km-en-station-which",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "km-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "grammar error in history and reference ('they gets', 'makes they')",
+        "Grammatical errors in English history ('they gets') and reference ('makes they drowsy')."
+      ]
+    },
+    {
+      "id": "km-en-cafe-code",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "km-en-door-pronoun",
+      "verdict": "fix",
+      "reasons": [
+        "Typo in history B2 'ម្កង' instead of 'ជូន'. Source text missing 'striped shirt' which is in the reference and contract."
+      ]
+    },
+    {
+      "id": "en-zh-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-zh-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-zh-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract."
+      ]
+    },
+    {
+      "id": "en-zh-hotel-formality",
+      "verdict": "fix",
+      "reasons": [
+        "The reference assumes the guest is male ('王先生') but the contract states guest gender was not stated."
+      ]
+    },
+    {
+      "id": "zh-en-station-which",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract."
+      ]
+    },
+    {
+      "id": "zh-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "grammar error in reference",
+        "Grammar error in reference: 'makes she drowsy' should be 'makes her drowsy'."
+      ]
+    },
+    {
+      "id": "zh-en-street-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "zh-en-door-pronoun",
+      "verdict": "fix",
+      "reasons": [
+        "source missing black t-shirt detail from contract"
+      ]
+    },
+    {
+      "id": "en-ja-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-ja-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-ja-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-ja-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ja-en-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "Source text contains meta-instructions and violates the negative constraint on typos."
+      ]
+    },
+    {
+      "id": "ja-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "Grammar errors in English history and reference ('they gets', 'makes they').",
+        "Grammar errors in English history and reference ('they gets', 'makes they')"
+      ]
+    },
+    {
+      "id": "ja-en-street-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches meaning and uses appropriate slang."
+      ]
+    },
+    {
+      "id": "ja-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Matches meaning and correctly resolves pronouns."
+      ]
+    },
+    {
+      "id": "en-ko-market-first",
+      "verdict": "ok",
+      "reasons": [
+        "Matches meaning and correctly identifies the referents."
+      ]
+    },
+    {
+      "id": "en-ko-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-ko-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-ko-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ko-en-station-typo",
+      "verdict": "ok",
+      "reasons": [
+        "matches contract and typos are natural"
+      ]
+    },
+    {
+      "id": "ko-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "grammar error in reference ('makes he drowsy' -> 'makes him drowsy')",
+        "Grammar error in reference: 'makes he drowsy' should be 'makes him drowsy'."
+      ]
+    },
+    {
+      "id": "ko-en-street-slang",
+      "verdict": "ok",
+      "reasons": [
+        "matches contract and slang is natural"
+      ]
+    },
+    {
+      "id": "ko-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-hi-market-first",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-hi-food-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-hi-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-hi-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "hi-en-station-typo",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "hi-en-pharmacy-marks",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and simulates missing diacritics well."
+      ]
+    },
+    {
+      "id": "hi-en-cafe-code",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract, keeps Wi-Fi in Latin script."
+      ]
+    },
+    {
+      "id": "hi-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract, successfully disambiguates the pronoun."
+      ]
+    },
+    {
+      "id": "en-bn-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-bn-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-bn-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-bn-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract, polite form used."
+      ]
+    },
+    {
+      "id": "bn-en-station-typo",
+      "verdict": "ok",
+      "reasons": [
+        "Typos are present and recoverable, meaning matches contract."
+      ]
+    },
+    {
+      "id": "bn-en-pharmacy-marks",
+      "verdict": "ok",
+      "reasons": [
+        "Casual texting style used appropriately for Bengali, meaning matches contract."
+      ]
+    },
+    {
+      "id": "bn-en-cafe-code",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history perfectly."
+      ]
+    },
+    {
+      "id": "bn-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history perfectly."
+      ]
+    },
+    {
+      "id": "en-ar-market-first",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history perfectly."
+      ]
+    },
+    {
+      "id": "en-ar-food-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-ar-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "en-ar-hotel-formality",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "ar-en-station-typo",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract, typos are present and recoverable."
+      ]
+    },
+    {
+      "id": "ar-en-pharmacy-code",
+      "verdict": "fix",
+      "reasons": [
+        "Grammar error in reference ('makes he drowsy' -> 'makes him drowsy').",
+        "Grammar error in reference: 'makes he drowsy' should be 'makes him drowsy'."
+      ]
+    },
+    {
+      "id": "ar-en-street-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract, slang is appropriate."
+      ]
+    },
+    {
+      "id": "ar-en-door-pronoun",
+      "verdict": "fix",
+      "reasons": [
+        "Source text is missing 'in the grey thobe' which is required by the meaning note and reference.",
+        "The Arabic source text explicitly says 'her husband in the grey thobe' instead of using the pronoun 'him' as specified in the source English, defeating the purpose of the pronoun resolution test."
+      ]
+    },
+    {
+      "id": "en-es-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-es-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-es-taxi-autocorrect",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "en-es-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "es-en-station-typo",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "es-en-pharmacy-marks",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "es-en-cafe-code",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "es-en-door-pronoun",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "id-th-market-first",
+      "verdict": "fix",
+      "reasons": [
+        "The source text explicitly names the fruits instead of using pronouns like 'the first one' and 'the other' as required by the source English and the error note."
+      ]
+    },
+    {
+      "id": "id-th-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "id-th-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "id-th-station-typo",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-id-market-first",
+      "verdict": "fix",
+      "reasons": [
+        "The source and reference used 'one kilo of bananas' instead of 'one banana', and the source explicitly named the fruits instead of using 'the first one' and 'the other' as required by the error description."
+      ]
+    },
+    {
+      "id": "th-id-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-id-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "th-id-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "Source text only has one typo ('อยุ่'). Added a second typo ('ตองการ' instead of 'ต้องการ')."
+      ]
+    },
+    {
+      "id": "ja-ko-market-first",
+      "verdict": "fix",
+      "reasons": [
+        "Source text explicitly named the fruits instead of using 'the first one' and 'the other' as required by the contract."
+      ]
+    },
+    {
+      "id": "ja-ko-food-slang",
+      "verdict": "fix",
+      "reasons": [
+        "Korean history line ends with a Japanese full stop"
+      ]
+    },
+    {
+      "id": "ja-ko-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ja-ko-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "Source text is missing the required typos"
+      ]
+    },
+    {
+      "id": "ko-ja-market-first",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "ko-ja-food-slang",
+      "verdict": "ok",
+      "reasons": [
+        "Matches contract and history."
+      ]
+    },
+    {
+      "id": "ko-ja-hotel-formality",
+      "verdict": "fix",
+      "reasons": [
+        "The reference uses '様' (sama) for the speaker's own name, which is incorrect in Japanese. It should be 'キム' (Kim)."
+      ]
+    },
+    {
+      "id": "ko-ja-station-typo",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "hi-ar-market-first",
+      "verdict": "fix",
+      "reasons": [
+        "Source text explicitly names the fruits instead of using 'the first one' and 'the other' as required by the contract. Arabic history has a weird word 'مُرة' (bitter/very) which contradicts 'sweet' in standard Arabic."
+      ]
+    },
+    {
+      "id": "hi-ar-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "hi-ar-hotel-formality",
+      "verdict": "fix",
+      "reasons": [
+        "Arabic history line uses Urdu/Persian greeting 'خوش آمدید' instead of Arabic 'مرحباً'"
+      ]
+    },
+    {
+      "id": "hi-ar-station-typo",
+      "verdict": "fix",
+      "reasons": [
+        "Source text does not contain the required typos."
+      ]
+    },
+    {
+      "id": "ar-hi-market-first",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ar-hi-food-slang",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ar-hi-hotel-formality",
+      "verdict": "ok",
+      "reasons": []
+    },
+    {
+      "id": "ar-hi-station-typo",
+      "verdict": "ok",
+      "reasons": []
+    }
+  ]
+}
