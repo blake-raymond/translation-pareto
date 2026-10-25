@@ -25,7 +25,7 @@ function catalog() {
   return JSON.parse(fs.readFileSync(new URL("./models.json", import.meta.url), "utf8"));
 }
 
-function loadCases(opts) {
+export function loadCases(opts) {
   const langs = new Set(targetLangs(opts));
   const benchAll = JSON.parse(fs.readFileSync(BENCHMARK_FILE, "utf8"));
   let chatAll = [];
