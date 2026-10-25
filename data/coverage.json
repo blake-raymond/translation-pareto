@@ -3,6 +3,8 @@
   "flores_gated": true,
   "flores_status": 401,
   "hf_token": false,
+  "bench_per_lang": 40,
+  "chat_per_lang": null,
   "languages": [
     {
       "lang": "af",
@@ -10,9 +12,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -21,9 +25,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -32,9 +38,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1993,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -42,11 +50,13 @@
       "name": "العربية (Arabic)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -55,9 +65,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -66,9 +78,11 @@
       "dataset": "tatoeba-api",
       "license": "CC-BY-2.0",
       "n_available": 40,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "tatoeba": 20
+        "tatoeba": 40
       }
     },
     {
@@ -77,9 +91,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -87,11 +103,13 @@
       "name": "বাংলা (Bengali)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -100,7 +118,9 @@
       "dataset": "tatoeba-api",
       "license": "CC-BY-2.0",
       "n_available": 10,
+      "n_target": 40,
       "n_sampled": 10,
+      "n_benchmark": 10,
       "domains": {
         "tatoeba": 10
       }
@@ -110,11 +130,13 @@
       "name": "Български (Bulgarian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -123,9 +145,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -134,9 +158,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -144,11 +170,13 @@
       "name": "Català (Catalan)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -157,9 +185,11 @@
       "dataset": "tatoeba-api",
       "license": "CC-BY-2.0",
       "n_available": 40,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "tatoeba": 20
+        "tatoeba": 40
       }
     },
     {
@@ -167,11 +197,13 @@
       "name": "Hrvatski (Croatian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -179,11 +211,13 @@
       "name": "Čeština (Czech)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -191,11 +225,13 @@
       "name": "Dansk (Danish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -203,11 +239,13 @@
       "name": "Nederlands (Dutch)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -215,11 +253,13 @@
       "name": "Suomi (Finnish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -227,11 +267,13 @@
       "name": "Français (French)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -239,11 +281,13 @@
       "name": "Deutsch (German)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -251,11 +295,13 @@
       "name": "Ελληνικά (Greek)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -263,11 +309,13 @@
       "name": "ગુજરાતી (Gujarati)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -276,9 +324,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -286,11 +336,13 @@
       "name": "עברית (Hebrew)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 818,
-      "n_sampled": 20,
+      "n_available": 817,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -298,11 +350,13 @@
       "name": "हिन्दी (Hindi)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -310,11 +364,13 @@
       "name": "Magyar (Hungarian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -323,9 +379,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -333,11 +391,13 @@
       "name": "Bahasa Indonesia (Indonesian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -345,11 +405,13 @@
       "name": "Italiano (Italian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -357,11 +419,13 @@
       "name": "日本語 (Japanese)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 816,
-      "n_sampled": 20,
+      "n_available": 815,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -369,10 +433,12 @@
       "name": "Basa Jawa (Javanese)",
       "dataset": "tatoeba-opus",
       "license": "CC-BY-2.0",
-      "n_available": 46,
-      "n_sampled": 20,
+      "n_available": 45,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "tatoeba": 20
+        "tatoeba": 40
       }
     },
     {
@@ -380,11 +446,13 @@
       "name": "ಕನ್ನಡ (Kannada)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -393,9 +461,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -404,9 +474,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -414,11 +486,13 @@
       "name": "한국어 (Korean)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 817,
-      "n_sampled": 20,
+      "n_available": 816,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -427,9 +501,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -438,9 +514,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -449,9 +527,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -459,11 +539,13 @@
       "name": "മലയാളം (Malayalam)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -471,11 +553,13 @@
       "name": "简体中文 (Mandarin, Simplified)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 813,
-      "n_sampled": 20,
+      "n_available": 812,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -483,11 +567,13 @@
       "name": "मराठी (Marathi)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -496,9 +582,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -506,11 +594,13 @@
       "name": "Norsk (Norwegian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -519,9 +609,11 @@
       "dataset": "tatoeba-opus",
       "license": "CC-BY-2.0",
       "n_available": 21,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 21,
+      "n_benchmark": 21,
       "domains": {
-        "tatoeba": 20
+        "tatoeba": 21
       }
     },
     {
@@ -530,9 +622,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -540,11 +634,13 @@
       "name": "فارسی (Persian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -552,11 +648,13 @@
       "name": "Polski (Polish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -564,11 +662,13 @@
       "name": "Português (Portuguese)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -576,11 +676,13 @@
       "name": "ਪੰਜਾਬੀ (Punjabi)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -588,11 +690,13 @@
       "name": "Română (Romanian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -600,11 +704,13 @@
       "name": "Русский (Russian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -612,11 +718,13 @@
       "name": "Српски (Serbian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -625,9 +733,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -636,9 +746,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -646,11 +758,13 @@
       "name": "Slovenčina (Slovak)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -659,9 +773,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -669,11 +785,13 @@
       "name": "Español (Spanish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -682,7 +800,9 @@
       "dataset": "tatoeba-opus",
       "license": "CC-BY-2.0",
       "n_available": 14,
+      "n_target": 40,
       "n_sampled": 14,
+      "n_benchmark": 14,
       "domains": {
         "tatoeba": 14
       }
@@ -692,11 +812,13 @@
       "name": "Kiswahili (Swahili)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -704,11 +826,13 @@
       "name": "Svenska (Swedish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -716,11 +840,13 @@
       "name": "Tagalog (Filipino)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -728,11 +854,13 @@
       "name": "தமிழ் (Tamil)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -740,11 +868,13 @@
       "name": "తెలుగు (Telugu)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -752,11 +882,13 @@
       "name": "ไทย (Thai)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -764,11 +896,13 @@
       "name": "Türkçe (Turkish)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -776,11 +910,13 @@
       "name": "Українська (Ukrainian)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -788,11 +924,13 @@
       "name": "اردو (Urdu)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -801,9 +939,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -811,11 +951,13 @@
       "name": "Tiếng Việt (Vietnamese)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     },
     {
@@ -824,9 +966,11 @@
       "dataset": "ntrex-128",
       "license": "CC-BY-SA-4.0",
       "n_available": 1995,
-      "n_sampled": 20,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "news": 20
+        "news": 40
       }
     },
     {
@@ -834,14 +978,34 @@
       "name": "isiZulu (Zulu)",
       "dataset": "wmt24++",
       "license": "Apache-2.0",
-      "n_available": 819,
-      "n_sampled": 20,
+      "n_available": 818,
+      "n_target": 40,
+      "n_sampled": 40,
+      "n_benchmark": 40,
       "domains": {
-        "social": 10,
-        "speech": 10
+        "social": 20,
+        "speech": 20
       }
     }
   ],
   "missing": [],
-  "n_cases": 1424
+  "short": [
+    {
+      "lang": "bho",
+      "n_sampled": 10,
+      "n_available": 10
+    },
+    {
+      "lang": "or",
+      "n_sampled": 21,
+      "n_available": 21
+    },
+    {
+      "lang": "su",
+      "n_sampled": 14,
+      "n_available": 14
+    }
+  ],
+  "n_cases": 2805,
+  "n_benchmark": 2805
 }

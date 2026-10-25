@@ -1,5 +1,6 @@
 // Download WMT24++ (Apache 2.0) and fill remaining languages from FLORES+
-// (gated), NTREX-128, or Tatoeba. Sample a fixed-seed 20 segments per language.
+// (gated), NTREX-128, or Tatoeba. Sample a fixed-seed set per language.
+// A larger target keeps every previously sampled segment and appends more.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
@@ -12,7 +13,7 @@ import {
   WMT24_FILES,
   languageName,
 } from "./languages.mjs";
-import { hfToken, invokedDirectly, mulberry32, parseArgs, seedMix, shuffle, targetLangs } from "./lib.mjs";
+import { hfToken, invokedDirectly, loadParetoLedger, mulberry32, parseArgs, progress, seedMix, shuffle, targetLangs } from "./lib.mjs";
 import { BENCHMARK_FILE, BENCH_PER_LANG, COVERAGE_FILE, RAW_DIR, SEED } from "./meta.mjs";
 
 const WMT_BASE = "https://huggingface.co/datasets/google/wmt24pp/resolve/main";
@@ -87,9 +88,9 @@ function sampleRows(rows, n, lang) {
   return picked.slice(0, n);
 }
 
-function toCases(lang, dataset, license, rows) {
+function toCases(lang, dataset, license, rows, startIndex) {
   return rows.map((row, index) => ({
-    id: `bench-${lang}-${String(index + 1).padStart(2, "0")}`,
+    id: `bench-${lang}-${String(startIndex + index).padStart(2, "0")}`,
     kind: "benchmark",
     source: "en",
     target: lang,
@@ -99,6 +100,72 @@ function toCases(lang, dataset, license, rows) {
     dataset,
     license,
   }));
+}
+
+function pairKey(source, target) {
+  return `${source}\n${target}`;
+}
+
+function dedupeRows(rows) {
+  const seen = new Set();
+  const unique = [];
+  for (const row of rows) {
+    const key = pairKey(row.source, row.target);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(row);
+  }
+  return unique;
+}
+
+export function loadExistingBench() {
+  try {
+    const rows = JSON.parse(fs.readFileSync(BENCHMARK_FILE, "utf8"));
+    const map = new Map();
+    for (const row of rows) {
+      if (row?.kind && row.kind !== "benchmark") continue;
+      if (!row?.target || !row?.text || !row?.reference) continue;
+      if (!map.has(row.target)) map.set(row.target, []);
+      map.get(row.target).push(row);
+    }
+    for (const list of map.values()) {
+      list.sort((a, b) => String(a.id).localeCompare(String(b.id)));
+    }
+    return map;
+  } catch {
+    return new Map();
+  }
+}
+
+export function expandSample(existing, rows, n, lang) {
+  const unique = dedupeRows(rows);
+  if (!existing?.length) {
+    const more = sampleRows(rows, Math.min(n, unique.length), lang);
+    return { kept: [], more, target: more.length, available: unique.length };
+  }
+  const target = Math.min(n, unique.length);
+  const kept = [];
+  const keptKeys = new Set();
+  for (const item of existing || []) {
+    if (kept.length >= target) break;
+    const key = pairKey(item.text, item.reference);
+    if (keptKeys.has(key)) continue;
+    keptKeys.add(key);
+    kept.push(item);
+  }
+  const rest = unique.filter((row) => !keptKeys.has(pairKey(row.source, row.target)));
+  const need = Math.max(0, target - kept.length);
+  const more = need > 0 ? sampleRows(rest, need, `${lang}:expand:${kept.length}`) : [];
+  return { kept, more, target, available: unique.length };
+}
+
+function nextBenchIndex(items) {
+  let next = 1;
+  for (const item of items) {
+    const match = String(item.id || "").match(/-(\d+)$/);
+    if (match) next = Math.max(next, Number(match[1]) + 1);
+  }
+  return next;
 }
 
 async function loadWmt(lang) {
@@ -286,6 +353,9 @@ export async function collectData(opts = parseArgs()) {
   const coverage = [];
   const cases = [];
   const missing = [];
+  const short = [];
+  const existingBench = loadExistingBench();
+  const spent = () => loadParetoLedger(false).spent;
 
   async function fillLang(lang) {
     const attempts = [];
@@ -315,37 +385,67 @@ export async function collectData(opts = parseArgs()) {
     return { lang, pack: null, attempts };
   }
 
-  const results = await mapPool(langs, 4, fillLang);
+  let loaded = 0;
+  const results = await mapPool(langs, 4, async (lang) => {
+    const result = await fillLang(lang);
+    loaded += 1;
+    progress("data", loaded, langs.length, spent());
+    return result;
+  });
   for (const result of results) {
     const { lang, pack } = result;
+    const previous = existingBench.get(lang) || [];
     if (!pack?.rows?.length) {
+      if (previous.length) {
+        cases.push(...previous);
+        coverage.push({
+          lang,
+          name: languageName(lang),
+          dataset: previous[0].dataset || null,
+          license: previous[0].license || null,
+          n_available: previous.length,
+          n_target: BENCH_PER_LANG,
+          n_sampled: previous.length,
+          n_benchmark: previous.length,
+          kept_previous: true,
+          error: result.attempts.map((pair) => `${pair[0]}:${pair[1]?.error || pair[1]?.status || "empty"}`).join("; "),
+        });
+        console.log(`KEPT ${lang} previous=${previous.length} (refresh empty)`);
+        continue;
+      }
       missing.push(lang);
       coverage.push({
         lang,
         name: languageName(lang),
         dataset: null,
         n_available: 0,
+        n_target: BENCH_PER_LANG,
         n_sampled: 0,
+        n_benchmark: 0,
         error: result.attempts.map((pair) => `${pair[0]}:${pair[1]?.error || pair[1]?.status || "empty"}`).join("; "),
       });
       console.log(`MISSING ${lang} ${languageName(lang)}`);
       continue;
     }
-    const sampled = sampleRows(pack.rows, BENCH_PER_LANG, lang);
-    const langCases = toCases(lang, pack.dataset, pack.license, sampled);
+    const expanded = expandSample(previous, pack.rows, BENCH_PER_LANG, lang);
+    const added = toCases(lang, pack.dataset, pack.license, expanded.more, nextBenchIndex(expanded.kept));
+    const langCases = [...expanded.kept, ...added];
     cases.push(...langCases);
     const domains = {};
-    for (const row of sampled) domains[row.domain] = (domains[row.domain] || 0) + 1;
+    for (const row of langCases) domains[row.domain || "unknown"] = (domains[row.domain || "unknown"] || 0) + 1;
+    if (langCases.length < BENCH_PER_LANG) short.push({ lang, n_sampled: langCases.length, n_available: expanded.available });
     coverage.push({
       lang,
       name: languageName(lang),
       dataset: pack.dataset,
       license: pack.license,
-      n_available: pack.rows.length,
-      n_sampled: sampled.length,
+      n_available: expanded.available,
+      n_target: BENCH_PER_LANG,
+      n_sampled: langCases.length,
+      n_benchmark: langCases.length,
       domains,
     });
-    console.log(`${lang.padEnd(8)} ${pack.dataset.padEnd(14)} available=${pack.rows.length} sampled=${sampled.length} domains=${JSON.stringify(domains)}`);
+    console.log(`${lang.padEnd(8)} ${pack.dataset.padEnd(14)} available=${expanded.available} sampled=${langCases.length} kept=${expanded.kept.length} added=${added.length} domains=${JSON.stringify(domains)}`);
   }
 
   cases.sort((a, b) => a.id.localeCompare(b.id) || a.target.localeCompare(b.target));
@@ -355,13 +455,18 @@ export async function collectData(opts = parseArgs()) {
     flores_gated: floresGated,
     flores_status: probe.status,
     hf_token: Boolean(token),
+    bench_per_lang: BENCH_PER_LANG,
+    chat_per_lang: null,
     languages: coverage,
     missing,
+    short,
     n_cases: cases.length,
+    n_benchmark: cases.length,
   });
   console.log(`wrote ${cases.length} benchmark cases for ${coverage.filter((row) => row.n_sampled).length} languages to ${BENCHMARK_FILE}`);
   if (missing.length) console.log(`missing languages: ${missing.join(", ")}`);
-  return { cases, coverage, missing, floresGated };
+  if (short.length) console.log(`short languages: ${short.map((row) => `${row.lang}=${row.n_sampled}/${row.n_available}`).join(", ")}`);
+  return { cases, coverage, missing, short, floresGated };
 }
 
 if (invokedDirectly(import.meta.url)) {
