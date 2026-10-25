@@ -1,0 +1,847 @@
+{
+  "seed": 20261025,
+  "flores_gated": true,
+  "flores_status": 401,
+  "hf_token": false,
+  "languages": [
+    {
+      "lang": "af",
+      "name": "Afrikaans",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "sq",
+      "name": "Shqip (Albanian)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "am",
+      "name": "አማርኛ (Amharic)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1993,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "ar",
+      "name": "العربية (Arabic)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "hy",
+      "name": "Հայերեն (Armenian)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "as",
+      "name": "অসমীয়া (Assamese)",
+      "dataset": "tatoeba-api",
+      "license": "CC-BY-2.0",
+      "n_available": 40,
+      "n_sampled": 20,
+      "domains": {
+        "tatoeba": 20
+      }
+    },
+    {
+      "lang": "az",
+      "name": "Azərbaycan (Azerbaijani)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "bn",
+      "name": "বাংলা (Bengali)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "bho",
+      "name": "भोजपुरी (Bhojpuri)",
+      "dataset": "tatoeba-api",
+      "license": "CC-BY-2.0",
+      "n_available": 10,
+      "n_sampled": 10,
+      "domains": {
+        "tatoeba": 10
+      }
+    },
+    {
+      "lang": "bg",
+      "name": "Български (Bulgarian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "my",
+      "name": "မြန်မာ (Burmese)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "zh-HK",
+      "name": "廣東話 (Cantonese, Traditional)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "ca",
+      "name": "Català (Catalan)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ceb",
+      "name": "Cebuano",
+      "dataset": "tatoeba-api",
+      "license": "CC-BY-2.0",
+      "n_available": 40,
+      "n_sampled": 20,
+      "domains": {
+        "tatoeba": 20
+      }
+    },
+    {
+      "lang": "hr",
+      "name": "Hrvatski (Croatian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "cs",
+      "name": "Čeština (Czech)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "da",
+      "name": "Dansk (Danish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "nl",
+      "name": "Nederlands (Dutch)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "fi",
+      "name": "Suomi (Finnish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "fr",
+      "name": "Français (French)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch (German)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "el",
+      "name": "Ελληνικά (Greek)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "gu",
+      "name": "ગુજરાતી (Gujarati)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ha",
+      "name": "Hausa",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "he",
+      "name": "עברית (Hebrew)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 818,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "hi",
+      "name": "हिन्दी (Hindi)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "hu",
+      "name": "Magyar (Hungarian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ig",
+      "name": "Igbo",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "id",
+      "name": "Bahasa Indonesia (Indonesian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "it",
+      "name": "Italiano (Italian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ja",
+      "name": "日本語 (Japanese)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 816,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "jv",
+      "name": "Basa Jawa (Javanese)",
+      "dataset": "tatoeba-opus",
+      "license": "CC-BY-2.0",
+      "n_available": 46,
+      "n_sampled": 20,
+      "domains": {
+        "tatoeba": 20
+      }
+    },
+    {
+      "lang": "kn",
+      "name": "ಕನ್ನಡ (Kannada)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "kk",
+      "name": "Қазақша (Kazakh)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "km",
+      "name": "ភាសាខ្មែរ (Khmer)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "ko",
+      "name": "한국어 (Korean)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 817,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ku",
+      "name": "Kurdî (Kurdish)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "lo",
+      "name": "ລາວ (Lao)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "ms",
+      "name": "Bahasa Melayu (Malay)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "ml",
+      "name": "മലയാളം (Malayalam)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "zh-CN",
+      "name": "简体中文 (Mandarin, Simplified)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 813,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "mr",
+      "name": "मराठी (Marathi)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ne",
+      "name": "नेपाली (Nepali)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "no",
+      "name": "Norsk (Norwegian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "or",
+      "name": "ଓଡ଼ିଆ (Odia)",
+      "dataset": "tatoeba-opus",
+      "license": "CC-BY-2.0",
+      "n_available": 21,
+      "n_sampled": 20,
+      "domains": {
+        "tatoeba": 20
+      }
+    },
+    {
+      "lang": "ps",
+      "name": "پښتو (Pashto)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "fa",
+      "name": "فارسی (Persian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "pl",
+      "name": "Polski (Polish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "pt",
+      "name": "Português (Portuguese)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "pa",
+      "name": "ਪੰਜਾਬੀ (Punjabi)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ro",
+      "name": "Română (Romanian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ru",
+      "name": "Русский (Russian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "sr",
+      "name": "Српски (Serbian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "sd",
+      "name": "سنڌي (Sindhi)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "si",
+      "name": "සිංහල (Sinhala)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "sk",
+      "name": "Slovenčina (Slovak)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "so",
+      "name": "Soomaali (Somali)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "es",
+      "name": "Español (Spanish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "su",
+      "name": "Basa Sunda (Sundanese)",
+      "dataset": "tatoeba-opus",
+      "license": "CC-BY-2.0",
+      "n_available": 14,
+      "n_sampled": 14,
+      "domains": {
+        "tatoeba": 14
+      }
+    },
+    {
+      "lang": "sw",
+      "name": "Kiswahili (Swahili)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "sv",
+      "name": "Svenska (Swedish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "tl",
+      "name": "Tagalog (Filipino)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ta",
+      "name": "தமிழ் (Tamil)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "te",
+      "name": "తెలుగు (Telugu)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "th",
+      "name": "ไทย (Thai)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "tr",
+      "name": "Türkçe (Turkish)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "uk",
+      "name": "Українська (Ukrainian)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "ur",
+      "name": "اردو (Urdu)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "uz",
+      "name": "Oʻzbek (Uzbek)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "vi",
+      "name": "Tiếng Việt (Vietnamese)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    },
+    {
+      "lang": "yo",
+      "name": "Yorùbá (Yoruba)",
+      "dataset": "ntrex-128",
+      "license": "CC-BY-SA-4.0",
+      "n_available": 1995,
+      "n_sampled": 20,
+      "domains": {
+        "news": 20
+      }
+    },
+    {
+      "lang": "zu",
+      "name": "isiZulu (Zulu)",
+      "dataset": "wmt24++",
+      "license": "Apache-2.0",
+      "n_available": 819,
+      "n_sampled": 20,
+      "domains": {
+        "social": 10,
+        "speech": 10
+      }
+    }
+  ],
+  "missing": [],
+  "n_cases": 1424
+}

@@ -55,7 +55,7 @@ function cleanPair(source, target) {
   const tgt = String(target || "").replace(/\s+/g, " ").trim();
   if (!src || !tgt) return null;
   if (src.length < 8 || tgt.length < 4) return null;
-  if (src.length > 280) return null;
+  if (src.length > 400) return null;
   return { source: src, target: tgt };
 }
 
@@ -65,6 +65,7 @@ function sampleRows(rows, n, lang) {
   const picked = [];
   const take = (pool, need) => {
     if (need <= 0 || !pool.length) return;
+    const start = picked.length;
     const ranked = [...pool].sort((a, b) => a.source.length - b.source.length || a.target.length - b.target.length);
     const window = ranked.slice(0, Math.min(ranked.length, Math.max(need * 5, need)));
     for (const row of shuffle(window, rng)) {
@@ -72,14 +73,15 @@ function sampleRows(rows, n, lang) {
       if (seen.has(key)) continue;
       seen.add(key);
       picked.push(row);
-      if (picked.length >= n) return;
+      if (picked.length - start >= need || picked.length >= n) return;
     }
   };
   const social = rows.filter((row) => row.domain === "social");
   const speech = rows.filter((row) => row.domain === "speech");
   const other = rows.filter((row) => row.domain !== "social" && row.domain !== "speech");
-  take(social, Math.min(n, Math.ceil(n * 0.55)));
+  take(social, Math.min(10, n));
   take(speech, n - picked.length);
+  take([...social, ...speech], n - picked.length);
   take(other, n - picked.length);
   take(rows, n - picked.length);
   return picked.slice(0, n);
@@ -222,21 +224,7 @@ async function loadOpusTatoeba(lang) {
   return { error: `opus tatoeba missing for ${lang}` };
 }
 
-async function loadTatoebaApi(lang) {
-  const iso = TATOEBA_ISO3[lang];
-  if (!iso) return null;
-  const dest = rawPath("tatoeba", `api-${iso}.json`);
-  if (!fs.existsSync(dest) || fs.statSync(dest).size < 40) {
-    const url = `https://tatoeba.org/en/api_v0/search?from=eng&to=${iso}&trans_filter=limit&trans_link=direct&orphans=no&unapproved=no&sort=created&limit=100`;
-    const got = await download(url, dest);
-    if (got.status !== 200) return { error: `tatoeba api ${got.status}` };
-  }
-  let payload;
-  try {
-    payload = JSON.parse(fs.readFileSync(dest, "utf8"));
-  } catch {
-    return { error: "tatoeba api json" };
-  }
+function tatoebaHits(payload, iso) {
   const results = payload.results || payload.data || [];
   const rows = [];
   for (const item of results) {
@@ -246,6 +234,32 @@ async function loadTatoebaApi(lang) {
     const pair = cleanPair(en, hit?.text);
     if (pair) rows.push({ ...pair, domain: "tatoeba" });
   }
+  return rows;
+}
+
+async function loadTatoebaApi(lang) {
+  const iso = TATOEBA_ISO3[lang];
+  if (!iso) return null;
+  const dest = rawPath("tatoeba", `api-${iso}.json`);
+  const rows = [];
+  const pages = [];
+  for (let page = 1; page <= 4 && rows.length < 40; page += 1) {
+    const pageFile = rawPath("tatoeba", `api-${iso}-p${page}.json`);
+    const url = `https://tatoeba.org/en/api_v0/search?from=eng&to=${iso}&trans_filter=limit&trans_link=direct&orphans=no&unapproved=no&sort=created&limit=100&page=${page}`;
+    const got = await download(url, pageFile);
+    if (got.status !== 200) break;
+    let payload;
+    try {
+      payload = JSON.parse(fs.readFileSync(pageFile, "utf8"));
+    } catch {
+      break;
+    }
+    pages.push(payload);
+    rows.push(...tatoebaHits(payload, iso));
+    const paging = payload.paging?.Sentences;
+    if (paging && paging.nextPage === false) break;
+  }
+  if (pages.length) writeJson(dest, { pages: pages.length, n: rows.length });
   if (!rows.length) return { error: `tatoeba api empty for ${lang}` };
   return { dataset: "tatoeba-api", license: "CC-BY-2.0", rows };
 }
