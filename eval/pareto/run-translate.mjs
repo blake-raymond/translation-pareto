@@ -6,10 +6,11 @@ import {
   loadKey,
   mapPool,
   paidChat,
+  publicError,
   readCache,
   writeJson,
 } from "../api.mjs";
-import { invokedDirectly, loadParetoLedger, parseArgs, targetLangs } from "./lib.mjs";
+import { invokedDirectly, loadParetoLedger, parseArgs, progress, targetLangs } from "./lib.mjs";
 import {
   BENCHMARK_FILE,
   CHAT_FILE,
@@ -123,6 +124,22 @@ async function translateOne(apiKey, ledger, model, item) {
   return record;
 }
 
+export function translateWork(opts = parseArgs()) {
+  const cases = loadCases(opts);
+  const models = catalog().models.filter((model) => !opts.only || model.slug === opts.only);
+  let cached = 0;
+  let pending = 0;
+  for (const item of cases) {
+    for (const model of models) {
+      const hash = translationHash(model, item);
+      const file = cacheFile("pareto", "translations", model.slug, `${item.id}.json`);
+      if (readCache(file, hash)?.result) cached += 1;
+      else pending += 1;
+    }
+  }
+  return { cases: cases.length, models: models.length, cached, pending, total: cached + pending };
+}
+
 export async function runTranslate(opts = parseArgs()) {
   if (!SYSTEM_PROMPT.includes("professional interpreter")) {
     throw new Error("eval/prompts/v1.txt was not loaded");
@@ -144,11 +161,16 @@ export async function runTranslate(opts = parseArgs()) {
       else jobs.push({ item, model });
     }
   }
+  const total = runs.length + jobs.length;
   console.log(`translate cases=${cases.length} models=${models.length} uncached=${jobs.length} cached=${runs.length} cap=$${ledger.cap} spent=$${ledger.spent.toFixed(4)}`);
+  progress("translate", runs.length, total, ledger.spent);
+  let done = runs.length;
   const fresh = await mapPool(jobs, TRANSLATE_CONCURRENCY, async ({ item, model }) => {
     const result = await translateOne(apiKey, ledger, model, item);
+    done += 1;
     const flag = result.error ? ` error=${result.error}` : "";
     console.log(`${model.slug} ${item.id} ${result.latency_ms ?? "-"}ms $${(result.cost_usd || 0).toFixed(5)} spent=$${ledger.spent.toFixed(4)}${flag}`);
+    if (done % 25 === 0 || done === total || result.error) progress("translate", done, total, ledger.spent);
     return result;
   });
   runs.push(...fresh);
@@ -169,7 +191,7 @@ export async function runTranslate(opts = parseArgs()) {
 
 if (invokedDirectly(import.meta.url)) {
   runTranslate().catch((error) => {
-    console.error(error);
+    console.error(publicError(error));
     process.exitCode = 1;
   });
 }
