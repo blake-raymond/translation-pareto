@@ -153,7 +153,11 @@ export function enableRunLog() {
     } catch {
       // The console line still prints when the log file cannot be appended.
     }
-    orig(line);
+    try {
+      orig(line);
+    } catch {
+      // A detached process can lose its console. The log file is the record.
+    }
   };
   console.log = wrap(console.log.bind(console));
   console.error = wrap(console.error.bind(console));
