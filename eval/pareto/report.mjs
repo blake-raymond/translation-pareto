@@ -2,9 +2,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { writeJson } from "../api.mjs";
-import { languageName } from "./languages.mjs";
-import { invokedDirectly, mean, mulberry32, parseArgs, seedMix } from "./lib.mjs";
+import { languageName, TARGET_CODES } from "./languages.mjs";
+import { invokedDirectly, loadParetoLedger, mean, mulberry32, parseArgs, seedMix } from "./lib.mjs";
 import {
+  BENCH_PER_LANG,
+  CHAT_PER_LANG,
   JUDGEMENTS_FILE,
   REPORT_MD,
   REPORT_SVG,
@@ -230,11 +232,19 @@ export function analyze(opts = parseArgs()) {
       row.vsBest = diff;
     }
   }
+  const pairCache = new Map();
+  function pairCI(a, b) {
+    const key = `${a.slug}||${b.slug}`;
+    if (!pairCache.has(key)) {
+      pairCache.set(key, pairedDiff(a.groups, b.groups, mulberry32(seedMix("pair", a.slug, b.slug))));
+    }
+    return pairCache.get(key);
+  }
   const frontier = rows.filter((row) => {
     if (row.mean == null || row.costPer1k == null) return false;
     return !rows.some((other) => {
       if (other.slug === row.slug || other.mean == null || other.costPer1k == null) return false;
-      const diff = pairedDiff(other.groups, row.groups, mulberry32(seedMix("dom", other.slug, row.slug)));
+      const diff = pairCI(other, row);
       const clearlyWorse = diff.low > 0;
       const notCheaper = row.costPer1k + 1e-12 >= other.costPer1k;
       return clearlyWorse && notCheaper;
@@ -317,10 +327,51 @@ function markdown(opts, analysis, spend) {
   ].join("\n");
 }
 
+function spendFromLedger(opts, cases) {
+  const ledger = loadParetoLedger(opts.pilot);
+  const kind = (prefix) => (ledger.events || [])
+    .filter((event) => String(event.kind || "").startsWith(prefix))
+    .reduce((sum, event) => sum + (Number(event.cost_usd) || 0), 0);
+  const chatUsd = kind("chat");
+  const translateUsd = kind("translate");
+  const judgeUsd = kind("judge");
+  const nCases = cases.length;
+  const nChat = cases.filter((item) => item.kind === "chat").length;
+  const nFullLangs = TARGET_CODES.length;
+  const nFullCases = nFullLangs * (BENCH_PER_LANG + CHAT_PER_LANG);
+  const nAsked = 73 * (BENCH_PER_LANG + CHAT_PER_LANG);
+  const scaleChat = nChat ? (nFullLangs * CHAT_PER_LANG) / nChat : 0;
+  const scaleCases = nCases ? nFullCases / nCases : 0;
+  const projected = chatUsd * scaleChat + translateUsd * scaleCases + judgeUsd * scaleCases;
+  const projectedAsked = chatUsd * ((73 * CHAT_PER_LANG) / Math.max(nChat, 1))
+    + (translateUsd + judgeUsd) * (nAsked / Math.max(nCases, 1));
+  const perCase = nCases ? ledger.spent / nCases : 0;
+  const perTranslate = nCases ? translateUsd / (nCases * 12) : 0;
+  return [
+    `Pilot spend (OpenRouter \`usage.cost\`, cap $${Number(ledger.cap).toFixed(2)}): **$${ledger.spent.toFixed(4)}**.`,
+    "",
+    `| Step | USD |`,
+    `| --- | ---: |`,
+    `| Chat drafting | $${chatUsd.toFixed(4)} |`,
+    `| Translations | $${translateUsd.toFixed(4)} |`,
+    `| Judge | $${judgeUsd.toFixed(4)} |`,
+    `| Total | $${ledger.spent.toFixed(4)} |`,
+    "",
+    `Measured cost per case (all models + share of drafting and judging): **$${perCase.toFixed(4)}**.`,
+    `Measured translation cost per model×case: **$${perTranslate.toFixed(5)}**.`,
+    "",
+    `Projected full run for ${nFullLangs} non-English languages × ${BENCH_PER_LANG} benchmark + ${CHAT_PER_LANG} chat (linear scale from this pilot): **$${projected.toFixed(2)}**.`,
+    `Same projection at 73 × 30 cases: **$${projectedAsked.toFixed(2)}**.`,
+    "",
+    "The full run was not started.",
+  ].join("\n");
+}
+
 export function writeReport(opts = parseArgs(), spendText = "") {
   const analysis = analyze(opts);
+  const spend = spendText || (opts.pilot ? spendFromLedger(opts, analysis.cases) : spendText);
   fs.mkdirSync(path.dirname(REPORT_MD), { recursive: true });
-  fs.writeFileSync(REPORT_MD, markdown(opts, analysis, spendText), "utf8");
+  fs.writeFileSync(REPORT_MD, markdown(opts, analysis, spend), "utf8");
   fs.writeFileSync(REPORT_SVG, svgChart(analysis.rows.filter((row) => row.costPer1k > 0 && row.mean != null), analysis.frontier), "utf8");
   writeJson(path.join(RESULTS_DIR, "summary.json"), {
     rows: analysis.rows.map(({ groups, ...rest }) => rest),
