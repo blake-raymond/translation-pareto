@@ -4,7 +4,7 @@
   "flores_status": 401,
   "hf_token": false,
   "bench_per_lang": 40,
-  "chat_per_lang": 20,
+  "chat_per_lang": null,
   "languages": [
     {
       "lang": "af",
@@ -17,8 +17,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sq",
@@ -31,8 +30,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "am",
@@ -45,8 +43,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ar",
@@ -60,8 +57,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "hy",
@@ -74,8 +70,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "as",
@@ -88,8 +83,7 @@
       "n_benchmark": 40,
       "domains": {
         "tatoeba": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "az",
@@ -102,8 +96,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "bn",
@@ -117,8 +110,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "bho",
@@ -131,8 +123,7 @@
       "n_benchmark": 10,
       "domains": {
         "tatoeba": 10
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "bg",
@@ -146,8 +137,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "my",
@@ -160,8 +150,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "zh-HK",
@@ -174,8 +163,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ca",
@@ -189,8 +177,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ceb",
@@ -203,8 +190,7 @@
       "n_benchmark": 40,
       "domains": {
         "tatoeba": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "hr",
@@ -218,8 +204,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "cs",
@@ -233,8 +218,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "da",
@@ -248,8 +232,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "nl",
@@ -263,8 +246,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "fi",
@@ -278,8 +260,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "fr",
@@ -293,8 +274,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "de",
@@ -308,8 +288,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "el",
@@ -323,8 +302,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "gu",
@@ -338,8 +316,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ha",
@@ -352,8 +329,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "he",
@@ -367,8 +343,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "hi",
@@ -382,8 +357,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "hu",
@@ -397,8 +371,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ig",
@@ -411,8 +384,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "id",
@@ -426,8 +398,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "it",
@@ -441,8 +412,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ja",
@@ -456,8 +426,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "jv",
@@ -470,8 +439,7 @@
       "n_benchmark": 40,
       "domains": {
         "tatoeba": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "kn",
@@ -485,8 +453,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "kk",
@@ -499,8 +466,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "km",
@@ -513,8 +479,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ko",
@@ -528,8 +493,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ku",
@@ -542,8 +506,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "lo",
@@ -556,8 +519,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ms",
@@ -570,8 +532,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ml",
@@ -585,8 +546,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "zh-CN",
@@ -600,8 +560,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "mr",
@@ -615,8 +574,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ne",
@@ -629,8 +587,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "no",
@@ -644,8 +601,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "or",
@@ -658,8 +614,7 @@
       "n_benchmark": 21,
       "domains": {
         "tatoeba": 21
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ps",
@@ -672,8 +627,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "fa",
@@ -687,8 +641,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "pl",
@@ -702,8 +655,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "pt",
@@ -717,8 +669,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "pa",
@@ -732,8 +683,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ro",
@@ -747,8 +697,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ru",
@@ -762,8 +711,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sr",
@@ -777,8 +725,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sd",
@@ -791,8 +738,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "si",
@@ -805,8 +751,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sk",
@@ -820,8 +765,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "so",
@@ -834,8 +778,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "es",
@@ -849,8 +792,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "su",
@@ -863,8 +805,7 @@
       "n_benchmark": 14,
       "domains": {
         "tatoeba": 14
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sw",
@@ -878,8 +819,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "sv",
@@ -893,8 +833,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "tl",
@@ -908,8 +847,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ta",
@@ -923,8 +861,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "te",
@@ -938,8 +875,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "th",
@@ -953,8 +889,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "tr",
@@ -968,8 +903,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "uk",
@@ -983,8 +917,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "ur",
@@ -998,8 +931,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "uz",
@@ -1012,8 +944,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "vi",
@@ -1027,8 +958,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "yo",
@@ -1041,8 +971,7 @@
       "n_benchmark": 40,
       "domains": {
         "news": 40
-      },
-      "n_chat": 20
+      }
     },
     {
       "lang": "zu",
@@ -1056,8 +985,7 @@
       "domains": {
         "social": 20,
         "speech": 20
-      },
-      "n_chat": 20
+      }
     }
   ],
   "missing": [],
@@ -1079,6 +1007,5 @@
     }
   ],
   "n_cases": 2805,
-  "n_benchmark": 2805,
-  "n_chat": 1440
+  "n_benchmark": 2805
 }

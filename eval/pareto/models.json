@@ -7,7 +7,9 @@
     "name": "Anthropic: Claude Opus 5.5",
     "prompt_per_million": 4,
     "completion_per_million": 20,
-    "reasoning": { "effort": "low" },
+    "reasoning": {
+      "effort": "low"
+    },
     "temperature": null,
     "max_tokens": 60000,
     "note": "Single judge for the Pareto run. Temperature omitted; catalog does not list it. Reasoning effort low. Compact m,n,h,c scores."
@@ -17,7 +19,9 @@
     "name": "Anthropic: Claude Opus 5.5",
     "prompt_per_million": 4,
     "completion_per_million": 20,
-    "reasoning": { "effort": "low" },
+    "reasoning": {
+      "effort": "low"
+    },
     "temperature": null,
     "max_tokens": 8000,
     "note": "Drafts the synthetic chat layer in batches."
@@ -28,7 +32,9 @@
       "name": "Google: Gemini 3.1 Flash Lite",
       "prompt_per_million": 0.25,
       "completion_per_million": 1.5,
-      "reasoning": { "effort": "minimal" },
+      "reasoning": {
+        "effort": "minimal"
+      },
       "temperature": 0.2,
       "max_tokens": 1200
     },
@@ -37,7 +43,9 @@
       "name": "Google: Gemini 3.5 Flash Lite",
       "prompt_per_million": 0.3,
       "completion_per_million": 2.5,
-      "reasoning": { "effort": "minimal" },
+      "reasoning": {
+        "effort": "minimal"
+      },
       "temperature": 0.2,
       "max_tokens": 1200
     },
@@ -46,25 +54,20 @@
       "name": "Google: Gemini 2.5 Flash",
       "prompt_per_million": 0.3,
       "completion_per_million": 2.5,
-      "reasoning": { "enabled": false },
+      "reasoning": {
+        "enabled": false
+      },
       "temperature": 0.2,
       "max_tokens": 400
-    },
-    {
-      "slug": "google/gemini-2.5-pro",
-      "name": "Google: Gemini 2.5 Pro",
-      "prompt_per_million": 1.25,
-      "completion_per_million": 10,
-      "reasoning": { "effort": "minimal" },
-      "temperature": 0.2,
-      "max_tokens": 1200
     },
     {
       "slug": "deepseek/deepseek-v4.1-flash-1017",
       "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
       "prompt_per_million": 0.15,
       "completion_per_million": 0.6,
-      "reasoning": { "effort": "none" },
+      "reasoning": {
+        "effort": "none"
+      },
       "temperature": 0.2,
       "max_tokens": 800
     },
@@ -73,7 +76,9 @@
       "name": "Anthropic: Claude Haiku 5.5",
       "prompt_per_million": 0.1,
       "completion_per_million": 0.5,
-      "reasoning": { "effort": "none" },
+      "reasoning": {
+        "effort": "none"
+      },
       "temperature": null,
       "max_tokens": 500
     },
@@ -91,7 +96,9 @@
       "name": "SpaceXAI: Grok 4.20",
       "prompt_per_million": 1.25,
       "completion_per_million": 2.5,
-      "reasoning": { "enabled": false },
+      "reasoning": {
+        "enabled": false
+      },
       "temperature": 0.2,
       "max_tokens": 400
     },
@@ -100,7 +107,9 @@
       "name": "Google: Gemini 2.5 Flash Lite",
       "prompt_per_million": 0.1,
       "completion_per_million": 0.4,
-      "reasoning": { "enabled": false },
+      "reasoning": {
+        "enabled": false
+      },
       "temperature": 0.2,
       "max_tokens": 400
     },
@@ -118,7 +127,9 @@
       "name": "OpenAI: GPT-5 Mini",
       "prompt_per_million": 0.25,
       "completion_per_million": 2,
-      "reasoning": { "effort": "minimal" },
+      "reasoning": {
+        "effort": "minimal"
+      },
       "temperature": null,
       "max_tokens": 1200
     },
@@ -127,7 +138,9 @@
       "name": "OpenAI: GPT-5 Nano",
       "prompt_per_million": 0.05,
       "completion_per_million": 0.4,
-      "reasoning": { "effort": "minimal" },
+      "reasoning": {
+        "effort": "minimal"
+      },
       "temperature": null,
       "max_tokens": 1200
     }
