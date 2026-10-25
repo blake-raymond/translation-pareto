@@ -1,0 +1,782 @@
+[
+  {
+    "id": "chat-es-01",
+    "kind": "chat",
+    "lang": "es",
+    "source": "en",
+    "target": "es",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Buenas, ¿qué le pongo? Los tomates están a 2 euros el kilo."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Are the peaches ripe?"
+      },
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Sí, muy maduros. Los melocotones a 3 euros el kilo."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Great, I'll take some peaches."
+      }
+    ],
+    "text": "Can I get a kilo and a half of the peachs and two kilos tomatos pls",
+    "meaning": "The customer wants 1.5 kg of peaches and 2 kg of tomatoes.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-es-02",
+    "kind": "chat",
+    "lang": "es",
+    "source": "es",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hi, can you take me to the train station?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "Claro, ¿a la estación de Atocha?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Yes. How long will it take and how much?"
+      }
+    ],
+    "text": "Unos veinte minutos si no hay trafico, mas o menos 18 euros, y aceptamos tarjeta tambien",
+    "meaning": "The taxi driver says it takes about 20 minutes without traffic, costs about 18 euros, and card is accepted.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-es-03",
+    "kind": "chat",
+    "lang": "es",
+    "source": "en",
+    "target": "es",
+    "problem": "pronoun-reference",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Le recomiendo la paella de marisco o el pollo al ajillo."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "I have a severe shellfish allergy."
+      },
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Entonces el pollo. Pero la salsa lleva un caldo de gambas."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Oh no. Can the kitchen make the chicken without the sauce?"
+      },
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Sí, puedo pedirlo a la plancha, sin salsa."
+      }
+    ],
+    "text": "Perfect, but please make sure it doesn't even touch the same pan as it",
+    "meaning": "The diner wants grilled chicken that does not touch the pan used for the shrimp-broth sauce, because of a shellfish allergy.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-es-04",
+    "kind": "chat",
+    "lang": "es",
+    "source": "es",
+    "target": "en",
+    "problem": "slang",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hi! First time in Mexico City?"
+      },
+      {
+        "speaker": "B",
+        "lang": "es",
+        "text": "No, yo soy de aquí. ¿Y tú?"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "First time here. Any tips for the weekend?"
+      }
+    ],
+    "text": "Ve a Xochimilco el sábado, está bien chido, pero no vayas con mucha lana, hay mucho chavo que te bolsea",
+    "meaning": "The local suggests visiting Xochimilco on Saturday, says it is really cool, and warns not to carry much money because some young people pickpocket.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-es-05",
+    "kind": "chat",
+    "lang": "es",
+    "source": "en",
+    "target": "es",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Aquí tiene su ibuprofeno de 400 miligramos."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "How many should I take a day?"
+      },
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "Una pastilla cada ocho horas, máximo tres al día, con comida."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "And my son is 9. Can he take it too?"
+      },
+      {
+        "speaker": "A",
+        "lang": "es",
+        "text": "No, para él mejor un jarabe infantil."
+      }
+    ],
+    "text": "Ok so for him the syrup, how many mill liters and how often? He waits about 30 kilos",
+    "meaning": "The parent asks how many milliliters of children's syrup to give their 9-year-old son and how often, noting he weighs about 30 kg.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ja-01",
+    "kind": "chat",
+    "lang": "ja",
+    "source": "en",
+    "target": "ja",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "こんにちは。どちらまで行きますか？"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Shinagawa Station, please."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "品川駅ですね。何口がいいですか？"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Sorry, which exit is closer to the Prince Hotel?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "プリンスホテルなら高輪口が近いですよ。"
+      }
+    ],
+    "text": "ok then can you drop me at the takanawa exti, not the nroth one",
+    "meaning": "The passenger asks the driver to drop them at the Takanawa exit of Shinagawa Station, not the north exit.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ja-02",
+    "kind": "chat",
+    "lang": "ja",
+    "source": "ja",
+    "target": "en",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hi, I have a bad cold and a sore throat."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "こちらの風邪薬はいかがですか。眠くなりにくいタイプです。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Okay. How many should I take?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "大人の方ですね。少々お待ちください。"
+      }
+    ],
+    "text": "一日二回、職後に一錠ずつ飲んでください。",
+    "meaning": "The pharmacist says to take one tablet twice a day after meals; 職後 is an IME conversion error for 食後.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ja-03",
+    "kind": "chat",
+    "lang": "ja",
+    "source": "en",
+    "target": "ja",
+    "problem": "pronoun-reference",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "My son is allergic to peanuts."
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "かしこまりました。カレーとサラダ、どちらになさいますか？"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Does the curry have them?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "はい、カレーには少し入っています。"
+      }
+    ],
+    "text": "if it does can you make his without them? mine is fine as is",
+    "meaning": "The parent asks the restaurant to make the son's curry without peanuts and says their own curry can stay as is.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ja-04",
+    "kind": "chat",
+    "lang": "ja",
+    "source": "ja",
+    "target": "en",
+    "problem": "slang",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much are these peaches?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "一個450円です。今朝届いたばかりですよ。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hmm, a bit expensive. What if I buy two?"
+      }
+    ],
+    "text": "マジっすか、じゃあ2個で800円にしとくわ！",
+    "meaning": "The vendor casually agrees to sell two peaches for 800 yen total instead of 900 yen.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ja-05",
+    "kind": "chat",
+    "lang": "ja",
+    "source": "en",
+    "target": "ja",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "おはようございます。何かお困りですか？"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "What time is checkout?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "チェックアウトは11時です。"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is a later checkout possible?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ja",
+        "text": "空き状況によっては可能です。何時ごろご希望ですか？"
+      }
+    ],
+    "text": "Could we do 1pm? Our fight leaves at 6 so we dont need to rush",
+    "meaning": "The guest asks for a 1pm late checkout because their flight leaves at 6; 'fight' is an autocorrect error for 'flight'.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-km-01",
+    "kind": "chat",
+    "lang": "km",
+    "source": "en",
+    "target": "km",
+    "problem": "pronoun-reference",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "My son has a fever. Is this syrup okay for a 6-year-old?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "បាទ ថ្នាំនេះក្មេងប្រើបាន។ ផឹក ៥ មីលីលីត្រ ម្ដង។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "And my daughter is 2. Can she take it too?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "កុំឲ្យនាងផឹកថ្នាំនេះ។ នាងតូចពេក។"
+      }
+    ],
+    "text": "ok so he gets it 3 times a day but she doesnt, right?",
+    "meaning": "The parent confirms that the 6-year-old son takes the syrup three times a day and the 2-year-old daughter does not take it.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-km-02",
+    "kind": "chat",
+    "lang": "km",
+    "source": "km",
+    "target": "en",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much to Wat Phnom?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ប្រាំមួយពាន់រៀល។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Can you wait 10 minutes while I take photos?"
+      }
+    ],
+    "text": "បាន តែរងចាំ បន្ថែម ២ពាន់រៀល",
+    "meaning": "The taxi driver agrees to wait the 10 minutes for an extra 2,000 riel on top of the 6,000 riel fare.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-km-03",
+    "kind": "chat",
+    "lang": "km",
+    "source": "en",
+    "target": "km",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "km",
+        "text": "តើលោកចង់ញ៉ាំអ្វី?"
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Fried rice please. I'm allergic to peanuts."
+      },
+      {
+        "speaker": "A",
+        "lang": "km",
+        "text": "សម្លនេះមានសណ្ដែកដី។ បាយឆាគ្មានទេ។"
+      }
+    ],
+    "text": "great, and pls no oyster sause, im alergic to shelfish too",
+    "meaning": "The customer orders the peanut-free fried rice and asks for no oyster sauce because they are also allergic to shellfish.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-km-04",
+    "kind": "chat",
+    "lang": "km",
+    "source": "km",
+    "target": "en",
+    "problem": "slang",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much for this scarf?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ក្រមានេះ ប្រាំដុល្លារ។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Can you do 4 dollars for it?"
+      }
+    ],
+    "text": "អូខេ បង ៤ដុល្លាក៏បាន ព្រោះបងឡូយ 😄",
+    "meaning": "The market seller jokingly accepts $4 for the krama scarf, down from $5, saying it is because the customer is cool.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-km-05",
+    "kind": "chat",
+    "lang": "km",
+    "source": "en",
+    "target": "km",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hi, I booked a room for three nights."
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "សូមបង្ហាញលិខិតឆ្លងដែន។ បន្ទប់លេខ ៣១២។"
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Thanks. Where is the nearest pharmacy?"
+      },
+      {
+        "speaker": "B",
+        "lang": "km",
+        "text": "ដើរត្រង់ ហើយបត់ឆ្វេងនៅភ្លើងស្តុប។"
+      }
+    ],
+    "text": "Thanks! Can I get late checkout on Sunday at 1 pm? We have a late fight",
+    "meaning": "The hotel guest in room 312 asks to check out late, at 1 pm on Sunday, because they have a late flight.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ko-01",
+    "kind": "chat",
+    "lang": "ko",
+    "source": "ko",
+    "target": "en",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "How much are these pears?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "한 개에 팔천 원이에요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Can you give me a discount if I buy two?"
+      }
+    ],
+    "text": "두 개 하면 만오쳔원에 드릴게여",
+    "meaning": "The vendor offers two pears for 15,000 won instead of 16,000 won.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ko-02",
+    "kind": "chat",
+    "lang": "ko",
+    "source": "en",
+    "target": "ko",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "어디로 모실까요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Gangnam Station, exit 11 please."
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "네, 한 25분 정도 걸려요."
+      }
+    ],
+    "text": "Could we stop at a gas station first? I really need the bathtub",
+    "meaning": "The passenger asks the driver to stop at a gas station first because they need to use the bathroom.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ko-03",
+    "kind": "chat",
+    "lang": "ko",
+    "source": "ko",
+    "target": "en",
+    "problem": "pronoun-reference",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I'm allergic to sesame. Does the bibimbap or the japchae have it?"
+      },
+      {
+        "speaker": "B",
+        "lang": "ko",
+        "text": "비빔밥에는 참기름이 들어가요."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "And the other one?"
+      }
+    ],
+    "text": "그건 안 들어가요, 대신 새우가 쪼금 있어요",
+    "meaning": "The server says the japchae has no sesame but contains a small amount of shrimp.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ko-04",
+    "kind": "chat",
+    "lang": "ko",
+    "source": "en",
+    "target": "ko",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "이 약은 식후에 드세요."
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "How many each time?"
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "한 번에 두 알이요. 6시간 간격으로요."
+      }
+    ],
+    "text": "So 2 pils every 6 hrs, max 4 tims a day?",
+    "meaning": "The customer confirms taking two pills every six hours, at most four times a day.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-ko-05",
+    "kind": "chat",
+    "lang": "ko",
+    "source": "en",
+    "target": "ko",
+    "problem": "slang",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "프런트입니다. 무엇을 도와드릴까요?"
+      },
+      {
+        "speaker": "B",
+        "lang": "en",
+        "text": "Hi, I'm in room 1207."
+      },
+      {
+        "speaker": "A",
+        "lang": "ko",
+        "text": "네, 손님. 말씀하세요."
+      }
+    ],
+    "text": "The AC's totally busted, can someone come up asap?",
+    "meaning": "The guest in room 1207 says the air conditioner is broken and asks for someone to come fix it as soon as possible.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-vi-01",
+    "kind": "chat",
+    "lang": "vi",
+    "source": "vi",
+    "target": "en",
+    "problem": "missing-diacritics",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Hi, how much are the mangoes?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Xoài cát Hòa Lộc đó chị, ngọt lắm."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is it cheaper if I buy more than one kilo?"
+      }
+    ],
+    "text": "ba chuc nghin mot ky, chi lay hai ky thi em bot cho nam nghin",
+    "meaning": "The vendor says the mangoes are 30,000 dong per kilo, and if the customer buys two kilos she will take 5,000 dong off.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-vi-02",
+    "kind": "chat",
+    "lang": "vi",
+    "source": "en",
+    "target": "vi",
+    "problem": "typo",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Can you take me to Ben Thanh Market?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Dạ được, khoảng hai mươi phút nếu không kẹt xe."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Do you take cards?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Dạ không, em chỉ nhận tiền mặt thôi."
+      }
+    ],
+    "text": "ok pls stop at the gas staton befor the brige, i need to get cash",
+    "meaning": "The passenger asks the driver to stop at the gas station before the bridge so the passenger can withdraw cash.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-vi-03",
+    "kind": "chat",
+    "lang": "vi",
+    "source": "en",
+    "target": "vi",
+    "problem": "pronoun-reference",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I'm allergic to shellfish. Which dishes are safe?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Bún riêu có cua, còn phở bò thì không có hải sản."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "And the spring rolls?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Chả giò có tôm ạ."
+      }
+    ],
+    "text": "ok so not those, I'll take the other one but no herbs pls",
+    "meaning": "The customer will not order the crab noodle soup or the shrimp spring rolls and orders the beef pho without herbs.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-vi-04",
+    "kind": "chat",
+    "lang": "vi",
+    "source": "en",
+    "target": "vi",
+    "problem": "autocorrect",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "I have a bad headache and a fever."
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Anh uống thuốc này, mỗi lần hai viên, cách sáu tiếng một lần."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is there a limit per day?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Một ngày không quá tám viên nhé."
+      }
+    ],
+    "text": "Got it, 2 pills every sex hours and no more than ate a day, right?",
+    "meaning": "The customer confirms the dose: two tablets every six hours, with a maximum of eight tablets per day.",
+    "license": "synthetic"
+  },
+  {
+    "id": "chat-vi-05",
+    "kind": "chat",
+    "lang": "vi",
+    "source": "vi",
+    "target": "en",
+    "problem": "slang",
+    "history": [
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Good evening, how can I help you?"
+      },
+      {
+        "speaker": "B",
+        "lang": "vi",
+        "text": "Em ở phòng 412, ngay cạnh thang máy."
+      },
+      {
+        "speaker": "A",
+        "lang": "en",
+        "text": "Is there a problem with the room?"
+      }
+    ],
+    "text": "Ồn xỉu luôn á, đổi giúp em phòng tầng cao hơn được hong?",
+    "meaning": "The guest in room 412 says the room is extremely noisy and asks the receptionist to move them to a room on a higher floor.",
+    "license": "synthetic"
+  }
+]
