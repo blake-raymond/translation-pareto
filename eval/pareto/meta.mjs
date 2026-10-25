@@ -1,8 +1,8 @@
 import path from "node:path";
 import { rootDir } from "../api.mjs";
 
-export const CAP_USD = 48;
-export const SOFT_CAP_USD = 40;
+export const CAP_USD = 38;
+export const SOFT_CAP_USD = 34;
 export const PILOT_CAP_USD = 1.5;
 export const SEED = 20261025;
 export const RUBRIC_VERSION = "2026-10-25-pareto-v1";
