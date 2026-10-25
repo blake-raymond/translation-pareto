@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadLedger, rootDir } from "../api.mjs";
+import { loadLedger, publicError, rootDir } from "../api.mjs";
 import { PILOT_LANGS, TARGET_CODES } from "./languages.mjs";
-import { CAP_USD, LEDGER_FILE, PILOT_CAP_USD, RESULTS_DIR, SEED } from "./meta.mjs";
+import { CAP_USD, LEDGER_FILE, PILOT_CAP_USD, RESULTS_DIR, SEED, SOFT_CAP_USD } from "./meta.mjs";
 
 export function invokedDirectly(metaUrl) {
   const self = fileURLToPath(metaUrl);
@@ -14,6 +14,7 @@ export function invokedDirectly(metaUrl) {
 export function parseArgs(argv = process.argv) {
   const opts = {
     pilot: false,
+    full: false,
     langs: null,
     limit: null,
     only: null,
@@ -24,6 +25,7 @@ export function parseArgs(argv = process.argv) {
   for (let i = 2; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === "--pilot") opts.pilot = true;
+    else if (arg === "--full") opts.full = true;
     else if (arg === "--langs") opts.langs = String(argv[++i] || "").split(",").map((s) => s.trim()).filter(Boolean);
     else if (arg === "--limit") opts.limit = Number(argv[++i]);
     else if (arg === "--only") opts.only = String(argv[++i] || "");
@@ -35,6 +37,7 @@ export function parseArgs(argv = process.argv) {
   if (opts.limit != null && (!Number.isInteger(opts.limit) || opts.limit < 1)) {
     throw new Error("--limit must be a positive integer");
   }
+  if (opts.pilot && opts.full) throw new Error("Pass only one of --pilot or --full");
   return opts;
 }
 
@@ -116,4 +119,43 @@ export function hfToken() {
 
 export function usd(value) {
   return `$${(Number(value) || 0).toFixed(4)}`;
+}
+
+export function progress(stage, done, total, spent) {
+  console.log(`progress stage=${stage} done=${done}/${total} spend=${usd(spent)}`);
+}
+
+export function kindCost(ledger, kind) {
+  return (ledger.events || [])
+    .filter((event) => String(event.kind || "").startsWith(kind))
+    .reduce((sum, event) => sum + (Number(event.cost_usd) || 0), 0);
+}
+
+export function overSoftCap(ledger) {
+  return (Number(ledger?.spent) || 0) >= SOFT_CAP_USD;
+}
+
+export function enableRunLog() {
+  const file = process.env.PARETO_LOG;
+  if (!file || console.log.__paretoMirrored) return;
+  const wrap = (orig) => (...args) => {
+    const line = args.map((part) => {
+      if (typeof part === "string") return part;
+      if (part instanceof Error) return publicError(part);
+      try {
+        return JSON.stringify(part);
+      } catch {
+        return String(part);
+      }
+    }).join(" ");
+    try {
+      fs.appendFileSync(file, `${line}\n`);
+    } catch {
+      // The console line still prints when the log file cannot be appended.
+    }
+    orig(line);
+  };
+  console.log = wrap(console.log.bind(console));
+  console.error = wrap(console.error.bind(console));
+  console.log.__paretoMirrored = true;
 }

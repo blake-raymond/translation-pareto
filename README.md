@@ -13,13 +13,19 @@ Status: work in progress. The first run (120 cases, 12 languages, 15 models, two
 ## Running
 Create `.openrouter.env` containing `OPENROUTER_API_KEY=...` (git-ignored). Then `node eval/run.mjs`. A spend cap (`CAP_USD` in `eval/meta.mjs`) stops runs when reached.
 
-The Pareto stage has its own ledger (`eval/pareto/results/ledger.json`) and a **$48** cap (`eval/pareto/meta.mjs`). Run the 5-language pilot only until the printed projection is reviewed:
+The Pareto stage has its own ledger (`eval/pareto/results/ledger.json`) and a **$48** cap (`eval/pareto/meta.mjs`). A soft stop at **$40** halts before the next paid stage. The 5-language pilot:
 
 ```
 node eval/pareto/run.mjs --pilot
 ```
 
-That command samples benchmark data, drafts chat cases, translates, judges, writes `docs/results.md`, and **stops**. It does not start the 73-language paid run. FLORES+ is gated; without `HF_TOKEN` the sampler uses WMT24++ plus NTREX-128 and Tatoeba.
+That command samples benchmark data, drafts chat cases, translates, judges, writes `docs/results.md`, and **stops**. It does not start the paid full run. The full run (72 non-English languages, up to 40 benchmark and 20 chat cases each, 12 models, one Opus 5.5 judge, reusing the pilot cache and the same seed):
+
+```
+node eval/pareto/run.mjs --full
+```
+
+FLORES+ is gated; without `HF_TOKEN` the sampler uses WMT24++ plus NTREX-128 and Tatoeba. Languages with fewer than 40 clean segments keep every available segment. The count is recorded in `data/coverage.json`.
 
 ## Caveats
 LLM-judged, not human-verified. Single-judge results can favor the judge's own model family. Per-language results are noisy at small sample sizes; see the confidence-interval analysis in the docs.

@@ -238,9 +238,11 @@ async function postChat(apiKey, body, timeoutMs = 120000) {
 
 function retryableStatus(error) {
   const status = error?.status;
-  if (status === 429 || status === 408 || status === 502 || status === 503 || status === 504) return true;
+  if (status === 429 || status === 408 || status === 500 || status === 502 || status === 503 || status === 504) return true;
   if (status === 402 && /in-flight/i.test(String(error.message || ""))) return true;
-  return error?.name === "TimeoutError";
+  if (error?.name === "TimeoutError" || error?.name === "AbortError") return true;
+  const message = `${error?.message || ""} ${error?.cause?.message || ""} ${error?.cause?.code || ""}`;
+  return /fetch failed|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENETUNREACH|ECONNREFUSED|socket hang up/i.test(message);
 }
 
 export function creditBlocked(error) {

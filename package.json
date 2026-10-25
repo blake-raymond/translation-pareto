@@ -11,6 +11,7 @@
     "pareto:translate": "node eval/pareto/run-translate.mjs",
     "pareto:judge": "node eval/pareto/judge.mjs",
     "pareto:report": "node eval/pareto/report.mjs",
-    "pareto:pilot": "node eval/pareto/run.mjs --pilot"
+    "pareto:pilot": "node eval/pareto/run.mjs --pilot",
+    "pareto:full": "node eval/pareto/run.mjs --full"
   }
 }

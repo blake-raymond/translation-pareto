@@ -2,12 +2,13 @@ import path from "node:path";
 import { rootDir } from "../api.mjs";
 
 export const CAP_USD = 48;
+export const SOFT_CAP_USD = 40;
 export const PILOT_CAP_USD = 1.5;
 export const SEED = 20261025;
 export const RUBRIC_VERSION = "2026-10-25-pareto-v1";
 export const JUDGE_SLUG = "anthropic/claude-opus-5.5";
-export const BENCH_PER_LANG = 20;
-export const CHAT_PER_LANG = 10;
+export const BENCH_PER_LANG = 40;
+export const CHAT_PER_LANG = 20;
 export const PILOT_BENCH_PER_LANG = 10;
 export const PILOT_CHAT_PER_LANG = 5;
 export const JUDGE_BATCH_SIZE = 150;
