@@ -19,6 +19,9 @@ import {
   RUBRIC_VERSION,
   TRANSLATE_CONCURRENCY,
   TRANSLATIONS_FILE,
+  SUB_BENCH,
+  SUB_CHAT,
+  panelModels,
 } from "./meta.mjs";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./prompts.mjs";
 
@@ -35,8 +38,8 @@ export function loadCases(opts) {
   } catch {
     chatAll = [];
   }
-  const benchLimit = opts.pilot ? PILOT_BENCH_PER_LANG : 999;
-  const chatLimit = opts.pilot ? PILOT_CHAT_PER_LANG : 999;
+  const benchLimit = opts.pilot ? PILOT_BENCH_PER_LANG : (SUB_BENCH ?? 999);
+  const chatLimit = opts.pilot ? PILOT_CHAT_PER_LANG : (SUB_CHAT ?? 999);
   const bench = [];
   const chat = [];
   const benchCount = new Map();
@@ -72,11 +75,28 @@ function translationHash(model, item) {
   });
 }
 
+// Optional per-model start-rate throttle for new-account 20 rpm limits. PARETO_RPM=slug=18,slug=18
+const RPM = Object.fromEntries(String(process.env.PARETO_RPM || "").split(",").filter(Boolean).map((pair) => {
+  const [slug, n] = pair.split("=");
+  return [slug, Number(n)];
+}));
+const nextAt = new Map();
+async function throttle(slug) {
+  const rpm = RPM[slug];
+  if (!rpm) return;
+  const gap = 60000 / rpm;
+  const now = Date.now();
+  const at = Math.max(now, nextAt.get(slug) || 0);
+  nextAt.set(slug, at + gap);
+  if (at > now) await new Promise((resolve) => setTimeout(resolve, at - now));
+}
+
 async function translateOne(apiKey, ledger, model, item) {
   const hash = translationHash(model, item);
   const file = cacheFile("pareto", "translations", model.slug, `${item.id}.json`);
   const cached = readCache(file, hash);
   if (cached?.result) return { ...cached.result, cached: true };
+  await throttle(model.slug);
   if (ledger.aborted) {
     return {
       case_id: item.id,
@@ -126,7 +146,7 @@ async function translateOne(apiKey, ledger, model, item) {
 
 export function translateWork(opts = parseArgs()) {
   const cases = loadCases(opts);
-  const models = catalog().models.filter((model) => !opts.only || model.slug === opts.only);
+  const models = panelModels(catalog()).filter((model) => !opts.only || model.slug === opts.only);
   let cached = 0;
   let pending = 0;
   for (const item of cases) {
@@ -146,7 +166,7 @@ export async function runTranslate(opts = parseArgs()) {
   }
   const cases = loadCases(opts);
   if (opts.limit) cases.splice(opts.limit);
-  const models = catalog().models.filter((model) => !opts.only || model.slug === opts.only);
+  const models = panelModels(catalog()).filter((model) => !opts.only || model.slug === opts.only);
   if (!models.length) throw new Error("no models");
   const apiKey = loadKey();
   const ledger = loadParetoLedger(opts.pilot);

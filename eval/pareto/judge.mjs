@@ -9,6 +9,9 @@ import {
   RESULTS_DIR,
   RUBRIC_VERSION,
   TRANSLATIONS_FILE,
+  JUDGE_DIR,
+  MAX_BATCHES,
+  panelModels,
 } from "./meta.mjs";
 import { loadCases } from "./run-translate.mjs";
 
@@ -99,7 +102,7 @@ function chunk(items, size) {
 }
 
 function judgeDir() {
-  return path.join(RESULTS_DIR, "judge");
+  return JUDGE_DIR;
 }
 
 function caseFile(id) {
@@ -186,7 +189,7 @@ export function judgeWork(opts = parseArgs()) {
     runs = [];
   }
   const spec = catalog().judge;
-  const slugs = catalog().models.map((model) => model.slug);
+  const slugs = panelModels(catalog()).map((model) => model.slug);
   const imported = ingestLegacyBatches(cases, slugs, runs, spec.slug);
   let cached = 0;
   for (const item of cases) {
@@ -217,7 +220,7 @@ export async function runJudge(opts = parseArgs()) {
   const cases = loadCases(opts);
   const runs = loadRuns();
   const spec = catalog().judge;
-  const slugs = catalog().models.map((model) => model.slug);
+  const slugs = panelModels(catalog()).map((model) => model.slug);
   const apiKey = loadKey();
   const ledger = loadParetoLedger(opts.pilot);
   fs.mkdirSync(path.join(judgeDir(), "cases"), { recursive: true });
@@ -233,6 +236,7 @@ export async function runJudge(opts = parseArgs()) {
     else todo.push(packed);
   }
   const batches = chunk(todo, JUDGE_BATCH_SIZE);
+  if (MAX_BATCHES) batches.splice(MAX_BATCHES);
   const meta = [];
   let parseFailures = 0;
   console.log(`judge batches=${batches.length} uncached=${todo.length} cached=${cases.length - todo.length} cands=${slugs.length} spent=$${ledger.spent.toFixed(4)} cap=$${ledger.cap}`);
