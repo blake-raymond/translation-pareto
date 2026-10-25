@@ -1,0 +1,347 @@
+// Per-model means, critical rates, cost/1k, hierarchical bootstrap CIs, Pareto chart.
+import fs from "node:fs";
+import path from "node:path";
+import { writeJson } from "../api.mjs";
+import { languageName } from "./languages.mjs";
+import { invokedDirectly, mean, mulberry32, parseArgs, seedMix } from "./lib.mjs";
+import {
+  JUDGEMENTS_FILE,
+  REPORT_MD,
+  REPORT_SVG,
+  RESULTS_DIR,
+  TRANSLATIONS_FILE,
+} from "./meta.mjs";
+import { loadCases } from "./run-translate.mjs";
+
+function catalog() {
+  return JSON.parse(fs.readFileSync(new URL("./models.json", import.meta.url), "utf8"));
+}
+
+function loadJson(file) {
+  return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function langOf(item) {
+  if (item.kind === "chat") return item.lang || (item.source === "en" ? item.target : item.source);
+  return item.target;
+}
+
+function percentile(sorted, p) {
+  if (!sorted.length) return null;
+  const index = (sorted.length - 1) * p;
+  const low = Math.floor(index);
+  const high = Math.ceil(index);
+  if (low === high) return sorted[low];
+  return sorted[low] * (high - index) + sorted[high] * (index - low);
+}
+
+function hierarchicalGroups(cases, scores, slug, kind) {
+  const groups = new Map();
+  for (const item of cases) {
+    const cell = scores[item.id]?.[slug];
+    if (!cell) continue;
+    if (kind && item.kind !== kind) continue;
+    const lang = langOf(item);
+    if (!groups.has(lang)) groups.set(lang, []);
+    groups.get(lang).push(cell);
+  }
+  return [...groups.entries()].map(([lang, cells]) => ({ lang, cells }));
+}
+
+function bootstrapStat(groups, rng, fn) {
+  if (!groups.length) return [];
+  const means = [];
+  const iters = 2000;
+  for (let i = 0; i < iters; i += 1) {
+    const langDraws = [];
+    for (let j = 0; j < groups.length; j += 1) {
+      const group = groups[Math.floor(rng() * groups.length)];
+      const cells = [];
+      for (let k = 0; k < group.cells.length; k += 1) {
+        cells.push(group.cells[Math.floor(rng() * group.cells.length)]);
+      }
+      langDraws.push(cells);
+    }
+    means.push(fn(langDraws));
+  }
+  means.sort((a, b) => a - b);
+  return means;
+}
+
+function ciFrom(samples) {
+  if (!samples.length) return { low: null, high: null };
+  return {
+    low: percentile(samples, 0.025),
+    high: percentile(samples, 0.975),
+  };
+}
+
+function overallMean(langDraws) {
+  const langMeans = langDraws.map((cells) => mean(cells.map((cell) => cell.score)));
+  return mean(langMeans);
+}
+
+function overallCrit(langDraws) {
+  const langMeans = langDraws.map((cells) => mean(cells.map((cell) => (cell.critical_error ? 1 : 0))));
+  return mean(langMeans);
+}
+
+function pairedDiff(groupsA, groupsB, rng) {
+  const byLang = new Map(groupsB.map((group) => [group.lang, group]));
+  const paired = [];
+  for (const a of groupsA) {
+    const b = byLang.get(a.lang);
+    if (!b) continue;
+    paired.push({ lang: a.lang, a: a.cells, b: b.cells });
+  }
+  const samples = [];
+  const iters = 2000;
+  for (let i = 0; i < iters; i += 1) {
+    const diffs = [];
+    for (let j = 0; j < paired.length; j += 1) {
+      const group = paired[Math.floor(rng() * paired.length)];
+      const drawA = [];
+      const drawB = [];
+      for (let k = 0; k < group.a.length; k += 1) drawA.push(group.a[Math.floor(rng() * group.a.length)]);
+      for (let k = 0; k < group.b.length; k += 1) drawB.push(group.b[Math.floor(rng() * group.b.length)]);
+      diffs.push(mean(drawA.map((cell) => cell.score)) - mean(drawB.map((cell) => cell.score)));
+    }
+    samples.push(mean(diffs));
+  }
+  samples.sort((a, b) => a - b);
+  return { mean: mean(samples), ...ciFrom(samples) };
+}
+
+function fmt(value, digits = 2) {
+  if (value == null || Number.isNaN(value)) return "—";
+  return Number(value).toFixed(digits);
+}
+
+function usd(value) {
+  if (value == null || Number.isNaN(value)) return "—";
+  return `$${Number(value).toFixed(3)}`;
+}
+
+function shortName(slug) {
+  return slug.split("/").pop();
+}
+
+function svgChart(rows, frontier) {
+  const width = 960;
+  const height = 560;
+  const pad = { l: 70, r: 180, t: 36, b: 56 };
+  const costs = rows.map((row) => row.costPer1k).filter((value) => value > 0);
+  const minC = Math.min(...costs) / 1.15;
+  const maxC = Math.max(...costs) * 1.15;
+  const minS = 1;
+  const maxS = 5;
+  const xOf = (cost) => {
+    const t = (Math.log(cost) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC));
+    return pad.l + t * (width - pad.l - pad.r);
+  };
+  const yOf = (score) => pad.t + (1 - (score - minS) / (maxS - minS)) * (height - pad.t - pad.b);
+  const ticks = [];
+  const logMin = Math.log10(minC);
+  const logMax = Math.log10(maxC);
+  for (let p = Math.floor(logMin); p <= Math.ceil(logMax); p += 1) {
+    for (const m of [1, 2, 5]) {
+      const v = m * 10 ** p;
+      if (v >= minC && v <= maxC) ticks.push(v);
+    }
+  }
+  const front = [...frontier].sort((a, b) => a.costPer1k - b.costPer1k);
+  const line = front.map((row, i) => `${i ? "L" : "M"}${xOf(row.costPer1k).toFixed(1)},${yOf(row.mean).toFixed(1)}`).join(" ");
+  const dots = rows.map((row) => {
+    const x = xOf(row.costPer1k);
+    const y = yOf(row.mean);
+    const on = frontier.some((item) => item.slug === row.slug);
+    return [
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${on ? 6 : 4.5}" fill="${on ? "#0f766e" : "#64748b"}" />`,
+      `<text x="${(x + 8).toFixed(1)}" y="${(y + 4).toFixed(1)}" font-size="11" font-family="Segoe UI, sans-serif" fill="#111827">${shortName(row.slug)}</text>`,
+    ].join("");
+  }).join("\n");
+  const xticks = ticks.map((v) => {
+    const x = xOf(v);
+    return `<line x1="${x}" y1="${height - pad.b}" x2="${x}" y2="${height - pad.b + 6}" stroke="#111"/><text x="${x}" y="${height - pad.b + 20}" text-anchor="middle" font-size="11" font-family="Segoe UI, sans-serif">$${v < 1 ? v.toFixed(2) : v.toFixed(v >= 10 ? 0 : 1)}</text>`;
+  }).join("");
+  const yticks = [1, 2, 3, 4, 5].map((v) => {
+    const y = yOf(v);
+    return `<line x1="${pad.l - 6}" y1="${y}" x2="${pad.l}" y2="${y}" stroke="#111"/><text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="11" font-family="Segoe UI, sans-serif">${v}</text><line x1="${pad.l}" y1="${y}" x2="${width - pad.r}" y2="${y}" stroke="#e5e7eb"/>`;
+  }).join("");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="${width / 2}" y="24" text-anchor="middle" font-size="16" font-family="Segoe UI, sans-serif" font-weight="600">Translation cost vs quality</text>
+  ${yticks}
+  <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${height - pad.b}" stroke="#111"/>
+  <line x1="${pad.l}" y1="${height - pad.b}" x2="${width - pad.r}" y2="${height - pad.b}" stroke="#111"/>
+  ${xticks}
+  <path d="${line}" fill="none" stroke="#0f766e" stroke-width="2"/>
+  ${dots}
+  <text x="${(pad.l + width - pad.r) / 2}" y="${height - 12}" text-anchor="middle" font-size="12" font-family="Segoe UI, sans-serif">USD per 1,000 messages (log)</text>
+  <text x="18" y="${height / 2}" text-anchor="middle" font-size="12" font-family="Segoe UI, sans-serif" transform="rotate(-90 18 ${height / 2})">Mean judge score</text>
+</svg>
+`;
+}
+
+export function analyze(opts = parseArgs()) {
+  const cases = loadCases(opts);
+  const judgements = loadJson(JUDGEMENTS_FILE);
+  const translations = loadJson(TRANSLATIONS_FILE);
+  const models = catalog().models;
+  const scores = judgements.scores || {};
+  const rows = [];
+  for (const model of models) {
+    const groups = hierarchicalGroups(cases, scores, model.slug);
+    const cells = groups.flatMap((group) => group.cells);
+    const runs = (translations.runs || []).filter((run) => run.slug === model.slug && run.output && !run.error);
+    const cost = runs.reduce((sum, run) => sum + (run.cost_usd || 0), 0);
+    const costPer1k = runs.length ? (cost / runs.length) * 1000 : null;
+    const rng = mulberry32(seedMix("ci", model.slug));
+    const meanSamples = bootstrapStat(groups, rng, overallMean);
+    const critSamples = bootstrapStat(groups, mulberry32(seedMix("crit", model.slug)), overallCrit);
+    const langMeans = {};
+    for (const group of groups) langMeans[group.lang] = mean(group.cells.map((cell) => cell.score));
+    rows.push({
+      slug: model.slug,
+      name: model.name,
+      n: cells.length,
+      mean: mean(groups.map((group) => mean(group.cells.map((cell) => cell.score)))),
+      meaning: mean(cells.map((cell) => cell.meaning)),
+      naturalness: mean(cells.map((cell) => cell.naturalness)),
+      handling: mean(cells.map((cell) => cell.handling)),
+      crit: mean(cells.map((cell) => (cell.critical_error ? 1 : 0))),
+      ci: ciFrom(meanSamples),
+      critCi: ciFrom(critSamples),
+      costPer1k,
+      translateCost: cost,
+      nCost: runs.length,
+      langMeans,
+      groups,
+    });
+  }
+  rows.sort((a, b) => (b.mean ?? -1) - (a.mean ?? -1));
+  const best = rows[0];
+  const paired = [];
+  if (best) {
+    for (const row of rows.slice(1)) {
+      const diff = pairedDiff(best.groups, row.groups, mulberry32(seedMix("pair", best.slug, row.slug)));
+      paired.push({ slug: row.slug, vs: best.slug, ...diff });
+      row.vsBest = diff;
+    }
+  }
+  const frontier = rows.filter((row) => {
+    if (row.mean == null || row.costPer1k == null) return false;
+    return !rows.some((other) => {
+      if (other.slug === row.slug || other.mean == null || other.costPer1k == null) return false;
+      const diff = pairedDiff(other.groups, row.groups, mulberry32(seedMix("dom", other.slug, row.slug)));
+      const clearlyWorse = diff.low > 0;
+      const notCheaper = row.costPer1k + 1e-12 >= other.costPer1k;
+      return clearlyWorse && notCheaper;
+    });
+  }).sort((a, b) => a.costPer1k - b.costPer1k);
+
+  return { cases, rows, paired, frontier, judgements, translations, models };
+}
+
+function markdown(opts, analysis, spend) {
+  const { rows, paired, frontier, cases } = analysis;
+  const langs = [...new Set(cases.map(langOf))];
+  const nBench = cases.filter((item) => item.kind === "benchmark").length;
+  const nChat = cases.filter((item) => item.kind === "chat").length;
+  const banner = opts.pilot
+    ? [
+      "# Pareto translation eval — PILOT",
+      "",
+      "This is a **5-language pilot** (vi, km, ja, ko, es), 10 benchmark + 5 chat cases each, 12 models, one judge (`anthropic/claude-opus-5.5`). It is not the full 73-language run.",
+      "",
+    ]
+    : ["# Pareto translation eval", ""];
+  const table = [
+    "| Model | Mean | 95% CI | Critical | USD / 1k | n |",
+    "| --- | ---: | --- | ---: | ---: | ---: |",
+    ...rows.map((row) => `| \`${row.slug}\` | ${fmt(row.mean)} | ${fmt(row.ci.low)}–${fmt(row.ci.high)} | ${fmt((row.crit || 0) * 100, 1)}% | ${usd(row.costPer1k)} | ${row.n} |`),
+  ];
+  const pairTable = [
+    "| Model | Mean − best | 95% CI |",
+    "| --- | ---: | --- |",
+    ...paired.map((row) => `| \`${row.slug}\` | ${fmt(row.mean, 3)} | ${fmt(row.low, 3)}–${fmt(row.high, 3)} |`),
+  ];
+  const langTable = [
+    `| Model | ${langs.join(" | ")} |`,
+    `| --- | ${langs.map(() => "---:").join(" | ")} |`,
+    ...rows.map((row) => `| \`${row.slug}\` | ${langs.map((lang) => fmt(row.langMeans[lang])).join(" | ")} |`),
+  ];
+  return [
+    ...banner,
+    "## Method",
+    "",
+    `Cases: ${cases.length} (${nBench} benchmark, ${nChat} chat) across ${langs.length} languages: ${langs.map(languageName).join(", ")}.`,
+    "Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded.",
+    "Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5.",
+    "Each candidate used the interpreter system prompt in `eval/prompts/v1.txt` with conversation history on chat items.",
+    "One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.",
+    "Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.",
+    "A model is on the Pareto frontier unless another model is **clearly better** (paired bootstrap CI of the difference is entirely positive) **and** the worse model is not cheaper.",
+    "",
+    "## Quality against cost",
+    "",
+    ...table,
+    "",
+    "![Pareto scatter](pareto.svg)",
+    "",
+    "## Pareto frontier",
+    "",
+    frontier.length
+      ? frontier.map((row) => `- \`${row.slug}\` — mean ${fmt(row.mean)}, ${usd(row.costPer1k)} / 1k`).join("\n")
+      : "No frontier (missing scores or costs).",
+    "",
+    "## Paired differences vs the best model",
+    "",
+    rows[0] ? `Best mean: \`${rows[0].slug}\`.` : "",
+    "",
+    ...pairTable,
+    "",
+    "## Per language",
+    "",
+    ...langTable,
+    "",
+    "## Spend",
+    "",
+    spend ? spend : "_Spend summary is filled by `eval/pareto/run.mjs`._",
+    "",
+    "## Limits",
+    "",
+    "LLM-judged, not human-verified. A single Opus judge can favor its own family. Per-language cells are noisy at this sample size. WMT24++ locales (for example Mexican Spanish, Egyptian Arabic) stand in for the language, not every variety.",
+    "",
+  ].join("\n");
+}
+
+export function writeReport(opts = parseArgs(), spendText = "") {
+  const analysis = analyze(opts);
+  fs.mkdirSync(path.dirname(REPORT_MD), { recursive: true });
+  fs.writeFileSync(REPORT_MD, markdown(opts, analysis, spendText), "utf8");
+  fs.writeFileSync(REPORT_SVG, svgChart(analysis.rows.filter((row) => row.costPer1k > 0 && row.mean != null), analysis.frontier), "utf8");
+  writeJson(path.join(RESULTS_DIR, "summary.json"), {
+    rows: analysis.rows.map(({ groups, ...rest }) => rest),
+    frontier: analysis.frontier.map((row) => row.slug),
+    paired: analysis.paired,
+    n_cases: analysis.cases.length,
+  });
+  console.log(`report ${REPORT_MD}`);
+  console.log(`chart ${REPORT_SVG}`);
+  for (const row of analysis.rows) {
+    console.log(`${row.slug.padEnd(40)} mean ${fmt(row.mean)} ci ${fmt(row.ci.low)}–${fmt(row.ci.high)} crit ${fmt((row.crit || 0) * 100, 1)}% usd/1k ${usd(row.costPer1k)} n ${row.n}`);
+  }
+  console.log("frontier", analysis.frontier.map((row) => row.slug).join(", "));
+  return analysis;
+}
+
+if (invokedDirectly(import.meta.url)) {
+  try {
+    writeReport();
+  } catch (error) {
+    console.error(error);
+    process.exitCode = 1;
+  }
+}
