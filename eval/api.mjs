@@ -83,9 +83,9 @@ export function readCache(file, hash) {
   }
 }
 
-export function loadLedger() {
+export function loadLedger(file = LEDGER_FILE) {
   try {
-    const value = readJson(LEDGER_FILE);
+    const value = readJson(file);
     const spent = Number(value.spent_usd);
     return {
       spent: Number.isFinite(spent) ? spent : 0,
@@ -93,14 +93,16 @@ export function loadLedger() {
       aborted: false,
       reason: "",
       events: Array.isArray(value.events) ? value.events : [],
+      file,
+      cap: CAP_USD,
     };
   } catch {
-    return { spent: 0, reserved: 0, aborted: false, reason: "", events: [] };
+    return { spent: 0, reserved: 0, aborted: false, reason: "", events: [], file, cap: CAP_USD };
   }
 }
 
 export function saveLedger(ledger) {
-  writeJson(LEDGER_FILE, {
+  writeJson(ledger.file || LEDGER_FILE, {
     spent_usd: round6(ledger.spent),
     events: ledger.events,
   });
@@ -119,10 +121,11 @@ export function estimateUsd(model, inputChars, maxTokens) {
 
 export function tryReserve(ledger, estimate) {
   if (ledger.aborted) return false;
-  if (ledger.spent + ledger.reserved + estimate > CAP_USD) {
+  const cap = ledger.cap ?? CAP_USD;
+  if (ledger.spent + ledger.reserved + estimate > cap) {
     ledger.aborted = true;
     const projected = ledger.spent + ledger.reserved + estimate;
-    ledger.reason = `estimated spend ${projected.toFixed(4)} USD would exceed the ${CAP_USD} USD cap`;
+    ledger.reason = `estimated spend ${projected.toFixed(4)} USD would exceed the ${cap} USD cap`;
     return false;
   }
   ledger.reserved += estimate;
@@ -137,9 +140,10 @@ export function settle(ledger, estimate, actual, event) {
     ledger.events.push({ at: new Date().toISOString(), cost_usd: round6(cost), ...event });
     saveLedger(ledger);
   }
-  if (ledger.spent > CAP_USD) {
+  const cap = ledger.cap ?? CAP_USD;
+  if (ledger.spent > cap) {
     ledger.aborted = true;
-    ledger.reason = `actual spend ${ledger.spent.toFixed(4)} USD exceeded the ${CAP_USD} USD cap`;
+    ledger.reason = `actual spend ${ledger.spent.toFixed(4)} USD exceeded the ${cap} USD cap`;
   }
 }
 
@@ -204,7 +208,7 @@ export function costFromUsage(usage, model, counts) {
   return counts.prompt_tokens * pin + counts.completion_tokens * pout;
 }
 
-async function postChat(apiKey, body) {
+async function postChat(apiKey, body, timeoutMs = 120000) {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
@@ -212,7 +216,7 @@ async function postChat(apiKey, body) {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify(body),
-    signal: AbortSignal.timeout(120000),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   const raw = await response.text();
   let payload = null;
@@ -272,13 +276,19 @@ function mandatoryReasoning(error) {
 }
 
 function requestBody(model, messages, maxTokens, temperature, reasoning) {
-  const body = { model: model.slug, max_tokens: maxTokens, messages };
+  const body = {
+    model: model.slug,
+    max_tokens: maxTokens,
+    messages,
+    usage: { include: true },
+  };
   if (temperature != null) body.temperature = temperature;
   if (reasoning) body.reasoning = reasoning;
   return body;
 }
 
-export async function complete(apiKey, model, messages, maxTokens) {
+export async function complete(apiKey, model, messages, maxTokens, options = {}) {
+  const timeoutMs = options.timeoutMs || 120000;
   const temperature = model.temperature == null ? null : model.temperature;
   const reasonings = reasoningVariants(model);
   const attempts = [];
@@ -296,7 +306,7 @@ export async function complete(apiKey, model, messages, maxTokens) {
     if (seen.has(key)) return null;
     seen.add(key);
     try {
-      const payload = await withRetry(() => postChat(apiKey, requestBody(model, messages, maxTokens, temp, reasoning)));
+      const payload = await withRetry(() => postChat(apiKey, requestBody(model, messages, maxTokens, temp, reasoning), timeoutMs));
       return {
         payload,
         temperature: temp,
@@ -383,14 +393,15 @@ export function scriptOk(lang, text, relaxed) {
   return value.trim().length > 0;
 }
 
-export async function paidChat(apiKey, ledger, model, messages, maxTokens, event) {
-  const inputChars = messages.map((message) => message.content.length).join("").length;
-  const estimate = estimateUsd(model, inputChars, maxTokens);
+export async function paidChat(apiKey, ledger, model, messages, maxTokens, event, options = {}) {
+  const inputChars = messages.map((message) => (typeof message.content === "string" ? message.content.length : 0)).join("").length;
+  const estimateTokens = options.estimateOutputTokens ?? maxTokens;
+  const estimate = estimateUsd(model, inputChars, estimateTokens);
   if (!tryReserve(ledger, estimate)) {
     return { ok: false, error: "spend_cap", cost_usd: 0, estimate };
   }
   try {
-    const result = await complete(apiKey, model, messages, maxTokens);
+    const result = await complete(apiKey, model, messages, maxTokens, options);
     const counts = usageCounts(result.payload?.usage);
     const cost = costFromUsage(result.payload?.usage, model, counts);
     settle(ledger, estimate, cost, { ...event, slug: model.slug });

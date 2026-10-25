@@ -1,5 +1,9 @@
 node_modules/
 .openrouter.env
 .env
+.huggingface.env
 eval/results/cache/
 eval/results/ledger.json
+eval/results/.catalog-raw.json
+eval/pareto/results/
+data/raw/
