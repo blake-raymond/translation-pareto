@@ -1,19 +1,31 @@
-// Orchestrate the Pareto eval. This stage only runs the paid pilot.
+// Orchestrate the Pareto eval. --pilot is the 5-language paid sample.
+// --full runs every non-English language and reuses the pilot cache.
+import fs from "node:fs";
+import path from "node:path";
 import { ensureUtf8Console, publicError } from "../api.mjs";
 import { TARGET_CODES } from "./languages.mjs";
-import { invokedDirectly, loadParetoLedger, parseArgs, usd } from "./lib.mjs";
+import { enableRunLog, invokedDirectly, kindCost, loadParetoLedger, overSoftCap, parseArgs, progress, usd } from "./lib.mjs";
 import { collectData } from "./data.mjs";
-import { draftChat } from "./chat.mjs";
-import { runTranslate, loadCases } from "./run-translate.mjs";
-import { runJudge } from "./judge.mjs";
+import { chatWork, draftChat } from "./chat.mjs";
+import { runTranslate, loadCases, translateWork } from "./run-translate.mjs";
+import { judgeWork, runJudge } from "./judge.mjs";
 import { writeReport } from "./report.mjs";
-import { BENCH_PER_LANG, CHAT_PER_LANG } from "./meta.mjs";
+import { BENCH_PER_LANG, CAP_USD, CHAT_PER_LANG, RESULTS_DIR, SOFT_CAP_USD } from "./meta.mjs";
 import { PILOT_LANGS as PILOT } from "./languages.mjs";
 
-function kindCost(ledger, kind) {
-  return (ledger.events || [])
-    .filter((event) => String(event.kind || "").startsWith(kind))
-    .reduce((sum, event) => sum + (Number(event.cost_usd) || 0), 0);
+const STAGE_FILE = path.join(RESULTS_DIR, "full-stage.json");
+
+function readStage() {
+  try {
+    return JSON.parse(fs.readFileSync(STAGE_FILE, "utf8"));
+  } catch {
+    return { open: null };
+  }
+}
+
+function writeStage(state) {
+  fs.mkdirSync(RESULTS_DIR, { recursive: true });
+  fs.writeFileSync(STAGE_FILE, `${JSON.stringify(state)}\n`);
 }
 
 function projection(ledger, cases) {
@@ -60,48 +72,113 @@ function projection(ledger, cases) {
   };
 }
 
+function safeReport(opts, note) {
+  try {
+    writeReport(opts, note || "");
+  } catch (error) {
+    console.log(`report skipped: ${publicError(error)}`);
+    if (note) console.log(note);
+  }
+}
+
+async function runFull(opts) {
+  enableRunLog();
+  const fullOpts = { ...opts, pilot: false, full: true, langs: null };
+  console.log(`FULL START ${TARGET_CODES.length} languages ; up to ${BENCH_PER_LANG} benchmark + ${CHAT_PER_LANG} chat ; 12 models ; hard cap $${CAP_USD.toFixed(2)} ; soft stop $${SOFT_CAP_USD.toFixed(2)}`);
+  await collectData(fullOpts);
+  const stages = [
+    {
+      name: "chat",
+      pending() {
+        const work = chatWork(fullOpts);
+        return work.needsPay > 0 || work.needsWrite > 0;
+      },
+      run: () => draftChat(fullOpts),
+    },
+    {
+      name: "translate",
+      pending() {
+        return translateWork(fullOpts).pending > 0;
+      },
+      run: () => runTranslate(fullOpts),
+    },
+    {
+      name: "judge",
+      pending() {
+        return judgeWork(fullOpts).pending > 0;
+      },
+      run: () => runJudge(fullOpts),
+    },
+  ];
+  for (const stage of stages) {
+    const ledger = loadParetoLedger(false);
+    let pending = true;
+    try {
+      pending = stage.pending();
+    } catch (error) {
+      console.log(`progress stage=${stage.name} pending-check ${publicError(error)}`);
+      pending = true;
+    }
+    if (!pending) {
+      progress(stage.name, 1, 1, ledger.spent);
+      console.log(`progress stage=${stage.name} done=complete spend=${usd(ledger.spent)}`);
+      continue;
+    }
+    const continuing = readStage().open === stage.name;
+    if (!continuing && overSoftCap(ledger)) {
+      const note = `Soft stop before ${stage.name}. Spent $${ledger.spent.toFixed(4)} (soft $${SOFT_CAP_USD.toFixed(2)}, hard $${CAP_USD.toFixed(2)}). No further paid stage was started.`;
+      console.log(`SOFT STOP before ${stage.name} spend=${usd(ledger.spent)} soft=$${SOFT_CAP_USD.toFixed(2)} hard=$${CAP_USD.toFixed(2)}`);
+      console.log(note);
+      safeReport(fullOpts, note);
+      process.exitCode = 2;
+      return;
+    }
+    writeStage({ open: stage.name, at: new Date().toISOString() });
+    const result = await stage.run();
+    const after = result?.ledger || loadParetoLedger(false);
+    console.log(`stage ${stage.name} chat=${usd(kindCost(after, "chat"))} translate=${usd(kindCost(after, "translate"))} judge=${usd(kindCost(after, "judge"))} total=${usd(after.spent)}`);
+    if (after.aborted) {
+      const note = `Hard stop during ${stage.name}. ${after.reason || "aborted"} Spent $${after.spent.toFixed(4)}.`;
+      console.log(note);
+      writeStage({ open: stage.name, aborted: true, reason: after.reason || "", at: new Date().toISOString() });
+      safeReport(fullOpts, note);
+      process.exitCode = 2;
+      return;
+    }
+    writeStage({ open: null, finished: stage.name, at: new Date().toISOString() });
+  }
+  const ledger = loadParetoLedger(false);
+  console.log(`FULL DONE spend=${usd(ledger.spent)} chat=${usd(kindCost(ledger, "chat"))} translate=${usd(kindCost(ledger, "translate"))} judge=${usd(kindCost(ledger, "judge"))}`);
+  writeReport(fullOpts);
+}
+
 export async function run(opts = parseArgs()) {
   ensureUtf8Console();
+  if (opts.full) {
+    await runFull(opts);
+    return;
+  }
   if (!opts.pilot) {
     console.log("STATUS STOPPED");
-    console.log("Full paid run is disabled in this stage. Re-run with --pilot.");
+    console.log("Pass --pilot or --full.");
     process.exitCode = 2;
     return;
   }
   console.log("PILOT START 5 languages vi,km,ja,ko,es ; 10 benchmark + 5 chat ; 12 models ; cap $1.50");
   await collectData({ ...opts, pilot: false, langs: null });
   await draftChat(opts);
-  const translated = await runTranslate(opts);
+  await runTranslate(opts);
   await runJudge(opts);
   const ledger = loadParetoLedger(true);
   const cases = loadCases(opts);
   const proj = projection(ledger, cases);
-  const spendText = [
-    `Pilot spend (OpenRouter \`usage.cost\`, cap $${ledger.cap.toFixed(2)}): **$${proj.spent.toFixed(4)}**.`,
-    "",
-    `| Step | USD |`,
-    `| --- | ---: |`,
-    `| Chat drafting | $${proj.chatUsd.toFixed(4)} |`,
-    `| Translations | $${proj.translateUsd.toFixed(4)} |`,
-    `| Judge | $${proj.judgeUsd.toFixed(4)} |`,
-    `| Total | $${proj.spent.toFixed(4)} |`,
-    "",
-    `Measured cost per case (all models + share of drafting and judging): **$${proj.perCase.toFixed(4)}**.`,
-    `Measured translation cost per model×case: **$${proj.perTranslate.toFixed(5)}**.`,
-    "",
-    `Projected full run for ${proj.nFullLangs} non-English languages × ${BENCH_PER_LANG} benchmark + ${CHAT_PER_LANG} chat (linear scale from this pilot): **$${proj.projected.toFixed(2)}**.`,
-    `Same projection at 73 × 30 cases: **$${proj.projectedAsked.toFixed(2)}**.`,
-    "",
-    "The full run was not started.",
-  ].join("\n");
-  writeReport(opts, spendText);
+  writeReport(opts);
   console.log("--- PILOT COST ---");
   console.log(`spent ${usd(proj.spent)} cap $${ledger.cap}`);
   console.log(`chat ${usd(proj.chatUsd)} translate ${usd(proj.translateUsd)} judge ${usd(proj.judgeUsd)}`);
   console.log(`cost per case ${usd(proj.perCase)}`);
   console.log(`cost per translation call ${usd(proj.perTranslate)}`);
-  console.log(`projected full ${proj.nFullLangs} langs x 30 cases: ${usd(proj.projected)}`);
-  console.log(`projected 73 langs x 30 cases: ${usd(proj.projectedAsked)}`);
+  console.log(`projected full ${proj.nFullLangs} langs x ${BENCH_PER_LANG}+${CHAT_PER_LANG} cases: ${usd(proj.projected)}`);
   console.log("PILOT STOP. Full run not started.");
   if (ledger.aborted) {
     console.log(ledger.reason);
