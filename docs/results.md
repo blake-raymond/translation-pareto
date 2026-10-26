@@ -1,6 +1,8 @@
 # Pareto translation eval
 
-> Superseded by `docs/results-all15.md` (all 15 models judged together in one pass). Kept for comparison.
+> **Superseded.** Current results: [results-all15.md](results-all15.md) (all 15 models judged together in one pass, 4,242 scored cases; frontier GLM 5.3 Flash, Gemini 2.5 Flash-Lite, GPT-6 Luna). This file and its chart are kept for comparison.
+>
+> ![Current chart](pareto-all15.svg)
 
 Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), 11 models, one judge (`anthropic/claude-opus-5.5`).
 
@@ -33,7 +35,9 @@ A cheap model costs at most $0.10 per 1,000 messages. A language is flagged when
 | `qwen/qwen3-235b-a22b-2507` | 3.86 | 3.68–4.00 | 14.4% | $0.051 | 4245 |
 | `openai/gpt-5-nano` | 3.17 | 3.02–3.32 | 26.1% | $0.030 | 4245 |
 
-![Pareto scatter](pareto.svg)
+![Superseded chart: first pass, 11 models](pareto.svg)
+
+*Superseded chart from the first 11-model pass, kept for comparison. The current chart is [pareto-all15.svg](pareto-all15.svg) in [results-all15.md](results-all15.md).*
 
 ## Pareto frontier
 

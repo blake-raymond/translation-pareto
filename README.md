@@ -8,7 +8,7 @@ Status: work in progress. The first run (120 cases, 12 languages, 15 models, two
 - `eval/` the first harness: case generation and review, candidate runs, judges (`mega-judge.mjs` scores all cases in one prompt), reports (`mega-report.mjs`, `ci-check.mjs`), spend ledger and cap.
 - `eval/pareto/` the 73-language cost-vs-quality run: WMT24++ / NTREX / Tatoeba samples, synthetic chat, one Opus 5.5 judge, bootstrap CIs.
 - `data/` sampled benchmark and chat cases, plus `LICENSES.md`. Raw downloads stay in `data/raw/` (git-ignored).
-- `docs/` write-ups. Pilot/full Pareto tables land in `docs/results.md` and `docs/pareto.svg`.
+- `docs/` write-ups. Current results: `docs/results-all15.md` and `docs/pareto-all15.svg` (all 15 models, one judge pass). `docs/results.md`, `docs/results-supplement.md`, `docs/pareto.svg` and `docs/pareto-combined.svg` are superseded and kept for comparison.
 
 ## Running
 Create `.openrouter.env` containing `OPENROUTER_API_KEY=...` (git-ignored). Then `node eval/run.mjs`. A spend cap (`CAP_USD` in `eval/meta.mjs`) stops runs when reached.

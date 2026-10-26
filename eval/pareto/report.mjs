@@ -236,62 +236,76 @@ function languageFlags(rows) {
   return { flags, cheap: cheap.map((row) => row.slug), cutoff: CHEAP_USD_PER_1K };
 }
 
-function svgChart(rows, frontier) {
-  const width = 960;
-  const height = 560;
-  const pad = { l: 70, r: 180, t: 36, b: 56 };
+function svgChart(rows, frontier, info = {}) {
+  const width = 1000;
+  const height = 620;
+  const pad = { l: 70, r: 40, t: 64, b: 64 };
+  const font = 'font-family="Segoe UI, Helvetica, Arial, sans-serif"';
   const costs = rows.map((row) => row.costPer1k).filter((value) => value > 0);
-  const minC = Math.min(...costs) / 1.15;
-  const maxC = Math.max(...costs) * 1.15;
-  const minS = 1;
-  const maxS = 5;
-  const xOf = (cost) => {
-    const t = (Math.log(cost) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC));
-    return pad.l + t * (width - pad.l - pad.r);
-  };
+  const minC = Math.min(...costs) / 1.25;
+  const maxC = Math.max(...costs) * 1.6;
+  const means = rows.map((row) => row.mean);
+  const minS = Math.floor((Math.min(...means) - 0.15) * 4) / 4;
+  const maxS = Math.min(5, Math.ceil((Math.max(...means) + 0.1) * 4) / 4);
+  const xOf = (cost) => pad.l + ((Math.log(cost) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC))) * (width - pad.l - pad.r);
   const yOf = (score) => pad.t + (1 - (score - minS) / (maxS - minS)) * (height - pad.t - pad.b);
   const ticks = [];
-  const logMin = Math.log10(minC);
-  const logMax = Math.log10(maxC);
-  for (let p = Math.floor(logMin); p <= Math.ceil(logMax); p += 1) {
+  for (let p = Math.floor(Math.log10(minC)); p <= Math.ceil(Math.log10(maxC)); p += 1) {
     for (const m of [1, 2, 5]) {
       const v = m * 10 ** p;
       if (v >= minC && v <= maxC) ticks.push(v);
     }
   }
-  const front = [...frontier].sort((a, b) => a.costPer1k - b.costPer1k);
-  const line = front.map((row, i) => `${i ? "L" : "M"}${xOf(row.costPer1k).toFixed(1)},${yOf(row.mean).toFixed(1)}`).join(" ");
-  const dots = rows.map((row) => {
-    const x = xOf(row.costPer1k);
-    const y = yOf(row.mean);
-    const on = frontier.some((item) => item.slug === row.slug);
-    return [
-      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${on ? 6 : 4.5}" fill="${on ? "#0f766e" : "#64748b"}" />`,
-      `<text x="${(x + 8).toFixed(1)}" y="${(y + 4).toFixed(1)}" font-size="11" font-family="Segoe UI, sans-serif" fill="#111827">${shortName(row.slug)}</text>`,
-    ].join("");
+  const onFront = (row) => frontier.some((item) => item.slug === row.slug);
+  const front = [...frontier].sort((a, b) => a.costPer1k - b.costPer1k || a.mean - b.mean);
+  const line = front.map((row, i) => (i ? "L" : "M") + xOf(row.costPer1k).toFixed(1) + "," + yOf(row.mean).toFixed(1)).join(" ");
+  // Labels: place right of the point, then nudge vertically to avoid overlaps (greedy, 13px rows).
+  const pts = rows.map((row) => ({ row, x: xOf(row.costPer1k), y: yOf(row.mean), label: shortName(row.slug) + " " + fmt(row.mean) }));
+  const placed = [];
+  const charW = 6.1;
+  const sorted = [...pts].sort((a, b) => a.y - b.y);
+  for (const p of sorted) {
+    const w = p.label.length * charW;
+    const right = p.x + 9 + w < width - pad.r;
+    let lx = right ? p.x + 9 : p.x - 9 - w;
+    let ly = p.y + 4;
+    const hit = (y) => placed.some((q) => Math.abs(q.y - y) < 13 && lx < q.x + q.w && q.x < lx + w);
+    const base = ly;
+    const offs = [0];
+    for (let k = 1; k < 20; k += 1) offs.push(13 * k, -13 * k);
+    for (const o of offs) { ly = base + o; if (!hit(ly)) break; }
+    placed.push({ x: lx, y: ly, w });
+    p.lx = lx; p.ly = ly; p.anchor = "start";
+  }
+  const dots = pts.map((p) => {
+    const on = onFront(p.row);
+    const lead = Math.abs(p.ly - 4 - p.y) > 2 ? '<line x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" x2="' + (p.lx < p.x ? p.lx + p.label.length * charW : p.lx).toFixed(1) + '" y2="' + (p.ly - 4).toFixed(1) + '" stroke="#cbd5e1" stroke-width="1"/>' : "";
+    return lead +
+      '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (on ? 6.5 : 4.5) + '" fill="' + (on ? "#0f766e" : "#94a3b8") + '" stroke="#fff" stroke-width="1"/>' +
+      '<text x="' + p.lx.toFixed(1) + '" y="' + p.ly.toFixed(1) + '" font-size="11" ' + font + ' fill="' + (on ? "#0f766e" : "#334155") + '"' + (on ? ' font-weight="700"' : "") + ">" + p.label + "</text>";
   }).join("\n");
   const xticks = ticks.map((v) => {
     const x = xOf(v);
-    return `<line x1="${x}" y1="${height - pad.b}" x2="${x}" y2="${height - pad.b + 6}" stroke="#111"/><text x="${x}" y="${height - pad.b + 20}" text-anchor="middle" font-size="11" font-family="Segoe UI, sans-serif">$${v < 1 ? v.toFixed(2) : v.toFixed(v >= 10 ? 0 : 1)}</text>`;
+    return '<line x1="' + x + '" y1="' + pad.t + '" x2="' + x + '" y2="' + (height - pad.b) + '" stroke="#f1f5f9"/><line x1="' + x + '" y1="' + (height - pad.b) + '" x2="' + x + '" y2="' + (height - pad.b + 6) + '" stroke="#111"/><text x="' + x + '" y="' + (height - pad.b + 20) + '" text-anchor="middle" font-size="11" ' + font + ">$" + (v < 0.1 ? v.toFixed(2) : v < 1 ? v.toFixed(1) : v.toFixed(0)) + "</text>";
   }).join("");
-  const yticks = [1, 2, 3, 4, 5].map((v) => {
+  const ys = [];
+  for (let v = minS; v <= maxS + 1e-9; v += 0.25) ys.push(Number(v.toFixed(2)));
+  const yticks = ys.map((v) => {
     const y = yOf(v);
-    return `<line x1="${pad.l - 6}" y1="${y}" x2="${pad.l}" y2="${y}" stroke="#111"/><text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="11" font-family="Segoe UI, sans-serif">${v}</text><line x1="${pad.l}" y1="${y}" x2="${width - pad.r}" y2="${y}" stroke="#e5e7eb"/>`;
+    return '<line x1="' + (pad.l - 6) + '" y1="' + y + '" x2="' + pad.l + '" y2="' + y + '" stroke="#111"/><text x="' + (pad.l - 10) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" ' + font + ">" + v.toFixed(2) + '</text><line x1="' + pad.l + '" y1="' + y + '" x2="' + (width - pad.r) + '" y2="' + y + '" stroke="#e5e7eb"/>';
   }).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <rect width="100%" height="100%" fill="#fff"/>
-  <text x="${width / 2}" y="24" text-anchor="middle" font-size="16" font-family="Segoe UI, sans-serif" font-weight="600">Translation cost vs quality</text>
-  ${yticks}
-  <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${height - pad.b}" stroke="#111"/>
-  <line x1="${pad.l}" y1="${height - pad.b}" x2="${width - pad.r}" y2="${height - pad.b}" stroke="#111"/>
-  ${xticks}
-  <path d="${line}" fill="none" stroke="#0f766e" stroke-width="2"/>
-  ${dots}
-  <text x="${(pad.l + width - pad.r) / 2}" y="${height - 12}" text-anchor="middle" font-size="12" font-family="Segoe UI, sans-serif">USD per 1,000 messages (log)</text>
-  <text x="18" y="${height / 2}" text-anchor="middle" font-size="12" font-family="Segoe UI, sans-serif" transform="rotate(-90 18 ${height / 2})">Mean judge score</text>
-</svg>
-`;
+  const sub = info.subtitle || "";
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + " " + height + '">\n' +
+    '<rect width="100%" height="100%" fill="#fff"/>\n' +
+    '<text x="' + width / 2 + '" y="26" text-anchor="middle" font-size="17" ' + font + ' font-weight="600">' + (info.title || "Translation quality vs cost") + "</text>\n" +
+    '<text x="' + width / 2 + '" y="46" text-anchor="middle" font-size="12" ' + font + ' fill="#475569">' + sub + "</text>\n" +
+    yticks + xticks +
+    '<line x1="' + pad.l + '" y1="' + pad.t + '" x2="' + pad.l + '" y2="' + (height - pad.b) + '" stroke="#111"/>' +
+    '<line x1="' + pad.l + '" y1="' + (height - pad.b) + '" x2="' + (width - pad.r) + '" y2="' + (height - pad.b) + '" stroke="#111"/>\n' +
+    '<path d="' + line + '" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 4"/>\n' + dots + "\n" +
+    '<g transform="translate(' + (width - pad.r - 210) + "," + (height - pad.b - 46) + ')"><rect width="200" height="38" fill="#fff" stroke="#e2e8f0"/><circle cx="14" cy="13" r="6" fill="#0f766e"/><text x="26" y="17" font-size="11" ' + font + '>Pareto frontier (dashed line)</text><circle cx="14" cy="28" r="4.5" fill="#94a3b8"/><text x="26" y="32" font-size="11" ' + font + ">Dominated model</text></g>\n" +
+    '<text x="' + (pad.l + width - pad.r) / 2 + '" y="' + (height - 16) + '" text-anchor="middle" font-size="12" ' + font + ">Cost: USD per 1,000 messages (log scale, billed OpenRouter usage)</text>\n" +
+    '<text x="18" y="' + height / 2 + '" text-anchor="middle" font-size="12" ' + font + ' transform="rotate(-90 18 ' + height / 2 + ')">Mean judge score (1-5)</text>\n</svg>\n';
 }
 
 export function analyze(opts = parseArgs()) {
@@ -383,7 +397,7 @@ function markdown(opts, analysis, spend) {
     "",
     ...qualityTable(rows),
     "",
-    "![Pareto scatter](pareto.svg)",
+    `![Translation quality vs cost](${path.basename(REPORT_SVG)})`,
     "",
     "## Pareto frontier",
     "",
@@ -497,7 +511,7 @@ export function writeReport(opts = parseArgs(), spendText = "") {
   const spend = spendText ? `${base}\n\n${spendText}` : base;
   fs.mkdirSync(path.dirname(REPORT_MD), { recursive: true });
   fs.writeFileSync(REPORT_MD, markdown(opts, analysis, spend), "utf8");
-  fs.writeFileSync(REPORT_SVG, svgChart(analysis.rows.filter((row) => row.costPer1k > 0 && row.mean != null), analysis.frontier), "utf8");
+  fs.writeFileSync(REPORT_SVG, svgChart(analysis.rows.filter((row) => row.costPer1k > 0 && row.mean != null), analysis.frontier, { title: `Translation quality vs cost: ${analysis.models.length} models, 72 languages`, subtitle: `${Object.keys(analysis.judgements?.scores || {}).length.toLocaleString("en-US")} scored cases, one listwise judge pass (Claude Opus 5.5). Frontier: ${analysis.frontier.map((r) => shortName(r.slug)).join(", ")}` }), "utf8");
   writeJson(SUMMARY_FILE, {
     rows: strip(analysis.rows),
     benchmark: strip(analysis.benchmark),

@@ -35,7 +35,7 @@ A cheap model costs at most $0.10 per 1,000 messages. A language is flagged when
 | `minimax/minimax-m3.1-flash` | 3.55 | 3.38–3.73 | 22.1% | $0.101 | 4242 |
 | `openai/gpt-5-nano` | 3.09 | 2.93–3.24 | 30.2% | $0.030 | 4242 |
 
-![Pareto scatter](pareto.svg)
+![Translation quality vs cost](pareto-all15.svg)
 
 ## Pareto frontier
 
