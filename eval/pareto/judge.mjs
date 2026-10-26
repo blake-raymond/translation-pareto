@@ -27,10 +27,16 @@ function loadRuns() {
 function panel(item, slugs, runs, rng) {
   const cands = slugs.map((slug) => {
     const run = runs.find((row) => row.case_id === item.id && row.slug === slug);
-    return { s: slug, out: (run?.output || "").trim() || "(empty)" };
+    const out = (run?.output || "").trim();
+    if (!out || run?.error) {
+      throw new Error(`judge refuses empty or errored candidate: case=${item.id} slug=${slug} error=${run?.error || "empty"}`);
+    }
+    return { s: slug, out };
   });
   return shuffle(cands, rng);
 }
+
+export { panel as _panelForTest, bindingHash as _bindingHashForTest };
 
 function caseBlock(item, cands) {
   const lines = [
@@ -166,9 +172,13 @@ function ingestLegacyBatches(cases, slugs, runs, judgeSlug) {
       continue;
     }
     if (!payload?.scores || !payload?.order) continue;
+    // Batches written before 2026-10-25 fix have no per-case output hashes. Their scores
+    // could belong to different (e.g. empty) outputs, so they are never imported.
+    if (!payload.case_hashes) continue;
     for (const item of cases) {
       const cell = payload.scores[item.id];
       const order = payload.order[item.id];
+      if (payload.case_hashes[item.id] !== bindingHash(item, order || [], runs, judgeSlug)) continue;
       if (!scoreComplete(cell, slugs) || !Array.isArray(order)) continue;
       const packed = packCase(item, slugs, runs);
       if (!sameOrder(order, packed.order)) continue;
@@ -274,11 +284,15 @@ export async function runJudge(opts = parseArgs()) {
       missed = missing();
     }
     const hash = hashString({ v: RUBRIC_VERSION, judge: spec.slug, ids: packed.map((row) => row.item.id), order });
+    const case_hashes = {};
+    for (const row of packed) case_hashes[row.item.id] = bindingHash(row.item, row.order, runs, spec.slug);
     writeJson(path.join(judgeDir(), `batch-h-${hash}.json`), {
       hash,
       order,
+      case_hashes,
       slugs,
       scores,
+      raw: result.text || null,
       cost_usd: cost,
       usage: {
         prompt_tokens: result.prompt_tokens,
