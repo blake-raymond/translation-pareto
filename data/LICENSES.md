@@ -28,7 +28,7 @@ Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 
 
 - Source: OPUS Tatoeba v2023-04-12 (https://opus.nlpl.eu/Tatoeba.php) and the Tatoeba.org search API
 - License: CC BY 2.0 FR (some sentences CC0), see https://tatoeba.org/en/terms_of_use. Attribution: sentences by the Tatoeba contributors, https://tatoeba.org.
-- Known issue: the 75 OPUS-derived cases (Javanese, Odia, Sundanese) have misaligned `reference` fields that contain lines from the corpus's license file instead of translations. The English `text` fields are correct Tatoeba sentences.
+- Corrected: the `reference` fields of the 75 OPUS-derived cases (Javanese, Odia, Sundanese) were first extracted from the license file in the OPUS download instead of the aligned translations. This was fixed in `eval/pareto/data.mjs`, the references were restored from the aligned bitext, and those cases were re-judged.
 - Use: short conversational pairs for languages missing from both WMT24++ and NTREX-128 (Assamese, Bhojpuri, Cebuano, Javanese, Odia, Sundanese).
 
 ## Synthetic chat layer

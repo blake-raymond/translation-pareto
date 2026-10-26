@@ -19,29 +19,30 @@ A cheap model costs at most $0.10 per 1,000 messages. A language is flagged when
 
 | Model | Mean | 95% CI | Critical | USD / 1k | n |
 | --- | ---: | --- | ---: | ---: | ---: |
-| `openai/gpt-6-luna` | 4.69 | 4.66–4.72 | 2.1% | $0.032 | 4242 |
+| `openai/gpt-6-luna` | 4.69 | 4.65–4.72 | 2.1% | $0.032 | 4242 |
 | `google/gemini-3.1-flash-lite` | 4.66 | 4.62–4.69 | 1.5% | $0.080 | 4242 |
 | `meta/muse-spark-1.3` | 4.64 | 4.61–4.67 | 0.8% | $0.973 | 4242 |
 | `google/gemini-2.5-flash` | 4.48 | 4.43–4.52 | 2.8% | $0.117 | 4242 |
-| `deepseek/deepseek-v4.1-flash-1017` | 4.47 | 4.41–4.52 | 3.6% | $0.050 | 4242 |
-| `google/gemini-3.5-flash-lite` | 4.40 | 4.35–4.44 | 3.7% | $0.120 | 4242 |
-| `google/gemini-2.5-flash-lite` | 4.27 | 4.22–4.33 | 5.9% | $0.025 | 4242 |
-| `x-ai/grok-4.20` | 4.27 | 4.21–4.32 | 4.5% | $0.265 | 4242 |
+| `deepseek/deepseek-v4.1-flash-1017` | 4.46 | 4.41–4.51 | 3.5% | $0.050 | 4242 |
+| `google/gemini-3.5-flash-lite` | 4.39 | 4.34–4.44 | 3.7% | $0.120 | 4242 |
+| `google/gemini-2.5-flash-lite` | 4.27 | 4.21–4.33 | 5.9% | $0.025 | 4242 |
+| `x-ai/grok-4.20` | 4.26 | 4.21–4.32 | 4.5% | $0.265 | 4242 |
 | `anthropic/claude-haiku-5.5` | 4.26 | 4.18–4.32 | 5.1% | $0.051 | 4242 |
-| `z-ai/glm-5.3-flash` | 4.23 | 4.15–4.31 | 6.5% | $0.025 | 4242 |
-| `meta-llama/llama-4-maverick` | 4.08 | 4.01–4.15 | 7.6% | $0.046 | 4242 |
+| `z-ai/glm-5.3-flash` | 4.23 | 4.15–4.30 | 6.4% | $0.025 | 4242 |
+| `meta-llama/llama-4-maverick` | 4.08 | 4.01–4.14 | 7.7% | $0.046 | 4242 |
 | `openai/gpt-5-mini` | 3.93 | 3.81–4.06 | 11.4% | $0.135 | 4242 |
-| `qwen/qwen3-235b-a22b-2507` | 3.77 | 3.61–3.93 | 16.2% | $0.051 | 4242 |
-| `minimax/minimax-m3.1-flash` | 3.55 | 3.38–3.73 | 22.1% | $0.101 | 4242 |
-| `openai/gpt-5-nano` | 3.09 | 2.93–3.24 | 30.2% | $0.030 | 4242 |
+| `qwen/qwen3-235b-a22b-2507` | 3.77 | 3.61–3.92 | 16.2% | $0.051 | 4242 |
+| `minimax/minimax-m3.1-flash` | 3.54 | 3.37–3.73 | 22.1% | $0.101 | 4242 |
+| `openai/gpt-5-nano` | 3.08 | 2.93–3.24 | 30.2% | $0.030 | 4242 |
 
 ![Translation quality vs cost](pareto.svg)
 
 ## Pareto frontier
 
-- `z-ai/glm-5.3-flash` — mean 4.23 (4.15–4.31), critical 6.5%, $0.025 / 1k
-- `google/gemini-2.5-flash-lite` — mean 4.27 (4.22–4.33), critical 5.9%, $0.025 / 1k
-- `openai/gpt-6-luna` — mean 4.69 (4.66–4.72), critical 2.1%, $0.032 / 1k
+- `z-ai/glm-5.3-flash` — mean 4.23 (4.15–4.30), critical 6.4%, $0.025 / 1k
+- `google/gemini-2.5-flash-lite` — mean 4.27 (4.21–4.33), critical 5.9%, $0.025 / 1k
+- `openai/gpt-6-luna` — mean 4.69 (4.65–4.72), critical 2.1%, $0.032 / 1k
+- `google/gemini-3.1-flash-lite` — mean 4.66 (4.62–4.69), critical 1.5%, $0.080 / 1k
 
 ## Paired differences vs the best model
 
@@ -49,59 +50,59 @@ Best mean: `openai/gpt-6-luna`.
 
 | Model | Mean − best | 95% CI |
 | --- | ---: | --- |
-| `google/gemini-3.1-flash-lite` | 0.033 | 0.000–0.065 |
-| `meta/muse-spark-1.3` | 0.051 | 0.008–0.090 |
+| `google/gemini-3.1-flash-lite` | 0.032 | -0.002–0.064 |
+| `meta/muse-spark-1.3` | 0.050 | 0.008–0.088 |
 | `google/gemini-2.5-flash` | 0.213 | 0.174–0.252 |
-| `deepseek/deepseek-v4.1-flash-1017` | 0.225 | 0.176–0.287 |
-| `google/gemini-3.5-flash-lite` | 0.295 | 0.249–0.343 |
-| `google/gemini-2.5-flash-lite` | 0.417 | 0.373–0.464 |
+| `deepseek/deepseek-v4.1-flash-1017` | 0.225 | 0.175–0.286 |
+| `google/gemini-3.5-flash-lite` | 0.295 | 0.248–0.343 |
+| `google/gemini-2.5-flash-lite` | 0.418 | 0.374–0.466 |
 | `x-ai/grok-4.20` | 0.426 | 0.377–0.475 |
-| `anthropic/claude-haiku-5.5` | 0.434 | 0.374–0.501 |
-| `z-ai/glm-5.3-flash` | 0.458 | 0.384–0.532 |
-| `meta-llama/llama-4-maverick` | 0.612 | 0.553–0.674 |
-| `openai/gpt-5-mini` | 0.758 | 0.641–0.884 |
-| `qwen/qwen3-235b-a22b-2507` | 0.917 | 0.776–1.067 |
-| `minimax/minimax-m3.1-flash` | 1.143 | 0.988–1.315 |
-| `openai/gpt-5-nano` | 1.608 | 1.455–1.759 |
+| `anthropic/claude-haiku-5.5` | 0.433 | 0.372–0.500 |
+| `z-ai/glm-5.3-flash` | 0.459 | 0.387–0.533 |
+| `meta-llama/llama-4-maverick` | 0.612 | 0.553–0.675 |
+| `openai/gpt-5-mini` | 0.757 | 0.640–0.882 |
+| `qwen/qwen3-235b-a22b-2507` | 0.917 | 0.775–1.066 |
+| `minimax/minimax-m3.1-flash` | 1.146 | 0.991–1.318 |
+| `openai/gpt-5-nano` | 1.608 | 1.456–1.760 |
 
 ## Benchmark cases
 
 | Model | Mean | 95% CI | Critical | USD / 1k | n |
 | --- | ---: | --- | ---: | ---: | ---: |
-| `openai/gpt-6-luna` | 4.67 | 4.62–4.71 | 1.7% | $0.034 | 2803 |
+| `openai/gpt-6-luna` | 4.66 | 4.62–4.71 | 1.7% | $0.034 | 2803 |
 | `google/gemini-3.1-flash-lite` | 4.62 | 4.58–4.66 | 1.3% | $0.085 | 2803 |
 | `meta/muse-spark-1.3` | 4.59 | 4.55–4.63 | 0.7% | $0.946 | 2803 |
-| `deepseek/deepseek-v4.1-flash-1017` | 4.43 | 4.35–4.49 | 3.2% | $0.053 | 2803 |
-| `google/gemini-2.5-flash` | 4.42 | 4.35–4.47 | 3.0% | $0.127 | 2803 |
-| `google/gemini-3.5-flash-lite` | 4.31 | 4.25–4.38 | 4.2% | $0.130 | 2803 |
-| `google/gemini-2.5-flash-lite` | 4.22 | 4.15–4.29 | 5.4% | $0.026 | 2803 |
-| `x-ai/grok-4.20` | 4.21 | 4.15–4.27 | 4.1% | $0.252 | 2803 |
-| `anthropic/claude-haiku-5.5` | 4.20 | 4.12–4.28 | 4.5% | $0.055 | 2803 |
-| `z-ai/glm-5.3-flash` | 4.17 | 4.07–4.25 | 6.2% | $0.026 | 2803 |
-| `meta-llama/llama-4-maverick` | 4.00 | 3.93–4.07 | 6.7% | $0.047 | 2803 |
+| `deepseek/deepseek-v4.1-flash-1017` | 4.42 | 4.35–4.48 | 3.1% | $0.053 | 2803 |
+| `google/gemini-2.5-flash` | 4.41 | 4.35–4.47 | 3.0% | $0.127 | 2803 |
+| `google/gemini-3.5-flash-lite` | 4.31 | 4.25–4.37 | 4.1% | $0.130 | 2803 |
+| `google/gemini-2.5-flash-lite` | 4.22 | 4.15–4.28 | 5.4% | $0.026 | 2803 |
+| `x-ai/grok-4.20` | 4.20 | 4.14–4.27 | 4.1% | $0.252 | 2803 |
+| `anthropic/claude-haiku-5.5` | 4.20 | 4.12–4.27 | 4.5% | $0.055 | 2803 |
+| `z-ai/glm-5.3-flash` | 4.16 | 4.07–4.24 | 6.2% | $0.026 | 2803 |
+| `meta-llama/llama-4-maverick` | 4.00 | 3.92–4.07 | 6.8% | $0.047 | 2803 |
 | `openai/gpt-5-mini` | 3.85 | 3.71–3.98 | 11.0% | $0.144 | 2803 |
-| `qwen/qwen3-235b-a22b-2507` | 3.65 | 3.47–3.80 | 16.5% | $0.057 | 2803 |
-| `minimax/minimax-m3.1-flash` | 3.47 | 3.29–3.63 | 20.4% | $0.106 | 2803 |
-| `openai/gpt-5-nano` | 3.04 | 2.87–3.20 | 28.9% | $0.032 | 2803 |
+| `qwen/qwen3-235b-a22b-2507` | 3.64 | 3.46–3.80 | 16.5% | $0.057 | 2803 |
+| `minimax/minimax-m3.1-flash` | 3.46 | 3.28–3.62 | 20.5% | $0.106 | 2803 |
+| `openai/gpt-5-nano` | 3.04 | 2.87–3.20 | 29.0% | $0.032 | 2803 |
 
 Best benchmark mean: `openai/gpt-6-luna`.
 
 | Model | Mean − best | 95% CI |
 | --- | ---: | --- |
-| `google/gemini-3.1-flash-lite` | 0.046 | 0.005–0.086 |
-| `meta/muse-spark-1.3` | 0.077 | 0.028–0.123 |
-| `deepseek/deepseek-v4.1-flash-1017` | 0.243 | 0.180–0.315 |
-| `google/gemini-2.5-flash` | 0.249 | 0.199–0.298 |
-| `google/gemini-3.5-flash-lite` | 0.353 | 0.289–0.420 |
-| `google/gemini-2.5-flash-lite` | 0.445 | 0.388–0.498 |
-| `x-ai/grok-4.20` | 0.458 | 0.395–0.517 |
-| `anthropic/claude-haiku-5.5` | 0.465 | 0.392–0.538 |
-| `z-ai/glm-5.3-flash` | 0.500 | 0.419–0.582 |
-| `meta-llama/llama-4-maverick` | 0.663 | 0.596–0.733 |
-| `openai/gpt-5-mini` | 0.814 | 0.683–0.952 |
+| `google/gemini-3.1-flash-lite` | 0.045 | 0.003–0.085 |
+| `meta/muse-spark-1.3` | 0.075 | 0.026–0.121 |
+| `deepseek/deepseek-v4.1-flash-1017` | 0.243 | 0.180–0.317 |
+| `google/gemini-2.5-flash` | 0.250 | 0.200–0.298 |
+| `google/gemini-3.5-flash-lite` | 0.352 | 0.286–0.419 |
+| `google/gemini-2.5-flash-lite` | 0.447 | 0.391–0.500 |
+| `x-ai/grok-4.20` | 0.459 | 0.395–0.518 |
+| `anthropic/claude-haiku-5.5` | 0.463 | 0.389–0.536 |
+| `z-ai/glm-5.3-flash` | 0.503 | 0.422–0.584 |
+| `meta-llama/llama-4-maverick` | 0.663 | 0.595–0.732 |
+| `openai/gpt-5-mini` | 0.812 | 0.683–0.951 |
 | `qwen/qwen3-235b-a22b-2507` | 1.022 | 0.868–1.190 |
-| `minimax/minimax-m3.1-flash` | 1.200 | 1.040–1.365 |
-| `openai/gpt-5-nano` | 1.623 | 1.455–1.785 |
+| `minimax/minimax-m3.1-flash` | 1.205 | 1.044–1.373 |
+| `openai/gpt-5-nano` | 1.623 | 1.458–1.784 |
 
 ## Chat cases
 
@@ -175,7 +176,7 @@ Best chat mean: `openai/gpt-6-luna`.
 | ig | 4.41 | 4.39 | 4.58 | 4.32 | 4.43 | 4.14 | 3.73 | 4.02 | 3.13 | 4.01 | 3.49 | 3.57 | 2.18 | 2.08 | 2.90 |
 | it | 4.72 | 4.68 | 4.59 | 4.31 | 4.58 | 4.50 | 4.37 | 4.35 | 4.33 | 4.56 | 4.17 | 4.43 | 4.16 | 4.34 | 3.67 |
 | ja | 4.72 | 4.62 | 4.62 | 4.40 | 4.58 | 4.60 | 4.27 | 4.26 | 4.30 | 4.49 | 4.07 | 4.41 | 4.27 | 3.44 | 3.64 |
-| jv | 4.68 | 4.56 | 4.68 | 4.46 | 4.39 | 4.14 | 4.14 | 4.12 | 4.34 | 3.96 | 4.08 | 4.04 | 3.84 | 2.79 | 2.94 |
+| jv | 4.56 | 4.47 | 4.57 | 4.37 | 4.31 | 4.06 | 3.97 | 4.00 | 4.28 | 3.81 | 3.92 | 3.96 | 3.67 | 2.62 | 2.82 |
 | kk | 4.51 | 4.61 | 4.60 | 4.51 | 4.38 | 4.37 | 4.29 | 4.01 | 4.14 | 4.27 | 4.01 | 4.08 | 3.58 | 3.47 | 2.94 |
 | km | 4.80 | 4.72 | 4.66 | 4.63 | 4.53 | 4.30 | 4.26 | 4.36 | 4.07 | 3.96 | 3.93 | 2.97 | 3.68 | 2.62 | 1.96 |
 | kn | 4.79 | 4.64 | 4.79 | 4.55 | 4.59 | 4.38 | 4.12 | 4.20 | 4.36 | 4.21 | 4.13 | 2.94 | 4.04 | 3.11 | 2.16 |
@@ -189,7 +190,7 @@ Best chat mean: `openai/gpt-6-luna`.
 | ne | 4.61 | 4.63 | 4.61 | 4.48 | 4.45 | 4.34 | 4.37 | 4.19 | 4.11 | 4.29 | 4.06 | 4.03 | 3.89 | 3.54 | 3.14 |
 | nl | 4.70 | 4.62 | 4.52 | 4.42 | 4.44 | 4.37 | 4.29 | 4.27 | 4.25 | 4.41 | 4.28 | 4.29 | 4.16 | 4.31 | 3.57 |
 | no | 4.73 | 4.69 | 4.62 | 4.57 | 4.66 | 4.44 | 4.32 | 4.39 | 4.46 | 4.54 | 4.30 | 4.48 | 4.16 | 4.22 | 3.94 |
-| or | 4.88 | 4.72 | 4.84 | 4.68 | 4.69 | 4.66 | 4.51 | 4.45 | 4.71 | 4.44 | 4.26 | 3.62 | 4.08 | 3.04 | 2.44 |
+| or | 4.82 | 4.70 | 4.84 | 4.64 | 4.60 | 4.61 | 4.46 | 4.33 | 4.63 | 4.34 | 4.25 | 3.63 | 4.03 | 3.01 | 2.47 |
 | pa | 4.86 | 4.86 | 4.73 | 4.70 | 4.75 | 4.60 | 4.55 | 4.27 | 4.42 | 4.27 | 3.97 | 3.81 | 3.74 | 3.33 | 2.58 |
 | pl | 4.77 | 4.75 | 4.57 | 4.46 | 4.31 | 4.52 | 4.32 | 4.19 | 4.16 | 4.37 | 4.16 | 4.41 | 3.94 | 4.14 | 3.56 |
 | ps | 4.69 | 4.58 | 4.48 | 4.61 | 4.21 | 4.19 | 4.21 | 3.88 | 3.83 | 4.07 | 4.08 | 4.03 | 2.63 | 3.09 | 2.97 |
@@ -202,7 +203,7 @@ Best chat mean: `openai/gpt-6-luna`.
 | so | 4.62 | 4.47 | 4.52 | 4.44 | 4.36 | 4.19 | 4.10 | 4.23 | 3.57 | 3.41 | 3.43 | 3.78 | 2.05 | 2.44 | 3.00 |
 | sq | 4.77 | 4.87 | 4.68 | 4.74 | 4.59 | 4.50 | 4.40 | 4.46 | 4.30 | 4.20 | 4.38 | 4.39 | 4.01 | 3.84 | 3.59 |
 | sr | 4.66 | 4.66 | 4.59 | 4.41 | 4.47 | 4.46 | 4.11 | 4.37 | 4.12 | 4.36 | 4.16 | 4.12 | 3.73 | 3.83 | 3.14 |
-| su | 4.86 | 4.76 | 4.71 | 4.75 | 4.60 | 4.55 | 4.47 | 4.44 | 4.30 | 4.12 | 4.23 | 4.39 | 3.54 | 3.15 | 3.75 |
+| su | 4.85 | 4.75 | 4.70 | 4.69 | 4.58 | 4.54 | 4.41 | 4.46 | 4.33 | 4.09 | 4.22 | 4.35 | 3.55 | 3.02 | 3.68 |
 | sv | 4.66 | 4.64 | 4.64 | 4.68 | 4.58 | 4.44 | 4.47 | 4.42 | 4.37 | 4.42 | 4.22 | 4.44 | 4.13 | 4.19 | 3.83 |
 | sw | 4.67 | 4.63 | 4.52 | 4.50 | 4.29 | 4.27 | 4.22 | 4.08 | 4.34 | 3.61 | 3.71 | 3.77 | 2.80 | 3.06 | 2.64 |
 | ta | 4.72 | 4.75 | 4.75 | 4.62 | 4.58 | 4.58 | 4.42 | 4.23 | 4.58 | 4.40 | 4.31 | 3.03 | 4.05 | 3.54 | 1.94 |
@@ -253,7 +254,7 @@ Best chat mean: `openai/gpt-6-luna`.
 | ig | `openai/gpt-5-nano` | 2.90 | 46.7% | 60 | mean<3.5, critical>25% |
 | ig | `anthropic/claude-haiku-5.5` | 3.13 | 28.3% | 60 | mean<3.5, critical>25% |
 | ig | `meta-llama/llama-4-maverick` | 3.49 | 26.7% | 60 | mean<3.5, critical>25% |
-| jv | `openai/gpt-5-nano` | 2.94 | 40.0% | 60 | mean<3.5, critical>25% |
+| jv | `openai/gpt-5-nano` | 2.82 | 43.3% | 60 | mean<3.5, critical>25% |
 | kk | `openai/gpt-5-nano` | 2.94 | 35.0% | 60 | mean<3.5, critical>25% |
 | km | `openai/gpt-5-nano` | 1.96 | 58.3% | 60 | mean<3.5, critical>25% |
 | kn | `openai/gpt-5-nano` | 2.16 | 55.0% | 60 | mean<3.5, critical>25% |
@@ -267,7 +268,7 @@ Best chat mean: `openai/gpt-6-luna`.
 | mr | `openai/gpt-5-nano` | 2.81 | 28.3% | 60 | mean<3.5, critical>25% |
 | my | `openai/gpt-5-nano` | 1.87 | 65.0% | 60 | mean<3.5, critical>25% |
 | ne | `openai/gpt-5-nano` | 3.14 | 18.3% | 60 | mean<3.5 |
-| or | `openai/gpt-5-nano` | 2.44 | 46.3% | 41 | mean<3.5, critical>25% |
+| or | `openai/gpt-5-nano` | 2.47 | 43.9% | 41 | mean<3.5, critical>25% |
 | pa | `openai/gpt-5-nano` | 2.58 | 38.3% | 60 | mean<3.5, critical>25% |
 | ps | `qwen/qwen3-235b-a22b-2507` | 2.63 | 41.7% | 60 | mean<3.5, critical>25% |
 | ps | `openai/gpt-5-nano` | 2.97 | 28.3% | 60 | mean<3.5, critical>25% |
@@ -304,16 +305,16 @@ Best chat mean: `openai/gpt-6-luna`.
 
 ## Spend
 
-Spend (OpenRouter `usage.cost`, cumulative ledger for the whole project, including the pilots and the earlier passes this one replaces): **$78.6727**.
+Spend (OpenRouter `usage.cost`, cumulative ledger for the whole project, including the pilots and the earlier passes this one replaces): **$79.0589**.
 
 | Step | USD |
 | --- | ---: |
 | Chat drafting (all runs) | $10.6700 |
 | Translations (all runs) | $10.0639 |
-| Judge (all runs, including earlier passes) | $57.9416 |
-| Total | $78.6727 |
+| Judge (all runs, including earlier passes) | $58.3278 |
+| Total | $79.0589 |
 
-New spend for this pass (missing translations, the 15-candidate judge pass and its pilot): **$34.9892**.
+New spend for this pass (missing translations, the 15-candidate judge pass and its pilot): **$34.9892**, plus **$0.3862** to re-judge the 75 cases with corrected references.
 
 ## Limits
 
@@ -325,9 +326,9 @@ LLM-judged, not human-verified. A single Opus judge can favor its own family. Pe
 
 **Truncated replies.** 40 cases first failed to parse because the provider cut the judge's JSON reply short (raw replies are saved in `eval/pareto/results/judge-all15/`). They were re-judged in batches of 5 and then 1; 37 succeeded.
 
-**Identical-output check** (`eval/pareto/sanity-all15.mjs`, full output in `docs/sanity-all15.txt`). Of 37,274 pairs where two models produced exactly the same text for a case, 38 pairs (0.10%) got a different critical flag or scores at least 2 points apart. They come from 9 cases: bench-th-08 (12 pairs), bench-ro-30 (5), bench-su-09 (5), bench-cs-24 (3), bench-da-24, bench-my-17, chat-am-02, chat-ha-12, chat-he-19 (1 each). In each, one candidate was scored lower than an identical candidate elsewhere in the same prompt, most likely the judge mixing up candidate labels within a 15-candidate list. This is judge noise, kept in the results rather than corrected. At 0.10% of pairs it moves no model's mean by more than about 0.01. The supplement's bugged batch, by contrast, had 113 such pairs among 144 cases.
+**Identical-output check** (`eval/pareto/sanity-all15.mjs`, full output in `docs/sanity-all15.txt`). Of 37,274 pairs where two models produced exactly the same text for a case, 33 pairs (0.09%) got a different critical flag or scores at least 2 points apart, 12 of them from one Thai case (`bench-th-08`). In each, one candidate was scored lower than an identical candidate elsewhere in the same prompt, most likely the judge mixing up candidate labels within a 15-candidate list. This is judge noise, kept in the results rather than corrected. At 0.09% of pairs it moves no model's mean by more than about 0.01.
 
-**Wrong references for Javanese, Odia and Sundanese.** The 75 benchmark cases for these languages come from the OPUS Tatoeba download, and their reference translations are misaligned: they contain unrelated text, mostly lines of the Creative Commons license file shipped with the corpus. The judge saw them as reference hints. Every model was judged against the same references, but scores for these three languages are less reliable.
+**Corrected references (Javanese, Odia, Sundanese).** The 75 benchmark cases for these languages come from OPUS Tatoeba. An extraction bug in `eval/pareto/data.mjs` read the archive's LICENSE file instead of the target-language file, so their reference translations were lines of the Creative Commons license text. The English source lines were correct, so the translations stayed valid. The references were restored from the aligned bitext (same case ids and source lines), and the 75 cases were re-judged with all 15 candidates in the same listwise setup (batches of 30). The judge cache key now includes the source line, reference and history shown to the judge.
 
 ## Earlier passes
 
@@ -335,4 +336,4 @@ Before this pass, 11 models were judged together, and four newer models (GPT-6 L
 
 ## Frontier call
 
-Gemini 3.1 Flash-Lite is off the frontier because GPT-6 Luna is cheaper and its paired lead over Gemini is 0.033 with a 95% interval of 0.000-0.065. The lower bound is at zero, so this is a borderline call under the frontier rule, and Gemini's critical-error rate (1.5%) is lower than Luna's (2.1%).
+Gemini 3.1 Flash-Lite is on the frontier, but only just. GPT-6 Luna is cheaper and leads it by 0.032, with a 95% interval of -0.002 to 0.064. The interval includes zero, so Luna is not clearly better and Gemini stays on the frontier under the rule. Before the reference correction the interval was 0.000-0.065 and Gemini was just off it. Gemini 3.1 Flash-Lite's critical-error rate (1.5%) is lower than Luna's (2.1%).

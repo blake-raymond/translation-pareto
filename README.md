@@ -10,25 +10,25 @@ A reproducible benchmark of the cost-versus-quality frontier of LLMs for **conve
 
 | Model | Mean (95% CI) | Critical errors | USD / 1k messages |
 | --- | --- | ---: | ---: |
-| GPT-6 Luna | **4.69** (4.66-4.72) | 2.1% | $0.032 |
+| GPT-6 Luna | **4.69** (4.65-4.72) | 2.1% | $0.032 |
 | Gemini 3.1 Flash-Lite | 4.66 (4.62-4.69) | 1.5% | $0.080 |
 | Muse Spark 1.3 | 4.64 (4.61-4.67) | 0.8% | $0.973 |
 | Gemini 2.5 Flash | 4.48 (4.43-4.52) | 2.8% | $0.117 |
-| DeepSeek V4.1 Flash | 4.47 (4.41-4.52) | 3.6% | $0.050 |
-| Gemini 3.5 Flash-Lite | 4.40 (4.35-4.44) | 3.7% | $0.120 |
-| Gemini 2.5 Flash-Lite | 4.27 (4.22-4.33) | 5.9% | $0.025 |
-| Grok 4.20 | 4.27 (4.21-4.32) | 4.5% | $0.265 |
+| DeepSeek V4.1 Flash | 4.46 (4.41-4.51) | 3.5% | $0.050 |
+| Gemini 3.5 Flash-Lite | 4.39 (4.34-4.44) | 3.7% | $0.120 |
+| Gemini 2.5 Flash-Lite | 4.27 (4.21-4.33) | 5.9% | $0.025 |
+| Grok 4.20 | 4.26 (4.21-4.32) | 4.5% | $0.265 |
 | Claude Haiku 5.5 | 4.26 (4.18-4.32) | 5.1% | $0.051 |
-| GLM 5.3 Flash | 4.23 (4.15-4.31) | 6.5% | $0.025 |
-| Llama 4 Maverick | 4.08 (4.01-4.15) | 7.6% | $0.046 |
+| GLM 5.3 Flash | 4.23 (4.15-4.30) | 6.4% | $0.025 |
+| Llama 4 Maverick | 4.08 (4.01-4.14) | 7.7% | $0.046 |
 | GPT-5 mini | 3.93 (3.81-4.06) | 11.4% | $0.135 |
-| Qwen3 235B A22B | 3.77 (3.61-3.93) | 16.2% | $0.051 |
-| MiniMax M3.1 Flash | 3.55 (3.38-3.73) | 22.1% | $0.101 |
-| GPT-5 nano | 3.09 (2.93-3.24) | 30.2% | $0.030 |
+| Qwen3 235B A22B | 3.77 (3.61-3.92) | 16.2% | $0.051 |
+| MiniMax M3.1 Flash | 3.54 (3.37-3.73) | 22.1% | $0.101 |
+| GPT-5 nano | 3.08 (2.93-3.24) | 30.2% | $0.030 |
 
 Mean is the average of meaning, naturalness and handling (1-5), with each language weighted equally. n = 4,242 scored cases for every model.
 
-**Pareto frontier:** GLM 5.3 Flash and Gemini 2.5 Flash-Lite (both $0.025) and GPT-6 Luna ($0.032). Gemini 3.1 Flash-Lite is just off it: Luna is cheaper and leads by 0.033 (95% CI 0.000 to 0.065), a borderline call. Gemini 3.1 Flash-Lite and Muse Spark 1.3 have lower critical-error rates than Luna. Per-language tables, benchmark-only and chat-only splits, and language flags are in [`docs/results.md`](docs/results.md).
+**Pareto frontier:** GLM 5.3 Flash and Gemini 2.5 Flash-Lite (both $0.025), GPT-6 Luna ($0.032) and Gemini 3.1 Flash-Lite ($0.080). Gemini 3.1 Flash-Lite is on it only narrowly: Luna is cheaper and leads by 0.032, but the 95% CI (-0.002 to 0.064) includes zero, so Luna is not clearly better. Gemini 3.1 Flash-Lite and Muse Spark 1.3 have lower critical-error rates than Luna. Per-language tables, benchmark-only and chat-only splits, and language flags are in [`docs/results.md`](docs/results.md).
 
 ## Method
 
@@ -80,7 +80,7 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
 
 1. **Smoke test** (about $0.02): `npm run smoke` translates 3 Spanish cases with two cheap models, judges them with the real judge and writes a report under `eval/pareto/results/smoke/`.
 2. **Cases** are committed: `data/benchmark-cases.json` (2,805) and `data/chat-cases.json` (1,440). To rebuild them:
-   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept, so a rerun on the committed file changes nothing. FLORES+ is used only if `HF_TOKEN` is set and your Hugging Face account has access.
+   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept, so a rerun on the committed file changes nothing. (With the corrected Tatoeba extraction, a fresh sample would find 30 Odia and 22 Sundanese pairs; the committed set keeps the 21 and 14 sampled originally.) FLORES+ is used only if `HF_TOKEN` is set and your Hugging Face account has access.
    - `node eval/pareto/chat.mjs --full` drafts 20 chat conversations per language with Claude Opus 5.5 (about $10). Drafting is not deterministic, so new chat cases will differ from the committed ones.
 3. **Full run** (about $42: about $10 for translations, about $32 for judging): `bash eval/pareto/run-all15.sh` (Windows: `powershell -File eval/pareto/run-all15.ps1`). It translates every case with all 15 models (retrying empty or failed calls up to three times), judges in batches of 30, retries failed batches in batches of 10, and runs the identical-output check (`eval/pareto/sanity-all15.mjs`). Progress goes to `eval/pareto/results/all15-run.log`; results go to `eval/pareto/results/` (git-ignored).
 4. **Report**, with the same environment as the runner:
@@ -119,9 +119,9 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
 - **LLM judge, no human review.** Scores are what Claude Opus 5.5 thinks. Its judgment is probably weakest in the low-resource languages where models differ most.
 - **One judge family.** The judge may favor outputs like its own; the chat cases were also drafted by Claude Opus 5.5. Claude Haiku 5.5 scored mid-table (4.26).
 - **Listwise scores are relative** to the 15 candidates in the prompt. Compare models within this table, not with scores from other runs.
-- **Wrong references for three languages.** The 75 benchmark cases for Javanese, Odia and Sundanese come from the OPUS Tatoeba download, and their reference translations are misaligned: they contain unrelated text, mostly lines of the Creative Commons license file shipped with the corpus. The judge saw these as reference hints. Every model was judged against the same references, but scores for those three languages are less reliable.
+- **Corrected references.** The reference translations of the 75 Javanese, Odia and Sundanese benchmark cases (from OPUS Tatoeba) were first extracted from the wrong file in the download. They were corrected and those cases re-judged; the results here include the fix.
 - **Three unscored cases.** The judge returned an empty or cut-off reply on every attempt for `bench-ha-22`, `bench-ha-26` and `chat-lo-09`. They are excluded for all models.
-- **Judge label slips.** Of 37,274 pairs of identical outputs, 38 (0.10%) got inconsistent scores (`docs/sanity-all15.txt`).
+- **Judge label slips.** Of 37,274 pairs of identical outputs, 33 (0.09%) got inconsistent scores (`docs/sanity-all15.txt`).
 - **English on one side.** Benchmark cases translate out of English; chat cases translate from or into English. Pairs without English are untested.
 - **Noisy per-language cells** (up to 60 cases each), and WMT24++ locales (for example Mexican Spanish) stand in for the whole language.
 
