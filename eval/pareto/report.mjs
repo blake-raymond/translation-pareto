@@ -386,7 +386,7 @@ function markdown(opts, analysis, spend) {
     `Scored cases: ${scored}. Judge parse failures: ${parseFailures}.`,
     "Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.",
     `Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5, in both directions: ${cases.filter((c) => c.kind === "chat" && c.source === "en").length} translate from English and ${cases.filter((c) => c.kind === "chat" && c.source !== "en").length} into English.`,
-    "Each candidate used the interpreter system prompt in `eval/prompts/v1.txt` with conversation history on chat items.",
+    "Each candidate used the interpreter system prompt in `eval/prompts/interpreter.txt` with conversation history on chat items.",
     "One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.",
     "Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.",
     "A model is on the Pareto frontier unless another model is **clearly better** (paired bootstrap CI of the difference is entirely positive) **and** the worse model is not cheaper.",

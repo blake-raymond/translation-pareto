@@ -8,7 +8,7 @@ Cases: 4245 (2805 benchmark, 1440 chat) across 72 languages.
 Scored cases: 4242. Judge parse failures: 3.
 Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.
 Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5, in both directions: 723 translate from English and 717 into English.
-Each candidate used the interpreter system prompt in `eval/prompts/v1.txt` with conversation history on chat items.
+Each candidate used the interpreter system prompt in `eval/prompts/interpreter.txt` with conversation history on chat items.
 One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.
 Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.
 A model is on the Pareto frontier unless another model is **clearly better** (paired bootstrap CI of the difference is entirely positive) **and** the worse model is not cheaper.
@@ -326,6 +326,8 @@ LLM-judged, not human-verified. A single Opus judge can favor its own family. Pe
 **Truncated replies.** 40 cases first failed to parse because the provider cut the judge's JSON reply short (raw replies are saved in `eval/pareto/results/judge-all15/`). They were re-judged in batches of 5 and then 1; 37 succeeded.
 
 **Identical-output check** (`eval/pareto/sanity-all15.mjs`, full output in `docs/sanity-all15.txt`). Of 37,274 pairs where two models produced exactly the same text for a case, 38 pairs (0.10%) got a different critical flag or scores at least 2 points apart. They come from 9 cases: bench-th-08 (12 pairs), bench-ro-30 (5), bench-su-09 (5), bench-cs-24 (3), bench-da-24, bench-my-17, chat-am-02, chat-ha-12, chat-he-19 (1 each). In each, one candidate was scored lower than an identical candidate elsewhere in the same prompt, most likely the judge mixing up candidate labels within a 15-candidate list. This is judge noise, kept in the results rather than corrected. At 0.10% of pairs it moves no model's mean by more than about 0.01. The supplement's bugged batch, by contrast, had 113 such pairs among 144 cases.
+
+**Wrong references for Javanese, Odia and Sundanese.** The 75 benchmark cases for these languages come from the OPUS Tatoeba download, and their reference translations are misaligned: they contain unrelated text, mostly lines of the Creative Commons license file shipped with the corpus. The judge saw them as reference hints. Every model was judged against the same references, but scores for these three languages are less reliable.
 
 ## Earlier passes
 

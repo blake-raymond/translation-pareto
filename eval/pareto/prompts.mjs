@@ -4,7 +4,7 @@ import { rootDir } from "../api.mjs";
 import { languageName } from "./languages.mjs";
 
 export const SYSTEM_PROMPT = fs.readFileSync(
-  path.join(rootDir(), "eval", "prompts", "v1.txt"),
+  path.join(rootDir(), "eval", "prompts", "interpreter.txt"),
   "utf8",
 ).trim();
 

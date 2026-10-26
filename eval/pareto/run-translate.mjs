@@ -162,7 +162,7 @@ export function translateWork(opts = parseArgs()) {
 
 export async function runTranslate(opts = parseArgs()) {
   if (!SYSTEM_PROMPT.includes("professional interpreter")) {
-    throw new Error("eval/prompts/v1.txt was not loaded");
+    throw new Error("eval/prompts/interpreter.txt was not loaded");
   }
   const cases = loadCases(opts);
   if (opts.limit) cases.splice(opts.limit);

@@ -1,4 +1,4 @@
-// 73-language catalog copied from Grok Translate (translate-chat/src/languages.js).
+// 73-language catalog: codes with English and native names.
 // English is source-only for the benchmark pairs. Chat cases cover both directions.
 
 export const LANGUAGES = [

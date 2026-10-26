@@ -4,7 +4,7 @@ I ran 4,245 translation cases between English and 72 other languages through 15 
 
 Gemini 3.1 Flash-Lite came close. It scored 4.66 at $0.080, and its gap to Luna is 0.033 with a 95% interval of 0.000 to 0.065, so it misses the frontier by the narrowest margin the rule allows. It also made fewer serious mistakes: 1.5% of its outputs had a critical error, against 2.1% for Luna. Muse Spark 1.3 had the lowest critical-error rate of all, 0.8%, at $0.973 per 1,000 messages, 30 times Luna's price.
 
-The test set is weighted toward conversational messages: short, informal lines with typos, missing accents, slang and references to earlier turns. I built it while choosing a model for say.as, a two-person translation chat app.
+The test set is weighted toward conversational messages: short, informal lines with typos, missing accents, slang and references to earlier turns.
 
 ## Method
 
@@ -18,7 +18,7 @@ Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5. Ea
 
 ### Translation
 
-Every model received the same system prompt (`eval/prompts/v1.txt`):
+Every model received the same system prompt (`eval/prompts/interpreter.txt`):
 
 > You are a professional interpreter for a live face-to-face conversation. Use the full history for pronouns, tone, slang, and references. Be forgiving of typos, missing accents, and bad autocorrect, and infer the intended meaning. Output only the translation with no commentary.
 
@@ -143,13 +143,14 @@ Going from Luna to Gemini 3.1 Flash-Lite costs about $48 more per million messag
 ## Limitations
 
 - **One LLM judge.** No native speaker checked these outputs. The scores show what Opus 5.5 thinks, and its judgment is probably weakest in exactly the low-resource languages where models differ most.
-- **Judge family bias.** A judge can favor outputs that resemble its own. Claude Haiku 5.5 landed mid-table at 4.26, so there is no obvious favoritism, but this run didn't use a second judge to measure it. In an earlier 120-case pilot, two judges from different families (Gemini 4 Argon and Claude Sonnet 5.5) agreed fairly well: Pearson 0.88 on overall scores and Cohen's kappa 0.76 on the critical-error flag. That pilot is in `docs/translation-model-comparison.md`.
+- **Judge family bias.** A judge can favor outputs that resemble its own. Claude Haiku 5.5 landed mid-table at 4.26, so there is no obvious favoritism, but this run didn't use a second judge to measure it. Agreement with a second judge is untested.
 - **Judge label errors.** The identical-output check found 38 inconsistent pairs out of 37,274. That's small, but it means some individual scores are wrong.
 - **English on one side.** Benchmark cases translate out of English, and chat cases translate from or into English. Pairs without English are untested.
 - **Synthetic chat.** The chat cases were written by an LLM from the same family as the judge, not collected from real users.
 - **Listwise scores are relative.** Scores depend on which candidates share the prompt. The numbers here aren't comparable to my earlier 11-model pass. Compare models within one table.
 - **Narrow frontier calls.** Gemini 3.1 Flash-Lite is off the frontier by an interval whose lower bound is 0.0001. A rerun with a different seed or judge sample could put it back on.
 - **Noisy per-language cells.** One or two bad outputs can move a language past a threshold.
+- **Wrong references for three languages.** The 75 benchmark cases for Javanese, Odia and Sundanese came from the OPUS Tatoeba download, and their reference translations turned out to be misaligned, mostly lines from the corpus's Creative Commons license file. The judge saw them as hints. All models faced the same references, but those three languages' scores are less reliable.
 - **Unscored cases.** The judge never returned scores for three cases, and they're excluded for all models.
 - **Language varieties.** WMT24++ uses specific locales, such as Mexican Spanish and Egyptian Arabic, and I treated each as the whole language.
 
@@ -161,4 +162,4 @@ Going from Luna to Gemini 3.1 Flash-Lite costs about $48 more per million messag
 - Language pairs without English, and reference-based benchmark cases into English.
 - FLORES+, plus automatic metrics such as COMET or MetricX for comparison.
 
-Code, cases, judge prompts and the full result tables are at https://github.com/blake-raymond/translation-pareto, with the numbers in `docs/results.md`.
+Code, cases, judge prompts, the raw translations and judge scores, and the full result tables are at https://github.com/blake-raymond/translation-pareto, with the numbers in `docs/results.md`.
