@@ -2,7 +2,7 @@
 
 Question: for a live two-person conversation on one phone, which model should translate the latest turn, and which languages should escalate from a cheap default to a stronger model?
 
-This comparison uses the production interpreter prompt from Grok Translate (`SYSTEM_PROMPT` and `buildUserPrompt` in `src/worker.js`). Each item is a short face-to-face conversation. The model translates only the last turn. The set covers English paired with Indonesian, Thai, Vietnamese, Burmese, Khmer, Mandarin (Simplified), Japanese, Korean, Hindi, Bengali, Arabic, and Spanish, in both directions, plus Indonesian↔Thai, Japanese↔Korean, and Hindi↔Arabic.
+This comparison uses the interpreter system prompt in `eval/prompts/v1.txt` and the app's user-prompt builder (`buildUserPrompt`). Each item is a short face-to-face conversation. The model translates only the last turn. The set covers English paired with Indonesian, Thai, Vietnamese, Burmese, Khmer, Mandarin (Simplified), Japanese, Korean, Hindi, Bengali, Arabic, and Spanish, in both directions, plus Indonesian↔Thai, Japanese↔Korean, and Hindi↔Arabic.
 
 ## Method
 
@@ -12,7 +12,7 @@ An English contract fixed the facts: numbers, negation, and who is being referre
 
 The review log is `eval/case-review.json`: 120 kept of 120, 0 dropped.
 
-Candidates called the production prompt at temperature 0.2 when the OpenRouter catalog accepts temperature. Models that do not list temperature omit the field. Reasoning is off, `none`, or `minimal`, recorded per model below. Decoding is one sample per case.
+Candidates were called with that prompt at temperature 0.2 when the OpenRouter catalog accepts temperature. Models that do not list temperature omit the field. Reasoning is off, `none`, or `minimal`, recorded per model below. Decoding is one sample per case.
 
 Two judges scored every candidate, blind, in the same shuffled order for a case. The shuffle seed is fixed (`20261024` mixed with the case id). Judges are Gemini 4 Argon and Claude Sonnet 5.5. Neither is a candidate, so neither is grading itself. Scores are integers from 1 to 5 for meaning, naturalness, and typo or context handling, plus a critical-error flag for a wrong meaning, the wrong language, a dropped negation, a wrong number or price, or an offensive mistranslation. The headline score is the mean of the two judges. The run does not switch judges if one of them fails. A short budget stops the run and says so.
 
@@ -178,7 +178,7 @@ p50 and p95 are linear percentiles of successful call latencies, including provi
 
 ## English pivot
 
-For Indonesian↔Thai, Japanese↔Korean, and Hindi↔Arabic only, the selected cheap model also translated source → English → target with the same production prompt and the same history. Direct and pivot outputs were then scored against each other by both judges, blind and shuffled.
+For Indonesian↔Thai, Japanese↔Korean, and Hindi↔Arabic only, the selected cheap model also translated source → English → target with the same prompt and the same history. Direct and pivot outputs were then scored against each other by both judges, blind and shuffled.
 
 Pivot model: `google/gemini-3.1-flash-lite`. This is the cheapest non-ceiling model within 0.10 of the best headline mean, among models both judges scored on at least 80% of cases.
 On the non-English pairs, direct translation scored 4.53 and the English pivot scored 4.54 (paired blind rescore, n=24). Critical-error rates were 4.2% direct and 12.5% pivot.
@@ -209,7 +209,7 @@ Use the language's tier for a turn whose non-English side is that language, whet
 | ar | escalation | 4.60 | 4.75 | 12.5% | 8 |
 | es | default | 4.69 | 4.90 | 0.0% | 8 |
 
-The machine-readable map is `docs/routing-recommendation.json`. Every non-English language in `src/languages.js` is listed. A measured language uses the escalation model when its tier is escalation, and the default model otherwise. An unmeasured language was not in this 120-case set. It is pointed at the same two models and should use the default until it is measured.
+The machine-readable map (`routing-recommendation.json`, generated next to this report in the translation app it was built for, not included in this repository) lists every non-English language in that app. A measured language uses the escalation model when its tier is escalation, and the default model otherwise. An unmeasured language was not in this 120-case set. It is pointed at the same two models and should use the default until it is measured.
 
 ## Settings actually used
 

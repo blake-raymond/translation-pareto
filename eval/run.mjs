@@ -1,5 +1,5 @@
 // OpenRouter comparison for Grok Translate.
-// Production prompt: SYSTEM_PROMPT and buildUserPrompt from src/worker.js.
+// Prompt: SYSTEM_PROMPT (same text as eval/prompts/v1.txt) and buildUserPrompt from the app's src/worker.js.
 //
 //   node eval/run.mjs
 //   node eval/run.mjs --prepare-only
@@ -445,7 +445,7 @@ async function main() {
     if (candidateSlugs.has(judge.slug)) throw new Error(`${judge.slug} cannot judge itself`);
   }
   if (!SYSTEM_PROMPT.includes("professional interpreter")) {
-    throw new Error("production system prompt was not imported");
+    throw new Error("system prompt was not imported");
   }
   const apiKey = loadKey();
   const ledger = loadLedger();
@@ -463,7 +463,7 @@ async function main() {
   }
   validateLoaded(cases);
   const sample = userPrompt(cases[0]);
-  if (!sample.includes("Conversation so far")) throw new Error("production prompt builder was not imported");
+  if (!sample.includes("Conversation so far")) throw new Error("prompt builder was not imported");
   if (opts.limit) cases = interleave(cases).slice(0, opts.limit);
   let models = catalog.models;
   if (opts.only) {
