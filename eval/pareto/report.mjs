@@ -385,7 +385,7 @@ function markdown(opts, analysis, spend) {
     `Cases: ${cases.length} (${nBench} benchmark, ${nChat} chat) across ${langs.length} languages${opts.pilot ? `: ${langs.map(languageName).join(", ")}` : ""}.`,
     `Scored cases: ${scored}. Judge parse failures: ${parseFailures}.`,
     "Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.",
-    "Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5. The pilot's chat cases are kept and extended, not replaced.",
+    `Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5, in both directions: ${cases.filter((c) => c.kind === "chat" && c.source === "en").length} translate from English and ${cases.filter((c) => c.kind === "chat" && c.source !== "en").length} into English.`,
     "Each candidate used the interpreter system prompt in `eval/prompts/v1.txt` with conversation history on chat items.",
     "One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.",
     "Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.",
@@ -480,15 +480,15 @@ function spendFromLedger(opts, cases) {
     `Measured translation cost per model×case: **$${perTranslate.toFixed(5)}**.`,
   ];
   if (ALL15) lines.splice(0, lines.length,
-    `Spend (OpenRouter \`usage.cost\`, cumulative ledger for the whole project including the first run and the supplement): **$${ledger.spent.toFixed(4)}**.`,
+    `Spend (OpenRouter \`usage.cost\`, cumulative ledger for the whole project, including the pilots and the earlier passes this one replaces): **$${ledger.spent.toFixed(4)}**.`,
     "",
     `| Step | USD |`, `| --- | ---: |`,
     `| Chat drafting (all runs) | $${chatUsd.toFixed(4)} |`,
     `| Translations (all runs) | $${translateUsd.toFixed(4)} |`,
-    `| Judge (all runs, including superseded passes) | $${judgeUsd.toFixed(4)} |`,
+    `| Judge (all runs, including earlier passes) | $${judgeUsd.toFixed(4)} |`,
     `| Total | $${ledger.spent.toFixed(4)} |`,
     "",
-    `New spend for this combined rerun (missing translations + 15-candidate judge pass + pilot): **$${newSpend.toFixed(4)}**.`);
+    `New spend for this pass (missing translations, the 15-candidate judge pass and its pilot): **$${newSpend.toFixed(4)}**.`);
   if (opts.pilot) {
     lines.push(
       "",
