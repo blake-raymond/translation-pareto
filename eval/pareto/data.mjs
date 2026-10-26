@@ -334,6 +334,42 @@ async function loadTatoebaApi(lang) {
   return { dataset: "tatoeba-api", license: "CC-BY-2.0", rows };
 }
 
+function readJsonIfExists(file) {
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
+}
+
+// Merge freshly collected languages into the existing benchmark and coverage files.
+// Only the languages in `langs` are replaced; cases and coverage rows for every other
+// language are kept unchanged, so `--langs a,b` can never shrink the files to a subset.
+// Pure function (no I/O) so it can be tested.
+export function mergeLanguageSubset({ existingCases = [], existingCoverage = null, langs, cases, coverage, missing = [], short = [], meta = {} }) {
+  const replaced = new Set(langs);
+  const byTarget = (row) => row.target || row.lang;
+  const mergedCases = [...existingCases.filter((row) => !replaced.has(byTarget(row))), ...cases];
+  mergedCases.sort((a, b) => a.id.localeCompare(b.id) || a.target.localeCompare(b.target));
+  const oldCov = existingCoverage || {};
+  // Keep the existing language order; replace rows in place and append new languages.
+  const fresh = new Map(coverage.map((row) => [row.lang, row]));
+  const languages = (oldCov.languages || []).map((row) => fresh.get(row.lang) || row).filter((row) => !replaced.has(row.lang) || fresh.has(row.lang));
+  for (const row of coverage) if (!languages.includes(row)) languages.push(row);
+  const mergedMissing = [...(oldCov.missing || []).filter((lang) => !replaced.has(lang)), ...missing].sort();
+  const mergedShort = [...(oldCov.short || []).filter((row) => !replaced.has(row.lang)), ...short].sort((a, b) => a.lang.localeCompare(b.lang));
+  return {
+    cases: mergedCases,
+    coverage: {
+      ...oldCov,
+      ...meta,
+      bench_per_lang: BENCH_PER_LANG,
+      chat_per_lang: null,
+      languages,
+      missing: mergedMissing,
+      short: mergedShort,
+      n_cases: mergedCases.length,
+      n_benchmark: mergedCases.length,
+    },
+  };
+}
+
 export async function collectData(opts = parseArgs()) {
   fs.mkdirSync(RAW_DIR, { recursive: true });
   const langs = targetLangs(opts).filter((code) => code !== "en");
@@ -451,22 +487,21 @@ export async function collectData(opts = parseArgs()) {
     console.log(`${lang.padEnd(8)} ${pack.dataset.padEnd(14)} available=${expanded.available} sampled=${langCases.length} kept=${expanded.kept.length} added=${added.length} domains=${JSON.stringify(domains)}`);
   }
 
-  cases.sort((a, b) => a.id.localeCompare(b.id) || a.target.localeCompare(b.target));
-  writeJson(BENCHMARK_FILE, cases);
-  writeJson(COVERAGE_FILE, {
-    seed: SEED,
-    flores_gated: floresGated,
-    flores_status: probe.status,
-    hf_token: Boolean(token),
-    bench_per_lang: BENCH_PER_LANG,
-    chat_per_lang: null,
-    languages: coverage,
+  const meta = { seed: SEED, flores_gated: floresGated, flores_status: probe.status, hf_token: Boolean(token) };
+  const merged = mergeLanguageSubset({
+    existingCases: readJsonIfExists(BENCHMARK_FILE) || [],
+    existingCoverage: readJsonIfExists(COVERAGE_FILE),
+    langs,
+    cases,
+    coverage,
     missing,
     short,
-    n_cases: cases.length,
-    n_benchmark: cases.length,
+    meta,
   });
-  console.log(`wrote ${cases.length} benchmark cases for ${coverage.filter((row) => row.n_sampled).length} languages to ${BENCHMARK_FILE}`);
+  writeJson(BENCHMARK_FILE, merged.cases);
+  writeJson(COVERAGE_FILE, merged.coverage);
+  if (opts.langs?.length) console.log(`--langs ${langs.join(",")}: replaced only those languages; other languages kept from the existing files`);
+  console.log(`wrote ${merged.cases.length} benchmark cases for ${coverage.filter((row) => row.n_sampled).length} languages to ${BENCHMARK_FILE}`);
   if (missing.length) console.log(`missing languages: ${missing.join(", ")}`);
   if (short.length) console.log(`short languages: ${short.map((row) => `${row.lang}=${row.n_sampled}/${row.n_available}`).join(", ")}`);
   return { cases, coverage, missing, short, floresGated };

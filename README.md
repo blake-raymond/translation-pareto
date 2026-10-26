@@ -28,6 +28,8 @@ A reproducible benchmark of the cost-versus-quality frontier of LLMs for **conve
 
 Mean is the average of meaning, naturalness and handling (1-5), with each language weighted equally. n = 4,242 scored cases for every model.
 
+**Headline:** GPT-6 Luna is on top (4.69 at $0.032 per 1,000 messages), with Gemini 3.1 Flash-Lite as a statistical near-tie (4.66, lead 0.032, 95% CI -0.002 to 0.064) at about 2.5 times the price per message.
+
 **Pareto frontier:** GLM 5.3 Flash and Gemini 2.5 Flash-Lite (both $0.025), GPT-6 Luna ($0.032) and Gemini 3.1 Flash-Lite ($0.080). Gemini 3.1 Flash-Lite is on it only narrowly: Luna is cheaper and leads by 0.032, but the 95% CI (-0.002 to 0.064) includes zero, so Luna is not clearly better. Gemini 3.1 Flash-Lite and Muse Spark 1.3 have lower critical-error rates than Luna. Per-language tables, benchmark-only and chat-only splits, and language flags are in [`docs/results.md`](docs/results.md).
 
 ## Method
@@ -80,7 +82,7 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
 
 1. **Smoke test** (about $0.02): `npm run smoke` translates 3 Spanish cases with two cheap models, judges them with the real judge and writes a report under `eval/pareto/results/smoke/`.
 2. **Cases** are committed: `data/benchmark-cases.json` (2,805) and `data/chat-cases.json` (1,440). To rebuild them:
-   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept, so a rerun on the committed file changes nothing. (With the corrected Tatoeba extraction, a fresh sample would find 30 Odia and 22 Sundanese pairs; the committed set keeps the 21 and 14 sampled originally.) FLORES+ is used only if `HF_TOKEN` is set and your Hugging Face account has access.
+   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept and their ids never change. With the corrected Tatoeba extraction, a rerun would find 30 Odia and 22 Sundanese pairs and add 9 and 8 new cases; the committed set keeps the 21 and 14 sampled originally. `--langs a,b,c` refreshes only those languages and merges them into the existing `data/benchmark-cases.json` and `data/coverage.json`; every other language is left as is. FLORES+ is used only if `HF_TOKEN` is set and your Hugging Face account has access.
    - `node eval/pareto/chat.mjs --full` drafts 20 chat conversations per language with Claude Opus 5.5 (about $10). Drafting is not deterministic, so new chat cases will differ from the committed ones.
 3. **Full run** (about $42: about $10 for translations, about $32 for judging): `bash eval/pareto/run-all15.sh` (Windows: `powershell -File eval/pareto/run-all15.ps1`). It translates every case with all 15 models (retrying empty or failed calls up to three times), judges in batches of 30, retries failed batches in batches of 10, and runs the identical-output check (`eval/pareto/sanity-all15.mjs`). Progress goes to `eval/pareto/results/all15-run.log`; results go to `eval/pareto/results/` (git-ignored).
 4. **Report**, with the same environment as the runner:

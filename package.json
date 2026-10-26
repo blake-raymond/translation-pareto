@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Open cost-vs-quality benchmark of LLMs for conversational translation.",
   "scripts": {
-    "test": "node --test eval/pareto/judge.test.mjs",
+    "test": "node --test eval/pareto/judge.test.mjs eval/pareto/data.test.mjs",
     "verify": "node eval/pareto/verify.mjs",
     "smoke": "node eval/pareto/smoke.mjs",
     "pareto:data": "node eval/pareto/data.mjs",
