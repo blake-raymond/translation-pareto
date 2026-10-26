@@ -39,9 +39,9 @@ const env = {
 const run = spawnSync(process.execPath, [path.join(ROOT, "eval", "pareto", "report.mjs"), "--full"], { env, encoding: "utf8" });
 if (run.status !== 0) { console.log(run.stdout, run.stderr); throw new Error("report.mjs failed"); }
 
-// Compare everything before the spend section (spend comes from the local ledger, which a clone does not have).
+// Compare the whole generated report: everything before the hand-written "## Notes" section.
 const norm = (text) => text.replace(/\r\n/g, "\n").replace(/\]\(pareto\.svg\)/g, "](CHART)");
-const head = (text) => norm(text).split("\n## Spend")[0];
+const head = (text) => norm(text).split("\n## Notes")[0];
 const got = head(fs.readFileSync(env.PARETO_REPORT_MD, "utf8"));
 const doc = head(fs.readFileSync(path.join(ROOT, "docs", "results.md"), "utf8"));
 const gotLines = got.split("\n");

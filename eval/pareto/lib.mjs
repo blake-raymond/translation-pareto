@@ -95,28 +95,6 @@ export function loadParetoLedger(pilot) {
   return ledger;
 }
 
-export function hfToken() {
-  const env = process.env.HF_TOKEN || process.env.HUGGINGFACE_HUB_TOKEN || process.env.HUGGING_FACE_HUB_TOKEN;
-  if (env) return env.trim();
-  const file = path.join(rootDir(), ".huggingface.env");
-  try {
-    const text = fs.readFileSync(file, "utf8");
-    for (const line of text.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const idx = trimmed.indexOf("=");
-      if (idx === -1) continue;
-      const key = trimmed.slice(0, idx).trim();
-      if (key !== "HF_TOKEN" && key !== "HUGGINGFACE_HUB_TOKEN") continue;
-      let value = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, "");
-      if (value) return value;
-    }
-  } catch {
-    // optional
-  }
-  return "";
-}
-
 export function usd(value) {
   return `$${(Number(value) || 0).toFixed(4)}`;
 }

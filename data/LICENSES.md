@@ -2,7 +2,7 @@
 
 This folder holds the sampled evaluation cases (`benchmark-cases.json`, `chat-cases.json`) and the raw results of the 15-model run (`results/`). Raw downloads stay in `data/raw/` and are git-ignored. Every case records its `dataset` and `license`.
 
-Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 from the Tatoeba.org API, 75 from OPUS). FLORES+ 0.
+Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 from the Tatoeba.org API, 75 from OPUS).
 
 ## WMT24++
 
@@ -10,12 +10,6 @@ Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 
 - Paper: Deutsch et al., *WMT24++: Expanding the Language Coverage of WMT24 to 55 Languages & Dialects*
 - License: Apache 2.0
 - Use: English→xx benchmark segments. Sampling prefers the `social` and `speech` domains, then shorter segments. Canary and `is_bad_source` rows are dropped.
-
-## FLORES+
-
-- Source: https://huggingface.co/datasets/openlanguagedata/flores_plus
-- License: CC BY-SA 4.0
-- Notes: Gated on Hugging Face. This run did not have a token, so FLORES+ was not downloaded and is not stored. If `HF_TOKEN` or `.huggingface.env` is present, `eval/pareto/data.mjs` will try `devtest` and keep raw files under `data/raw/flores_plus/` (git-ignored).
 
 ## NTREX-128
 
@@ -28,7 +22,6 @@ Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 
 
 - Source: OPUS Tatoeba v2023-04-12 (https://opus.nlpl.eu/Tatoeba.php) and the Tatoeba.org search API
 - License: CC BY 2.0 FR (some sentences CC0), see https://tatoeba.org/en/terms_of_use. Attribution: sentences by the Tatoeba contributors, https://tatoeba.org.
-- Corrected: the `reference` fields of the 75 OPUS-derived cases (Javanese, Odia, Sundanese) were first extracted from the license file in the OPUS download instead of the aligned translations. This was fixed in `eval/pareto/data.mjs`, the references were restored from the aligned bitext, and those cases were re-judged.
 - Use: short conversational pairs for languages missing from both WMT24++ and NTREX-128 (Assamese, Bhojpuri, Cebuano, Javanese, Odia, Sundanese).
 
 ## Synthetic chat layer

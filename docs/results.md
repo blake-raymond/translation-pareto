@@ -6,12 +6,12 @@ Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (f
 
 Cases: 4245 (2805 benchmark, 1440 chat) across 72 languages.
 Scored cases: 4242. Judge parse failures: 3.
-Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.
+Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.
 Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5, in both directions: 723 translate from English and 717 into English.
 Each candidate used the interpreter system prompt in `eval/prompts/interpreter.txt` with conversation history on chat items.
 One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.
 Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.
-A model is on the Pareto frontier unless another model is **clearly better** (paired bootstrap CI of the difference is entirely positive) **and** the worse model is not cheaper.
+A model is on the Pareto frontier unless another model has a mean score at least as high **and** a cost per 1,000 messages no higher, with at least one of the two strictly better (point estimates, unrounded). Models with exactly equal mean and cost would both stay on.
 USD / 1k is billed OpenRouter `usage.cost` on successful translation calls, including reasoning tokens, times 1,000. It does not include the judge or the chat drafter.
 A cheap model costs at most $0.10 per 1,000 messages. A language is flagged when any cheap model has mean below 3.5 or a critical rate above 25% on that language.
 
@@ -42,7 +42,10 @@ A cheap model costs at most $0.10 per 1,000 messages. A language is flagged when
 - `z-ai/glm-5.3-flash` — mean 4.23 (4.15–4.30), critical 6.4%, $0.025 / 1k
 - `google/gemini-2.5-flash-lite` — mean 4.27 (4.21–4.33), critical 5.9%, $0.025 / 1k
 - `openai/gpt-6-luna` — mean 4.69 (4.65–4.72), critical 2.1%, $0.032 / 1k
-- `google/gemini-3.1-flash-lite` — mean 4.66 (4.62–4.69), critical 1.5%, $0.080 / 1k
+
+Dominated on point estimates but within noise of every model that dominates it (paired 95% CI of the difference includes zero):
+
+- `google/gemini-3.1-flash-lite` (4.66, $0.080 / 1k): `openai/gpt-6-luna` +0.032 (-0.002 to 0.064)
 
 ## Paired differences vs the best model
 
@@ -305,35 +308,28 @@ Best chat mean: `openai/gpt-6-luna`.
 
 ## Spend
 
-Spend (OpenRouter `usage.cost`, cumulative ledger for the whole project, including the pilots and the earlier passes this one replaces): **$79.0589**.
+Cost of the published results (OpenRouter `usage.cost`, summed over the calls in `data/results/`):
 
 | Step | USD |
 | --- | ---: |
-| Chat drafting (all runs) | $10.6700 |
-| Translations (all runs) | $10.0639 |
-| Judge (all runs, including earlier passes) | $58.3278 |
-| Total | $79.0589 |
+| Translations (63,675 calls) | $8.92 |
+| Judging (180 calls) | $31.87 |
+| Total | $40.79 |
 
-New spend for this pass (missing translations, the 15-candidate judge pass and its pilot): **$34.9892**, plus **$0.3862** to re-judge the 75 cases with corrected references.
+Drafting the chat cases, which are committed in `data/chat-cases.json`, is not included.
 
 ## Limits
 
-LLM-judged, not human-verified. A single Opus judge can favor its own family. Per-language cells are noisy at this sample size. WMT24++ locales (for example Mexican Spanish, Egyptian Arabic) stand in for the language, not every variety.
+Scores come from one LLM judge (Claude Opus 5.5), which can favor its own model family. Per-language cells are noisy at this sample size. WMT24++ locales (for example Mexican Spanish, Egyptian Arabic) stand in for each language as a whole.
 
-## Notes on this pass
+## Notes
 
 **Unscored cases.** 4,242 of 4,245 cases are scored. Three cases returned an empty or truncated reply from the judge on every attempt (batches of 30, 10, 5 and 1): `bench-ha-22` ("Bats are not actually blind."), `bench-ha-26` ("Hats off to Thomas.") and `chat-lo-09` (slang about Luang Prabang). The source lines are harmless, so the trigger is probably one of the 15 candidate outputs. All models are averaged over the same 4,242 cases.
 
-**Truncated replies.** 40 cases first failed to parse because the provider cut the judge's JSON reply short (raw replies are saved in `eval/pareto/results/judge-all15/`). They were re-judged in batches of 5 and then 1; 37 succeeded.
+**Truncated replies.** For 40 cases the provider cut the judge's JSON reply short. They were retried in batches of 5 and then 1, and 37 succeeded. Every judge call is in `data/results/judge-batches.json.gz`.
 
-**Identical-output check** (`eval/pareto/sanity-all15.mjs`, full output in `docs/sanity-all15.txt`). Of 37,274 pairs where two models produced exactly the same text for a case, 33 pairs (0.09%) got a different critical flag or scores at least 2 points apart, 12 of them from one Thai case (`bench-th-08`). In each, one candidate was scored lower than an identical candidate elsewhere in the same prompt, most likely the judge mixing up candidate labels within a 15-candidate list. This is judge noise, kept in the results rather than corrected. At 0.09% of pairs it moves no model's mean by more than about 0.01.
-
-**Corrected references (Javanese, Odia, Sundanese).** The 75 benchmark cases for these languages come from OPUS Tatoeba. An extraction bug in `eval/pareto/data.mjs` read the archive's LICENSE file instead of the target-language file, so their reference translations were lines of the Creative Commons license text. The English source lines were correct, so the translations stayed valid. The references were restored from the aligned bitext (same case ids and source lines), and the 75 cases were re-judged with all 15 candidates in the same listwise setup (batches of 30). The judge cache key now includes the source line, reference and history shown to the judge.
-
-## Earlier passes
-
-Before this pass, 11 models were judged together, and four newer models (GPT-6 Luna, Muse Spark 1.3, GLM 5.3 Flash, MiniMax M3.1 Flash) were added later in a separate pass on a 1,080-case subsample, placed on the same scale through two anchor models. One judge batch in that later pass reused cached scores from when two models' outputs were still empty, which understated GPT-6 Luna and Muse Spark 1.3. The judge cache key now includes the exact candidate outputs, empty candidates are refused (tested in `eval/pareto/judge.test.mjs`), and this pass judged all 15 models together on every case. These numbers replace the earlier ones. Listwise scores are relative to the panel in the prompt, so scores from different passes are not comparable.
+**Identical-output check** (`eval/pareto/sanity-all15.mjs`, full output in `docs/sanity-all15.txt`). Of 37,274 pairs where two models produced exactly the same text for a case, 33 pairs (0.09%) got a different critical flag or scores at least 2 points apart, 12 of them from one Thai case (`bench-th-08`). In each, one candidate was scored lower than an identical candidate elsewhere in the same prompt, most likely the judge mixing up candidate labels within a 15-candidate list. These scores are kept as the judge returned them. At 0.09% of pairs they move no model's mean by more than about 0.01.
 
 ## Frontier call
 
-Gemini 3.1 Flash-Lite is on the frontier, but only just. GPT-6 Luna is cheaper and leads it by 0.032, with a 95% interval of -0.002 to 0.064. The interval includes zero, so Luna is not clearly better and Gemini stays on the frontier under the rule. Before the reference correction the interval was 0.000-0.065 and Gemini was just off it. Gemini 3.1 Flash-Lite's critical-error rate (1.5%) is lower than Luna's (2.1%).
+The frontier uses point estimates: a model is off it if another model has a mean at least as high and a cost no higher, one of them strictly. GLM 5.3 Flash ($0.02509 per 1,000 messages unrounded) and Gemini 2.5 Flash-Lite ($0.02526) both show as $0.025; GLM is slightly cheaper and Gemini 2.5 Flash-Lite scores higher, so both are on it. Gemini 3.1 Flash-Lite is dominated by GPT-6 Luna, which is cheaper and scores higher, but the gap is within noise: 0.032, 95% CI -0.002 to 0.064. Gemini 3.1 Flash-Lite's critical-error rate (1.5%) is lower than Luna's (2.1%). A rule that keeps every model not clearly dominated (paired CI entirely above zero) would add Gemini 3.1 Flash-Lite and no other model.

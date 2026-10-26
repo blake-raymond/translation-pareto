@@ -1,5 +1,11 @@
 {
-  "description": "Raw results of the single 15-model pass reported in docs/results.md.",
+  "description": "Raw results reported in docs/results.md.",
+  "cost_usd": {
+    "translations": 8.91886161141482,
+    "translation_calls": 63675,
+    "judging": 31.867572,
+    "judge_calls": 180
+  },
   "judge": "anthropic/claude-opus-5.5",
   "rubric_version": "2026-10-25-pareto-v1",
   "panel": [
@@ -37,7 +43,7 @@
     },
     {
       "file": "eval/pareto/models.json",
-      "sha256": "732fb4585ceda9db5a718b3b610fbbffa241be4848a6c306d9cd2f57255cba49"
+      "sha256": "15db8f566691b261995cbf3a34a1d44b86f0a4ff6c4bed381ee7c66df33efc34"
     },
     {
       "file": "data/benchmark-cases.json",
@@ -56,18 +62,18 @@
     },
     {
       "file": "data/results/judgements.json.gz",
-      "bytes": 205844,
-      "sha256_uncompressed": "b5ee593a4831175e9788387326b6a2df5b1df6f9c6a5918f4d5ab57e4b97d3e4"
+      "bytes": 205721,
+      "sha256_uncompressed": "4ca4d06c459524f3f32077ce7daf5583db7519ba92acaf5ba6064d103d7620ee"
     },
     {
       "file": "data/results/judge-batches.json.gz",
-      "bytes": 531038,
-      "sha256_uncompressed": "8bfbcca1ebf91a46a23fe509b5ab54566be82fcb569add92cecbe4b335c2b665"
+      "bytes": 527607,
+      "sha256_uncompressed": "6914b527754a5e0ff50189ffb258a0e523b91ed41d544109bea902723d0a7851"
     }
   ],
   "formats": {
     "translations.json.gz": "{ cases: [case id], models: [slug], runs: [{ case_id, slug, output, error, cost_usd, prompt_tokens, completion_tokens, reasoning_tokens, latency_ms, temperature, reasoning }] }",
-    "judgements.json.gz": "{ judge, rubric, slugs, scores: { case_id: { slug: { meaning, naturalness, handling, critical_error, score } } }, batches, parse_failures }",
-    "judge-batches.json.gz": "{ file name: { order: { case_id: [slug for label A, B, ...] }, raw: judge reply text, scores, cost_usd, usage } } - every judge call, including retried batches"
+    "judgements.json.gz": "{ judge, rubric, slugs, scores: { case_id: { slug: { meaning, naturalness, handling, critical_error, score } } }, parse_failures }",
+    "judge-batches.json.gz": "{ file name: { order: { case_id: [slug for label A, B, ...] }, raw: judge reply text, scores, cost_usd, usage } } - every judge call behind the published scores, including failed calls that were retried"
   }
 }

@@ -84,7 +84,7 @@ function safeReport(opts, note) {
 async function runFull(opts) {
   enableRunLog();
   const fullOpts = { ...opts, pilot: false, full: true, langs: null };
-  console.log(`FULL START ${TARGET_CODES.length} languages ; up to ${BENCH_PER_LANG} benchmark + ${CHAT_PER_LANG} chat ; 12 models ; hard cap $${CAP_USD.toFixed(2)} ; soft stop $${SOFT_CAP_USD.toFixed(2)}`);
+  console.log(`FULL START ${TARGET_CODES.length} languages ; up to ${BENCH_PER_LANG} benchmark + ${CHAT_PER_LANG} chat ; hard cap $${CAP_USD.toFixed(2)} ; soft stop $${SOFT_CAP_USD.toFixed(2)}`);
   await collectData(fullOpts);
   const stages = [
     {
@@ -164,7 +164,7 @@ export async function run(opts = parseArgs()) {
     process.exitCode = 2;
     return;
   }
-  console.log("PILOT START 5 languages vi,km,ja,ko,es ; 10 benchmark + 5 chat ; 12 models ; cap $1.50");
+  console.log("PILOT START 5 languages vi,km,ja,ko,es ; 10 benchmark + 5 chat ; cap $1.50");
   await collectData({ ...opts, pilot: false, langs: null });
   await draftChat(opts);
   await runTranslate(opts);

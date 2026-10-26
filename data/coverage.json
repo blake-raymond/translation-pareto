@@ -1,8 +1,5 @@
 {
   "seed": 20261025,
-  "flores_gated": true,
-  "flores_status": 401,
-  "hf_token": false,
   "bench_per_lang": 40,
   "chat_per_lang": null,
   "languages": [

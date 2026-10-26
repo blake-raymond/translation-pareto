@@ -1,13 +1,11 @@
 import path from "node:path";
 import { rootDir } from "../api.mjs";
 
-export const SUPP = process.env.PARETO_SUPP === "1";
-// Supplementary pass (4 new models): own hard cap 39.71 + 8.5.
-// Combined 15-model rerun (PARETO_ALL15=1): 43.68 already spent + 40 new budget.
+// 15-model run (PARETO_ALL15=1): translations plus judging cost about $41 from an empty cache.
 export const ALL15 = process.env.PARETO_ALL15 === "1";
-// PARETO_CAP_USD overrides the hard cap (cumulative over the ledger).
-export const CAP_USD = process.env.PARETO_CAP_USD ? Number(process.env.PARETO_CAP_USD) : ALL15 ? 83.7 : SUPP ? 48.2 : 41;
-export const SOFT_CAP_USD = ALL15 ? 83.0 : SUPP ? 47.5 : 40;
+// Hard cap and soft stop, cumulative over the local ledger. PARETO_CAP_USD overrides the hard cap.
+export const CAP_USD = process.env.PARETO_CAP_USD ? Number(process.env.PARETO_CAP_USD) : 50;
+export const SOFT_CAP_USD = Math.min(48, CAP_USD);
 export const PILOT_CAP_USD = 1.5;
 export const SEED = 20261025;
 export const RUBRIC_VERSION = "2026-10-25-pareto-v1";
@@ -30,7 +28,7 @@ export const COVERAGE_FILE = path.join(DATA_DIR, "coverage.json");
 export const TRANSLATIONS_FILE = process.env.PARETO_TRANSLATIONS ? path.resolve(process.env.PARETO_TRANSLATIONS) : path.join(RESULTS_DIR, "translations.json");
 export const JUDGEMENTS_FILE = process.env.PARETO_JUDGE_OUT ? path.resolve(process.env.PARETO_JUDGE_OUT) : path.join(RESULTS_DIR, "judgements.json");
 export const JUDGE_DIR = process.env.PARETO_JUDGE_DIR ? path.resolve(process.env.PARETO_JUDGE_DIR) : path.join(RESULTS_DIR, "judge");
-// Comma list of slugs; picks from models + supplement_models in models.json.
+// Comma list of slugs from models.json.
 export const PANEL = process.env.PARETO_PANEL ? process.env.PARETO_PANEL.split(",").map((s) => s.trim()).filter(Boolean) : null;
 // Deterministic stratified subsample: first K per language per kind.
 export const SUB_BENCH = process.env.PARETO_SUB_BENCH ? Number(process.env.PARETO_SUB_BENCH) : null;
@@ -39,11 +37,8 @@ export const MAX_BATCHES = process.env.PARETO_MAX_BATCHES ? Number(process.env.P
 export const REPORT_MD = process.env.PARETO_REPORT_MD ? path.resolve(process.env.PARETO_REPORT_MD) : path.join(rootDir(), "docs", "results.md");
 export const REPORT_SVG = process.env.PARETO_REPORT_SVG ? path.resolve(process.env.PARETO_REPORT_SVG) : path.join(rootDir(), "docs", "pareto.svg");
 export const SUMMARY_FILE = process.env.PARETO_SUMMARY ? path.resolve(process.env.PARETO_SUMMARY) : path.join(RESULTS_DIR, "summary.json");
-// Ledger total before the combined 15-model rerun started.
-export const PRE_ALL15_SPENT = 43.683586;
-
 export function panelModels(cat) {
-  const all = [...cat.models, ...(cat.supplement_models || [])];
+  const all = cat.models;
   if (!PANEL) return cat.models;
   return PANEL.map((slug) => {
     const m = all.find((row) => row.slug === slug);

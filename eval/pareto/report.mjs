@@ -1,7 +1,7 @@
 // Per-model means, critical rates, cost/1k, hierarchical bootstrap CIs, Pareto chart.
 import fs from "node:fs";
 import path from "node:path";
-import { writeJson } from "../api.mjs";
+import { rootDir, writeJson } from "../api.mjs";
 import { languageName, TARGET_CODES } from "./languages.mjs";
 import { invokedDirectly, loadParetoLedger, mean, mulberry32, parseArgs, seedMix } from "./lib.mjs";
 import {
@@ -12,7 +12,6 @@ import {
   panelModels,
   SUMMARY_FILE,
   ALL15,
-  PRE_ALL15_SPENT,
   REPORT_MD,
   REPORT_SVG,
   RESULTS_DIR,
@@ -190,25 +189,36 @@ function pairAgainstBest(rows) {
   return paired;
 }
 
+// Standard Pareto frontier on point estimates (unrounded mean score and unrounded USD / 1k).
+// A model is dominated if another model has mean >= its mean and cost <= its cost, with at
+// least one of the two strictly better. Two models with exactly equal mean and cost do not
+// dominate each other. Equal rounded costs are compared on the unrounded values.
+export function dominates(other, row) {
+  return other.mean >= row.mean && other.costPer1k <= row.costPer1k && (other.mean > row.mean || other.costPer1k < row.costPer1k);
+}
+
+export function paretoFrontier(rows) {
+  const valid = rows.filter((row) => row.mean != null && row.costPer1k != null);
+  return valid.filter((row) => !valid.some((other) => other.slug !== row.slug && dominates(other, row)))
+    .sort((a, b) => a.costPer1k - b.costPer1k);
+}
+
 function frontierOf(rows) {
-  const pairCache = new Map();
-  function pairCI(a, b) {
-    const key = `${a.slug}||${b.slug}`;
-    if (!pairCache.has(key)) {
-      pairCache.set(key, pairedDiff(a.groups, b.groups, mulberry32(seedMix("pair", a.slug, b.slug))));
-    }
-    return pairCache.get(key);
+  return paretoFrontier(rows);
+}
+
+// Dominated models whose dominators are all within noise: for every model that dominates it,
+// the paired bootstrap CI of the score difference includes zero. Reported as near-ties only.
+function nearTiesOf(rows, frontier) {
+  const valid = rows.filter((row) => row.mean != null && row.costPer1k != null);
+  const out = [];
+  for (const row of valid) {
+    if (frontier.includes(row)) continue;
+    const doms = valid.filter((other) => other.slug !== row.slug && dominates(other, row));
+    const diffs = doms.map((other) => ({ other, ...pairedDiff(other.groups, row.groups, mulberry32(seedMix("pair", other.slug, row.slug))) }));
+    if (diffs.length && diffs.every((d) => d.low <= 0)) out.push({ row, diffs });
   }
-  return rows.filter((row) => {
-    if (row.mean == null || row.costPer1k == null) return false;
-    return !rows.some((other) => {
-      if (other.slug === row.slug || other.mean == null || other.costPer1k == null) return false;
-      const diff = pairCI(other, row);
-      const clearlyWorse = diff.low > 0;
-      const notCheaper = row.costPer1k + 1e-12 >= other.costPer1k;
-      return clearlyWorse && notCheaper;
-    });
-  }).sort((a, b) => a.costPer1k - b.costPer1k);
+  return out;
 }
 
 function languageFlags(rows) {
@@ -317,10 +327,11 @@ export function analyze(opts = parseArgs()) {
   const rows = buildRows(models, cases, scores, translations, null);
   const paired = pairAgainstBest(rows);
   const frontier = frontierOf(rows);
+  const nearTies = nearTiesOf(rows, frontier);
   const benchmark = buildRows(models, cases, scores, translations, "benchmark");
   const chat = buildRows(models, cases, scores, translations, "chat");
   const flags = languageFlags(rows);
-  return { cases, rows, paired, frontier, judgements, translations, models, benchmark, chat, flags };
+  return { cases, rows, paired, frontier, nearTies, judgements, translations, models, benchmark, chat, flags };
 }
 
 function qualityTable(rows) {
@@ -340,7 +351,7 @@ function pairTable(paired) {
 }
 
 function markdown(opts, analysis, spend) {
-  const { rows, paired, frontier, cases, benchmark, chat, flags, judgements } = analysis;
+  const { rows, paired, frontier, nearTies, cases, benchmark, chat, flags, judgements } = analysis;
   const langs = [...new Set(cases.map(langOf))];
   const nBench = cases.filter((item) => item.kind === "benchmark").length;
   const nChat = cases.filter((item) => item.kind === "chat").length;
@@ -350,7 +361,7 @@ function markdown(opts, analysis, spend) {
     ? [
       "# Pareto translation eval — PILOT",
       "",
-      "This is a **5-language pilot** (vi, km, ja, ko, es), 10 benchmark + 5 chat cases each, 12 models, one judge (`anthropic/claude-opus-5.5`). It is not the full 72-language run.",
+      "This is a **5-language pilot** (vi, km, ja, ko, es), 10 benchmark + 5 chat cases each, one judge (`anthropic/claude-opus-5.5`). It is not the full 72-language run.",
       "",
     ]
     : [
@@ -384,12 +395,12 @@ function markdown(opts, analysis, spend) {
     "",
     `Cases: ${cases.length} (${nBench} benchmark, ${nChat} chat) across ${langs.length} languages${opts.pilot ? `: ${langs.map(languageName).join(", ")}` : ""}.`,
     `Scored cases: ${scored}. Judge parse failures: ${parseFailures}.`,
-    "Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. FLORES+ is gated on Hugging Face and was not downloaded. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.",
+    "Benchmark items are English→xx samples from WMT24++ where available (social and speech preferred, then shorter segments), else NTREX-128, else Tatoeba. Languages with fewer than 40 clean segments use every available segment; counts are in `data/coverage.json`.",
     `Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5, in both directions: ${cases.filter((c) => c.kind === "chat" && c.source === "en").length} translate from English and ${cases.filter((c) => c.kind === "chat" && c.source !== "en").length} into English.`,
     "Each candidate used the interpreter system prompt in `eval/prompts/interpreter.txt` with conversation history on chat items.",
     "One judge, `anthropic/claude-opus-5.5`, scored shuffled anonymous candidates in compact `m,n,h,c` strings. The reference was shown for benchmark items only.",
     "Bootstrap 95% intervals resample languages, then cases within language (2,000 draws, seed 20261025). Language means are equally weighted.",
-    "A model is on the Pareto frontier unless another model is **clearly better** (paired bootstrap CI of the difference is entirely positive) **and** the worse model is not cheaper.",
+    "A model is on the Pareto frontier unless another model has a mean score at least as high **and** a cost per 1,000 messages no higher, with at least one of the two strictly better (point estimates, unrounded). Models with exactly equal mean and cost would both stay on.",
     `USD / 1k is billed OpenRouter \`usage.cost\` on successful translation calls, including reasoning tokens, times 1,000. It does not include the judge or the chat drafter.`,
     `A cheap model costs at most $${CHEAP_USD_PER_1K.toFixed(2)} per 1,000 messages. A language is flagged when any cheap model has mean below 3.5 or a critical rate above 25% on that language.`,
     "",
@@ -405,6 +416,9 @@ function markdown(opts, analysis, spend) {
       ? frontier.map((row) => `- \`${row.slug}\` — mean ${fmt(row.mean)} (${fmt(row.ci.low)}–${fmt(row.ci.high)}), critical ${fmt((row.crit || 0) * 100, 1)}%, ${usd(row.costPer1k)} / 1k`).join("\n")
       : "No frontier (missing scores or costs).",
     "",
+    ...(nearTies.length
+      ? ["Dominated on point estimates but within noise of every model that dominates it (paired 95% CI of the difference includes zero):", "", ...nearTies.map(({ row, diffs }) => `- \`${row.slug}\` (${fmt(row.mean)}, ${usd(row.costPer1k)} / 1k): ${diffs.map((d) => `\`${d.other.slug}\` +${fmt(d.mean, 3)} (${fmt(d.low, 3)} to ${fmt(d.high, 3)})`).join("; ")}`), ""]
+      : []),
     "## Paired differences vs the best model",
     "",
     rows[0] ? `Best mean: \`${rows[0].slug}\`.` : "",
@@ -443,7 +457,7 @@ function markdown(opts, analysis, spend) {
     "",
     "## Limits",
     "",
-    "LLM-judged, not human-verified. A single Opus judge can favor its own family. Per-language cells are noisy at this sample size. WMT24++ locales (for example Mexican Spanish, Egyptian Arabic) stand in for the language, not every variety.",
+    "Scores come from one LLM judge (Claude Opus 5.5), which can favor its own model family. Per-language cells are noisy at this sample size. WMT24++ locales (for example Mexican Spanish, Egyptian Arabic) stand in for each language as a whole.",
     "",
   ].join("\n");
 }
@@ -464,8 +478,7 @@ function spendFromLedger(opts, cases) {
   const scaleCases = nCases ? nFullCases / nCases : 0;
   const projected = chatUsd * scaleChat + translateUsd * scaleCases + judgeUsd * scaleCases;
   const perCase = nCases ? ledger.spent / nCases : 0;
-  const perTranslate = nCases ? translateUsd / (nCases * 12) : 0;
-  const newSpend = ledger.spent - PRE_ALL15_SPENT;
+  const perTranslate = nCases ? translateUsd / (nCases * panelModels(catalog()).length) : 0;
   const lines = [
     `${opts.pilot ? "Pilot spend" : "Spend"} (OpenRouter \`usage.cost\`, hard cap $${opts.pilot ? Number(ledger.cap).toFixed(2) : CAP_USD.toFixed(2)}, soft stop $${SOFT_CAP_USD.toFixed(2)}): **$${ledger.spent.toFixed(4)}**.`,
     "",
@@ -479,16 +492,23 @@ function spendFromLedger(opts, cases) {
     `Measured cost per case (all models + share of drafting and judging): **$${perCase.toFixed(4)}**.`,
     `Measured translation cost per model×case: **$${perTranslate.toFixed(5)}**.`,
   ];
-  if (ALL15) lines.splice(0, lines.length,
-    `Spend (OpenRouter \`usage.cost\`, cumulative ledger for the whole project, including the pilots and the earlier passes this one replaces): **$${ledger.spent.toFixed(4)}**.`,
-    "",
-    `| Step | USD |`, `| --- | ---: |`,
-    `| Chat drafting (all runs) | $${chatUsd.toFixed(4)} |`,
-    `| Translations (all runs) | $${translateUsd.toFixed(4)} |`,
-    `| Judge (all runs, including earlier passes) | $${judgeUsd.toFixed(4)} |`,
-    `| Total | $${ledger.spent.toFixed(4)} |`,
-    "",
-    `New spend for this pass (missing translations, the 15-candidate judge pass and its pilot): **$${newSpend.toFixed(4)}**.`);
+  if (ALL15) {
+    // Cost of the published results, from the committed export (data/results/manifest.json).
+    const manifestFile = path.join(rootDir(), "data", "results", "manifest.json");
+    const cost = fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")).cost_usd : null;
+    lines.splice(0, lines.length, ...(cost
+      ? [
+        "Cost of the published results (OpenRouter `usage.cost`, summed over the calls in `data/results/`):",
+        "",
+        "| Step | USD |", "| --- | ---: |",
+        `| Translations (${cost.translation_calls.toLocaleString("en-US")} calls) | $${cost.translations.toFixed(2)} |`,
+        `| Judging (${cost.judge_calls} calls) | $${cost.judging.toFixed(2)} |`,
+        `| Total | $${(cost.translations + cost.judging).toFixed(2)} |`,
+        "",
+        "Drafting the chat cases, which are committed in `data/chat-cases.json`, is not included.",
+      ]
+      : ["Cost: see `data/results/manifest.json`."]));
+  }
   if (opts.pilot) {
     lines.push(
       "",

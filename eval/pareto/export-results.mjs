@@ -25,10 +25,18 @@ fs.mkdirSync(OUT, { recursive: true });
 const translations = JSON.parse(fs.readFileSync(path.join(SRC, "translations-all15.json"), "utf8"));
 for (const run of translations.runs) delete run.cached; // local cache flag, not a result
 const judgements = JSON.parse(fs.readFileSync(path.join(SRC, "judgements-all15.json"), "utf8"));
+for (const key of ["spent_usd", "aborted", "abort_reason", "batches"]) delete judgements[key]; // local run state; every judge call is in judge-batches
 const batchDir = path.join(SRC, "judge-all15");
 const batches = {};
-for (const name of fs.readdirSync(batchDir).filter((n) => /^batch-.*\.json$/.test(n)).sort()) {
-  batches[name] = JSON.parse(fs.readFileSync(path.join(batchDir, name), "utf8"));
+// Keep every judge call whose scores are used, plus failed or partial calls that were retried.
+// A call is left out only if it scored all of its cases and a later call scored every one of them again.
+const all = fs.readdirSync(batchDir).filter((n) => /^batch-.*\.json$/.test(n)).sort()
+  .map((name) => ({ name, t: fs.statSync(path.join(batchDir, name)).mtimeMs, b: JSON.parse(fs.readFileSync(path.join(batchDir, name), "utf8")) }));
+const scored = (x, id) => x.b.scores?.[id] && Object.keys(x.b.scores[id]).length > 0;
+for (const x of all) {
+  const ids = Object.keys(x.b.order || {});
+  const replaced = ids.every((id) => scored(x, id)) && ids.every((id) => all.some((y) => y.t > x.t && scored(y, id)));
+  if (!replaced) batches[x.name] = x.b;
 }
 const files = [
   gz("translations.json.gz", scrub(JSON.stringify(translations))),
@@ -42,7 +50,13 @@ const inputs = [
   "data/benchmark-cases.json", "data/chat-cases.json",
 ].map((rel) => ({ file: rel, sha256: hashOf(rel) }));
 const manifest = {
-  description: "Raw results of the single 15-model pass reported in docs/results.md.",
+  description: "Raw results reported in docs/results.md.",
+  cost_usd: {
+    translations: translations.runs.reduce((s, r) => s + (Number(r.cost_usd) || 0), 0),
+    translation_calls: translations.runs.length,
+    judging: Object.values(batches).reduce((s, b) => s + (Number(b.cost_usd) || 0), 0),
+    judge_calls: Object.keys(batches).length,
+  },
   judge: judgements.judge,
   rubric_version: judgements.rubric,
   panel: translations.models,
@@ -53,8 +67,8 @@ const manifest = {
   files,
   formats: {
     "translations.json.gz": "{ cases: [case id], models: [slug], runs: [{ case_id, slug, output, error, cost_usd, prompt_tokens, completion_tokens, reasoning_tokens, latency_ms, temperature, reasoning }] }",
-    "judgements.json.gz": "{ judge, rubric, slugs, scores: { case_id: { slug: { meaning, naturalness, handling, critical_error, score } } }, batches, parse_failures }",
-    "judge-batches.json.gz": "{ file name: { order: { case_id: [slug for label A, B, ...] }, raw: judge reply text, scores, cost_usd, usage } } - every judge call, including retried batches",
+    "judgements.json.gz": "{ judge, rubric, slugs, scores: { case_id: { slug: { meaning, naturalness, handling, critical_error, score } } }, parse_failures }",
+    "judge-batches.json.gz": "{ file name: { order: { case_id: [slug for label A, B, ...] }, raw: judge reply text, scores, cost_usd, usage } } - every judge call behind the published scores, including failed calls that were retried",
   },
 };
 fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");

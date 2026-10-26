@@ -143,9 +143,7 @@
       },
       "temperature": null,
       "max_tokens": 1200
-    }
-  ],
-  "supplement_models": [
+    },
     {
       "slug": "openai/gpt-6-luna",
       "name": "OpenAI: GPT-6 Luna",
@@ -156,7 +154,6 @@
       },
       "temperature": null,
       "max_tokens": 1200,
-      "supplement": true,
       "note": "Reasoning effort none accepted (0 reasoning tokens). Temperature not in supported_parameters, omitted."
     },
     {
@@ -169,7 +166,6 @@
       },
       "temperature": 0.2,
       "max_tokens": 1200,
-      "supplement": true,
       "note": "Reasoning is mandatory on OpenRouter (effort none and enabled:false return 400); minimal is the lowest accepted. Temperature 0.2 supported."
     },
     {
@@ -182,7 +178,6 @@
       },
       "temperature": 0.2,
       "max_tokens": 1200,
-      "supplement": true,
       "note": "Reasoning is mandatory on OpenRouter (effort none and enabled:false return 400); minimal is the lowest accepted. Temperature 0.2 supported."
     },
     {
@@ -195,7 +190,6 @@
       },
       "temperature": 0.2,
       "max_tokens": 1200,
-      "supplement": true,
       "note": "Reasoning is mandatory on OpenRouter (effort none and enabled:false return 400); minimal is the lowest accepted. Temperature 0.2 supported."
     }
   ]

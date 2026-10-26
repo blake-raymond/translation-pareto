@@ -28,22 +28,20 @@ A reproducible benchmark of the cost-versus-quality frontier of LLMs for **conve
 
 Mean is the average of meaning, naturalness and handling (1-5), with each language weighted equally. n = 4,242 scored cases for every model.
 
-**Headline:** GPT-6 Luna is on top (4.69 at $0.032 per 1,000 messages), with Gemini 3.1 Flash-Lite as a statistical near-tie (4.66, lead 0.032, 95% CI -0.002 to 0.064) at about 2.5 times the price per message.
-
-**Pareto frontier:** GLM 5.3 Flash and Gemini 2.5 Flash-Lite (both $0.025), GPT-6 Luna ($0.032) and Gemini 3.1 Flash-Lite ($0.080). Gemini 3.1 Flash-Lite is on it only narrowly: Luna is cheaper and leads by 0.032, but the 95% CI (-0.002 to 0.064) includes zero, so Luna is not clearly better. Gemini 3.1 Flash-Lite and Muse Spark 1.3 have lower critical-error rates than Luna. Per-language tables, benchmark-only and chat-only splits, and language flags are in [`docs/results.md`](docs/results.md).
+**Pareto frontier:** GLM 5.3 Flash (4.23, $0.025), Gemini 2.5 Flash-Lite (4.27, $0.025) and GPT-6 Luna (4.69, $0.032). GPT-6 Luna has the highest mean score and costs less than every model that comes close. Note: Gemini 3.1 Flash-Lite (4.66, $0.080) is dominated by Luna on mean score and cost, but it is statistically within noise of Luna (difference 0.032, 95% CI -0.002 to 0.064) and has a lower critical-error rate (1.5% vs 2.1%). Per-language tables, benchmark-only and chat-only splits, and language flags are in [`docs/results.md`](docs/results.md).
 
 ## Method
 
-- **Cases.** 72 non-English languages, up to 40 benchmark and 20 chat cases each: 2,805 benchmark and 1,440 chat cases. Benchmark cases translate from English and come from WMT24++ (social and speech domains and shorter segments preferred), else NTREX-128, else Tatoeba. FLORES+ is gated and was not used. Chat cases are synthetic multi-turn conversations drafted by Claude Opus 5.5 with history, typos, slang and references; 723 translate from English and 717 into English. Cases are committed in `data/`, with per-language counts in `data/coverage.json` and source licenses in `data/LICENSES.md`.
+- **Cases.** 72 non-English languages, up to 40 benchmark and 20 chat cases each: 2,805 benchmark and 1,440 chat cases. Benchmark cases translate from English and come from WMT24++ (social and speech domains and shorter segments preferred), else NTREX-128, else Tatoeba. Chat cases are synthetic multi-turn conversations drafted by Claude Opus 5.5 with history, typos, slang and references; 723 translate from English and 717 into English. Cases are committed in `data/`, with per-language counts in `data/coverage.json` and source licenses in `data/LICENSES.md`.
 - **Prompt.** Every model got the same system prompt, [`eval/prompts/interpreter.txt`](eval/prompts/interpreter.txt):
 
   > You are a professional interpreter for a live face-to-face conversation. Use the full history for pronouns, tone, slang, and references. Be forgiving of typos, missing accents, and bad autocorrect, and infer the intended meaning. Output only the translation with no commentary.
 
   The user message names the source and target language, includes the conversation history for chat cases, and then the line to translate (`eval/pareto/prompts.mjs`).
 - **Model settings.** All calls go through OpenRouter. Reasoning is off where a model allows it and at the lowest accepted effort (`minimal`) otherwise; temperature 0.2 where supported. Exact slugs and settings are in `eval/pareto/models.json` and in the table below.
-- **Judging.** One judge, `anthropic/claude-opus-5.5`, sees all 15 candidates for a case at once, shuffled and labelled anonymously, in batches of 30 cases. It returns meaning, naturalness and handling (1-5 each) and a critical-error flag (wrong or reversed meaning, wrong target language, flipped negation, wrong number, dose or price, offensive mistranslation). Benchmark cases show the reference translation as a hint; chat cases have none. Judge verdicts are cached by the exact candidate outputs. All 15 models were judged together in a single pass; the judge prompt and rubric are in `eval/pareto/judge.mjs`.
+- **Judging.** One judge, `anthropic/claude-opus-5.5`, sees all 15 candidates for a case at once, shuffled and labelled anonymously, in batches of 30 cases. It returns meaning, naturalness and handling (1-5 each) and a critical-error flag (wrong or reversed meaning, wrong target language, flipped negation, wrong number, dose or price, offensive mistranslation). Benchmark cases show the reference translation as a hint; chat cases have none. Judge verdicts are cached by the exact candidate outputs, source line, reference and history. All 15 models are judged together on every case; the judge prompt and rubric are in `eval/pareto/judge.mjs`.
 - **Statistics.** 95% intervals from a hierarchical bootstrap (2,000 draws, seed 20261025) that resamples languages, then cases within language.
-- **Frontier rule.** A model is off the frontier only if another model costs no more and is clearly better: the paired bootstrap CI of the per-case difference is entirely above zero.
+- **Frontier rule.** Standard Pareto dominance on point estimates: a model is off the frontier if another model has a mean score at least as high and a cost per 1,000 messages no higher, with at least one strictly better. Costs are compared unrounded (GLM 5.3 Flash $0.02509, Gemini 2.5 Flash-Lite $0.02526); models with exactly equal mean and cost would both stay on. The report also lists dominated models that are within noise of every model dominating them.
 - **Cost.** OpenRouter `usage.cost` for each successful translation call, including reasoning tokens, per 1,000 messages. Judging and chat drafting are excluded.
 
 ### Model settings
@@ -74,7 +72,7 @@ The raw results are committed in `data/results/` (3.4 MB gzip): every translatio
 npm run verify
 ```
 
-`verify` unpacks the raw results, recomputes every table above "Spend" in `docs/results.md` and the chart `docs/pareto.svg` with `eval/pareto/report.mjs`, and fails if anything differs. It makes no API calls and needs no key. `npm run pareto:sanity` reruns the identical-output check on the same data; its output should match `docs/sanity-all15.txt` except the last line, which compares with an earlier pass whose judgements are not published. `npm test` runs the unit tests. All three are offline.
+`verify` unpacks the raw results, recomputes every generated section of `docs/results.md` (everything above "Notes", including the cost table) and the chart `docs/pareto.svg` with `eval/pareto/report.mjs`, and fails if anything differs. It makes no API calls and needs no key. `npm run pareto:sanity` reruns the identical-output check on the same data; its output should match `docs/sanity-all15.txt`. `npm test` runs the unit tests. All three are offline.
 
 ## Reproduce with money
 
@@ -82,9 +80,9 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
 
 1. **Smoke test** (about $0.02): `npm run smoke` translates 3 Spanish cases with two cheap models, judges them with the real judge and writes a report under `eval/pareto/results/smoke/`.
 2. **Cases** are committed: `data/benchmark-cases.json` (2,805) and `data/chat-cases.json` (1,440). To rebuild them:
-   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept and their ids never change. With the corrected Tatoeba extraction, a rerun would find 30 Odia and 22 Sundanese pairs and add 9 and 8 new cases; the committed set keeps the 21 and 14 sampled originally. `--langs a,b,c` refreshes only those languages and merges them into the existing `data/benchmark-cases.json` and `data/coverage.json`; every other language is left as is. FLORES+ is used only if `HF_TOKEN` is set and your Hugging Face account has access.
+   - `node eval/pareto/data.mjs --full` downloads WMT24++, NTREX-128 and Tatoeba into `data/raw/` (git-ignored) and samples up to 40 cases per language with seed 20261025. Existing sampled cases are kept and their ids never change. Odia and Sundanese have more Tatoeba pairs available (30 and 22) than the committed 21 and 14, so a rerun adds up to 9 and 8 cases for them. `--langs a,b,c` refreshes only those languages and merges them into the existing `data/benchmark-cases.json` and `data/coverage.json`; every other language is left as is.
    - `node eval/pareto/chat.mjs --full` drafts 20 chat conversations per language with Claude Opus 5.5 (about $10). Drafting is not deterministic, so new chat cases will differ from the committed ones.
-3. **Full run** (about $42: about $10 for translations, about $32 for judging): `bash eval/pareto/run-all15.sh` (Windows: `powershell -File eval/pareto/run-all15.ps1`). It translates every case with all 15 models (retrying empty or failed calls up to three times), judges in batches of 30, retries failed batches in batches of 10, and runs the identical-output check (`eval/pareto/sanity-all15.mjs`). Progress goes to `eval/pareto/results/all15-run.log`; results go to `eval/pareto/results/` (git-ignored).
+3. **Full run** (about $41: $8.92 for translations and $31.87 for judging in the published run, see `data/results/manifest.json`): `bash eval/pareto/run-all15.sh` (Windows: `powershell -File eval/pareto/run-all15.ps1`). It translates every case with all 15 models (retrying empty or failed calls up to three times), judges in batches of 30, retries failed batches in batches of 10, and runs the identical-output check (`eval/pareto/sanity-all15.mjs`). Progress goes to `eval/pareto/results/all15-run.log`; results go to `eval/pareto/results/` (git-ignored).
 4. **Report**, with the same environment as the runner:
 
    ```bash
@@ -96,9 +94,9 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
    node eval/pareto/export-results.mjs   # writes data/results/
    ```
 
-   The "Notes on this pass", "Earlier passes" and "Frontier call" sections of `docs/results.md` were written by hand after the generated report.
+   The "Notes" and "Frontier call" sections at the end of `docs/results.md` are written by hand.
 
-**Spend control.** Every paid call is recorded in `eval/pareto/results/ledger.json`. Runs stop at the hard cap in `eval/pareto/meta.mjs` (cumulative, $83.70 with `PARETO_ALL15=1`). Translation and judge results are cached on disk, so an interrupted run resumes without paying twice. Run one process at a time per ledger.
+**Spend control.** Every paid call is recorded in `eval/pareto/results/ledger.json`. Runs stop at the hard cap in `eval/pareto/meta.mjs` (cumulative over the ledger, $50 by default; `PARETO_CAP_USD` overrides it). Translation and judge results are cached on disk, so an interrupted run resumes without paying twice. Run one process at a time per ledger.
 
 **Rate limits.** New OpenRouter accounts get 20 requests per minute on some models (seen for `openai/gpt-6-luna`). `PARETO_RPM=slug=18,slug=18` throttles named models; the runner sets it for GPT-6 Luna and Muse Spark 1.3. The judge runs three batches at a time.
 
@@ -118,13 +116,12 @@ Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` insta
 
 ## Limitations
 
-- **LLM judge, no human review.** Scores are what Claude Opus 5.5 thinks. Its judgment is probably weakest in the low-resource languages where models differ most.
+- **One LLM judge.** Scores are what Claude Opus 5.5 thinks. Its judgment is probably weakest in the low-resource languages where models differ most.
 - **One judge family.** The judge may favor outputs like its own; the chat cases were also drafted by Claude Opus 5.5. Claude Haiku 5.5 scored mid-table (4.26).
 - **Listwise scores are relative** to the 15 candidates in the prompt. Compare models within this table, not with scores from other runs.
-- **Corrected references.** The reference translations of the 75 Javanese, Odia and Sundanese benchmark cases (from OPUS Tatoeba) were first extracted from the wrong file in the download. They were corrected and those cases re-judged; the results here include the fix.
 - **Three unscored cases.** The judge returned an empty or cut-off reply on every attempt for `bench-ha-22`, `bench-ha-26` and `chat-lo-09`. They are excluded for all models.
 - **Judge label slips.** Of 37,274 pairs of identical outputs, 33 (0.09%) got inconsistent scores (`docs/sanity-all15.txt`).
-- **English on one side.** Benchmark cases translate out of English; chat cases translate from or into English. Pairs without English are untested.
+- **English on one side.** Benchmark cases translate out of English; chat cases translate from or into English. Every pair has English on one side.
 - **Noisy per-language cells** (up to 60 cases each), and WMT24++ locales (for example Mexican Spanish) stand in for the whole language.
 
 ## License

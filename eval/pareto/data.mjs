@@ -1,23 +1,21 @@
-// Download WMT24++ (Apache 2.0) and fill remaining languages from FLORES+
-// (gated), NTREX-128, or Tatoeba. Sample a fixed-seed set per language.
-// A larger target keeps every previously sampled segment and appends more.
+// Download WMT24++ (Apache 2.0) and fill remaining languages from NTREX-128 or
+// Tatoeba. Sample a fixed-seed set per language.
+// A larger target keeps every already sampled segment and appends more.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { mapPool, writeJson } from "../api.mjs";
 import {
-  FLORES_PLUS,
   NTREX_CODES,
   TATOEBA_CODES,
   TATOEBA_ISO3,
   WMT24_FILES,
   languageName,
 } from "./languages.mjs";
-import { hfToken, invokedDirectly, loadParetoLedger, mulberry32, parseArgs, progress, seedMix, shuffle, targetLangs } from "./lib.mjs";
+import { invokedDirectly, loadParetoLedger, mulberry32, parseArgs, progress, seedMix, shuffle, targetLangs } from "./lib.mjs";
 import { BENCHMARK_FILE, BENCH_PER_LANG, COVERAGE_FILE, RAW_DIR, SEED } from "./meta.mjs";
 
 const WMT_BASE = "https://huggingface.co/datasets/google/wmt24pp/resolve/main";
-const FLORES_FILE = "https://huggingface.co/datasets/openlanguagedata/flores_plus/resolve/main/devtest";
 const NTREX_SRC = "https://raw.githubusercontent.com/MicrosoftTranslator/NTREX/main/NTREX-128/newstest2019-src.eng.txt";
 const NTREX_REF = "https://raw.githubusercontent.com/MicrosoftTranslator/NTREX/main/NTREX-128/newstest2019-ref";
 const OPUS_TATOEBA = "https://object.pouta.csc.fi/OPUS-Tatoeba/v2023-04-12/moses";
@@ -185,42 +183,6 @@ async function loadWmt(lang) {
   return { dataset: "wmt24++", license: "Apache-2.0", rows };
 }
 
-async function loadFlores(lang, token, englishById) {
-  const code = FLORES_PLUS[lang];
-  if (!code || !token) return null;
-  const headers = { Authorization: `Bearer ${token}` };
-  const dest = rawPath("flores_plus", `${code}.jsonl`);
-  const got = await download(`${FLORES_FILE}/${code}.jsonl`, dest, headers);
-  if (got.status === 401 || got.status === 403) return { gated: true, status: got.status };
-  if (got.status !== 200) return { error: got.error || `flores ${got.status}` };
-  const rows = parseJsonl(fs.readFileSync(dest, "utf8"));
-  const aligned = [];
-  for (const row of rows) {
-    const id = row.id ?? row.sentence_id ?? row.URL;
-    const en = englishById.get(String(id));
-    const tgt = row.text || row.sentence;
-    if (!en || !tgt) continue;
-    const pair = cleanPair(en, tgt);
-    if (!pair) continue;
-    aligned.push({ ...pair, domain: "wiki" });
-  }
-  return { dataset: "flores+", license: "CC-BY-SA-4.0", rows: aligned };
-}
-
-async function loadFloresEnglish(token) {
-  const headers = { Authorization: `Bearer ${token}` };
-  const dest = rawPath("flores_plus", "eng_Latn.jsonl");
-  const got = await download(`${FLORES_FILE}/eng_Latn.jsonl`, dest, headers);
-  if (got.status !== 200) return { map: new Map(), gated: got.status === 401 || got.status === 403, status: got.status };
-  const map = new Map();
-  for (const row of parseJsonl(fs.readFileSync(dest, "utf8"))) {
-    const id = row.id ?? row.sentence_id ?? row.URL;
-    const text = row.text || row.sentence;
-    if (id != null && text) map.set(String(id), text);
-  }
-  return { map, gated: false, status: 200 };
-}
-
 async function loadNtrex(lang) {
   const code = NTREX_CODES[lang];
   if (!code) return null;
@@ -373,22 +335,6 @@ export function mergeLanguageSubset({ existingCases = [], existingCoverage = nul
 export async function collectData(opts = parseArgs()) {
   fs.mkdirSync(RAW_DIR, { recursive: true });
   const langs = targetLangs(opts).filter((code) => code !== "en");
-  const token = hfToken();
-  let floresEnglish = { map: new Map(), gated: false, status: null };
-  const floresProbe = rawPath("flores_plus", "probe-eng_Latn.jsonl");
-  const probeHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-  const probe = await download(`${FLORES_FILE}/eng_Latn.jsonl`, floresProbe, probeHeaders);
-  const floresGated = probe.status === 401 || probe.status === 403;
-  if (floresGated) {
-    console.log(`FLORES+ gated (HTTP ${probe.status}). No Hugging Face token in the environment. Using WMT24++ plus NTREX-128 / Tatoeba.`);
-  } else if (probe.status === 200 && token) {
-    floresEnglish = await loadFloresEnglish(token);
-  } else if (probe.status === 200) {
-    floresEnglish = await loadFloresEnglish("");
-  } else {
-    console.log(`FLORES+ unavailable (HTTP ${probe.status}). Using WMT24++ plus NTREX-128 / Tatoeba.`);
-  }
-
   const coverage = [];
   const cases = [];
   const missing = [];
@@ -402,11 +348,6 @@ export async function collectData(opts = parseArgs()) {
       const wmt = await loadWmt(lang);
       attempts.push(["wmt24++", wmt]);
       if (wmt?.rows?.length) return { lang, pack: wmt, attempts };
-    }
-    if (!floresGated && FLORES_PLUS[lang]) {
-      const flores = await loadFlores(lang, token, floresEnglish.map);
-      attempts.push(["flores+", flores]);
-      if (flores?.rows?.length) return { lang, pack: flores, attempts };
     }
     if (NTREX_CODES[lang]) {
       const ntrex = await loadNtrex(lang);
@@ -487,7 +428,7 @@ export async function collectData(opts = parseArgs()) {
     console.log(`${lang.padEnd(8)} ${pack.dataset.padEnd(14)} available=${expanded.available} sampled=${langCases.length} kept=${expanded.kept.length} added=${added.length} domains=${JSON.stringify(domains)}`);
   }
 
-  const meta = { seed: SEED, flores_gated: floresGated, flores_status: probe.status, hf_token: Boolean(token) };
+  const meta = { seed: SEED };
   const merged = mergeLanguageSubset({
     existingCases: readJsonIfExists(BENCHMARK_FILE) || [],
     existingCoverage: readJsonIfExists(COVERAGE_FILE),
@@ -504,7 +445,7 @@ export async function collectData(opts = parseArgs()) {
   console.log(`wrote ${merged.cases.length} benchmark cases for ${coverage.filter((row) => row.n_sampled).length} languages to ${BENCHMARK_FILE}`);
   if (missing.length) console.log(`missing languages: ${missing.join(", ")}`);
   if (short.length) console.log(`short languages: ${short.map((row) => `${row.lang}=${row.n_sampled}/${row.n_available}`).join(", ")}`);
-  return { cases, coverage, missing, short, floresGated };
+  return { cases, coverage, missing, short };
 }
 
 if (invokedDirectly(import.meta.url)) {
