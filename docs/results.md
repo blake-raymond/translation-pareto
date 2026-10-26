@@ -1,5 +1,7 @@
 # Pareto translation eval
 
+> Superseded by `docs/results-all15.md` (all 15 models judged together in one pass). Kept for comparison.
+
 Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), 11 models, one judge (`anthropic/claude-opus-5.5`).
 
 ## Method
