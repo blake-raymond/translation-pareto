@@ -35,7 +35,8 @@ const files = [
   gz("judgements.json.gz", scrub(JSON.stringify(judgements))),
   gz("judge-batches.json.gz", scrub(JSON.stringify(batches))),
 ];
-const hashOf = (rel) => sha(fs.readFileSync(path.join(ROOT, rel)));
+// Line endings are normalized so checkouts with CRLF hash the same.
+const hashOf = (rel) => sha(fs.readFileSync(path.join(ROOT, rel), "utf8").replace(/\r\n/g, "\n"));
 const inputs = [
   "eval/prompts/interpreter.txt", "eval/pareto/prompts.mjs", "eval/pareto/judge.mjs", "eval/pareto/models.json",
   "data/benchmark-cases.json", "data/chat-cases.json",

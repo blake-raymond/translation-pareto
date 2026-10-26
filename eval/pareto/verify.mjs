@@ -16,7 +16,7 @@ const sha = (buf) => crypto.createHash("sha256").update(buf).digest("hex");
 let problems = 0;
 
 for (const input of manifest.inputs) {
-  const now = sha(fs.readFileSync(path.join(ROOT, input.file)));
+  const now = sha(fs.readFileSync(path.join(ROOT, input.file), "utf8").replace(/\r\n/g, "\n"));
   if (now !== input.sha256) console.log(`note: ${input.file} differs from the version used for the run`);
 }
 for (const name of ["translations.json.gz", "judgements.json.gz"]) {
