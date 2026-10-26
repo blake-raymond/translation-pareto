@@ -1,6 +1,6 @@
-# Detached combined 15-model rerun. One process at a time on the ledger.
+# Combined 15-model run (Windows PowerShell). Bash version: run-all15.sh. One process at a time on the ledger.
 $ErrorActionPreference = 'Continue'
-Set-Location G:\dev\translation-pareto
+Set-Location (Join-Path $PSScriptRoot '..\..')
 $log = 'eval\pareto\results\all15-run.log'
 function L($m) { "$(Get-Date -Format s) $m" | Tee-Object -FilePath $log -Append }
 $env:PARETO_ALL15 = '1'
