@@ -9,6 +9,10 @@ import {
   CAP_USD,
   CHAT_PER_LANG,
   JUDGEMENTS_FILE,
+  panelModels,
+  SUMMARY_FILE,
+  ALL15,
+  PRE_ALL15_SPENT,
   REPORT_MD,
   REPORT_SVG,
   RESULTS_DIR,
@@ -294,7 +298,7 @@ export function analyze(opts = parseArgs()) {
   const cases = loadCases(opts);
   const judgements = loadJson(JUDGEMENTS_FILE);
   const translations = loadJson(TRANSLATIONS_FILE);
-  const models = catalog().models;
+  const models = panelModels(catalog());
   const scores = judgements.scores || {};
   const rows = buildRows(models, cases, scores, translations, null);
   const paired = pairAgainstBest(rows);
@@ -338,7 +342,7 @@ function markdown(opts, analysis, spend) {
     : [
       "# Pareto translation eval",
       "",
-      "Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), 11 models, one judge (`anthropic/claude-opus-5.5`).",
+      `Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), ${analysis.models.length} models${ALL15 ? " judged together in one listwise pass (15 candidates per case, batches of 30)" : ""}, one judge (\`anthropic/claude-opus-5.5\`).`,
       "",
     ];
   const langTable = langs.length > 8
@@ -447,6 +451,7 @@ function spendFromLedger(opts, cases) {
   const projected = chatUsd * scaleChat + translateUsd * scaleCases + judgeUsd * scaleCases;
   const perCase = nCases ? ledger.spent / nCases : 0;
   const perTranslate = nCases ? translateUsd / (nCases * 12) : 0;
+  const newSpend = ledger.spent - PRE_ALL15_SPENT;
   const lines = [
     `${opts.pilot ? "Pilot spend" : "Spend"} (OpenRouter \`usage.cost\`, hard cap $${opts.pilot ? Number(ledger.cap).toFixed(2) : CAP_USD.toFixed(2)}, soft stop $${SOFT_CAP_USD.toFixed(2)}): **$${ledger.spent.toFixed(4)}**.`,
     "",
@@ -460,6 +465,16 @@ function spendFromLedger(opts, cases) {
     `Measured cost per case (all models + share of drafting and judging): **$${perCase.toFixed(4)}**.`,
     `Measured translation cost per model×case: **$${perTranslate.toFixed(5)}**.`,
   ];
+  if (ALL15) lines.splice(0, lines.length,
+    `Spend (OpenRouter \`usage.cost\`, cumulative ledger for the whole project including the first run and the supplement): **$${ledger.spent.toFixed(4)}**.`,
+    "",
+    `| Step | USD |`, `| --- | ---: |`,
+    `| Chat drafting (all runs) | $${chatUsd.toFixed(4)} |`,
+    `| Translations (all runs) | $${translateUsd.toFixed(4)} |`,
+    `| Judge (all runs, including superseded passes) | $${judgeUsd.toFixed(4)} |`,
+    `| Total | $${ledger.spent.toFixed(4)} |`,
+    "",
+    `New spend for this combined rerun (missing translations + 15-candidate judge pass + pilot): **$${newSpend.toFixed(4)}**.`);
   if (opts.pilot) {
     lines.push(
       "",
@@ -483,7 +498,7 @@ export function writeReport(opts = parseArgs(), spendText = "") {
   fs.mkdirSync(path.dirname(REPORT_MD), { recursive: true });
   fs.writeFileSync(REPORT_MD, markdown(opts, analysis, spend), "utf8");
   fs.writeFileSync(REPORT_SVG, svgChart(analysis.rows.filter((row) => row.costPer1k > 0 && row.mean != null), analysis.frontier), "utf8");
-  writeJson(path.join(RESULTS_DIR, "summary.json"), {
+  writeJson(SUMMARY_FILE, {
     rows: strip(analysis.rows),
     benchmark: strip(analysis.benchmark),
     chat: strip(analysis.chat),

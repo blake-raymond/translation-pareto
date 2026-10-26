@@ -35,8 +35,11 @@ export const PANEL = process.env.PARETO_PANEL ? process.env.PARETO_PANEL.split("
 export const SUB_BENCH = process.env.PARETO_SUB_BENCH ? Number(process.env.PARETO_SUB_BENCH) : null;
 export const SUB_CHAT = process.env.PARETO_SUB_CHAT ? Number(process.env.PARETO_SUB_CHAT) : null;
 export const MAX_BATCHES = process.env.PARETO_MAX_BATCHES ? Number(process.env.PARETO_MAX_BATCHES) : null;
-export const REPORT_MD = path.join(rootDir(), "docs", "results.md");
-export const REPORT_SVG = path.join(rootDir(), "docs", "pareto.svg");
+export const REPORT_MD = process.env.PARETO_REPORT_MD ? path.resolve(process.env.PARETO_REPORT_MD) : path.join(rootDir(), "docs", "results.md");
+export const REPORT_SVG = process.env.PARETO_REPORT_SVG ? path.resolve(process.env.PARETO_REPORT_SVG) : path.join(rootDir(), "docs", "pareto.svg");
+export const SUMMARY_FILE = process.env.PARETO_SUMMARY ? path.resolve(process.env.PARETO_SUMMARY) : path.join(RESULTS_DIR, "summary.json");
+// Ledger total before the combined 15-model rerun started.
+export const PRE_ALL15_SPENT = 43.683586;
 
 export function panelModels(cat) {
   const all = [...cat.models, ...(cat.supplement_models || [])];
