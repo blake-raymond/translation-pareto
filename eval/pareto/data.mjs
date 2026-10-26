@@ -247,7 +247,9 @@ function unzipTo(zipFile, outDir) {
   execFileSync("tar", ["-xf", zipFile, "-C", outDir], { windowsHide: true, stdio: "ignore" });
 }
 
-function findPairFiles(dir) {
+// OPUS moses zips hold Tatoeba.en-<code>.en, Tatoeba.en-<code>.<code>, an XML alignment, LICENSE and README.
+// Only the two bitext files are read; their lines are parallel.
+function findPairFiles(dir, code) {
   const files = [];
   function walk(current) {
     for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
@@ -257,9 +259,9 @@ function findPairFiles(dir) {
     }
   }
   walk(dir);
-  const src = files.find((file) => /\.en$/i.test(file) || /[./]en[./]/i.test(path.basename(file)))
-    || files.find((file) => file.endsWith(".en") || /\.eng$/i.test(file));
-  const tgt = files.find((file) => file !== src && !/\.en$/i.test(file) && !file.endsWith(".xml"));
+  const base = (file) => path.basename(file);
+  const src = files.find((file) => base(file) === `Tatoeba.en-${code}.en`);
+  const tgt = files.find((file) => base(file) === `Tatoeba.en-${code}.${code}`);
   return { src, tgt, files };
 }
 
@@ -276,11 +278,12 @@ async function loadOpusTatoeba(lang) {
     } catch (error) {
       return { error: `unzip tatoeba ${code}: ${error.message}` };
     }
-    const { src, tgt } = findPairFiles(outDir);
+    const { src, tgt } = findPairFiles(outDir, code);
     if (!src || !tgt) continue;
     const srcLines = fs.readFileSync(src, "utf8").split(/\r?\n/);
     const tgtLines = fs.readFileSync(tgt, "utf8").split(/\r?\n/);
-    const n = Math.min(srcLines.length, tgtLines.length);
+    if (srcLines.length !== tgtLines.length) return { error: `tatoeba ${code}: ${srcLines.length} English lines vs ${tgtLines.length} target lines` };
+    const n = srcLines.length;
     const rows = [];
     for (let i = 0; i < n; i += 1) {
       const pair = cleanPair(srcLines[i], tgtLines[i]);

@@ -130,7 +130,9 @@ function bindingHash(item, orderSlugs, runs, judgeSlug) {
     const run = runs.find((row) => row.case_id === item.id && row.slug === slug);
     return [slug, (run?.output || "").trim()];
   });
-  return hashString({ v: RUBRIC_VERSION, judge: judgeSlug, id: item.id, outs });
+  // The case content the judge sees (source line, reference hint, history) is part of the key too.
+  const shown = { text: item.text ?? null, ref: item.reference ?? null, history: item.history ?? null };
+  return hashString({ v: RUBRIC_VERSION, judge: judgeSlug, id: item.id, outs, shown });
 }
 
 function packCase(item, slugs, runs) {

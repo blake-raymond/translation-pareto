@@ -5,7 +5,8 @@ export const SUPP = process.env.PARETO_SUPP === "1";
 // Supplementary pass (4 new models): own hard cap 39.71 + 8.5.
 // Combined 15-model rerun (PARETO_ALL15=1): 43.68 already spent + 40 new budget.
 export const ALL15 = process.env.PARETO_ALL15 === "1";
-export const CAP_USD = ALL15 ? 83.7 : SUPP ? 48.2 : 41;
+// PARETO_CAP_USD overrides the hard cap (cumulative over the ledger).
+export const CAP_USD = process.env.PARETO_CAP_USD ? Number(process.env.PARETO_CAP_USD) : ALL15 ? 83.7 : SUPP ? 48.2 : 41;
 export const SOFT_CAP_USD = ALL15 ? 83.0 : SUPP ? 47.5 : 40;
 export const PILOT_CAP_USD = 1.5;
 export const SEED = 20261025;

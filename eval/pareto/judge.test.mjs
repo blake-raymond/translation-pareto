@@ -22,3 +22,10 @@ test("cache key changes when any candidate output changes", () => {
   assert.notEqual(bindingHash(item, ["a", "b"], r1, "j"), bindingHash(item, ["a", "b"], r2, "j"));
   assert.notEqual(bindingHash(item, ["a", "b"], r2, "j"), bindingHash(item, ["b", "a"], r2, "j"));
 });
+
+test("cache key changes when the reference shown to the judge changes", () => {
+  const runs = [{ case_id: "chat-xx-01", slug: "a", output: "hola" }];
+  const a = { id: "chat-xx-01", text: "hi", reference: "hola" };
+  const b = { id: "chat-xx-01", text: "hi", reference: "Legal Code" };
+  assert.notEqual(bindingHash(a, ["a"], runs, "j"), bindingHash(b, ["a"], runs, "j"));
+});
