@@ -3,49 +3,92 @@
 Title options:
 
 1. Translation quality against cost for 15 LLMs in 72 languages
-2. I measured 15 cheap LLMs as chat translators
-3. Picking a translation model for a chat app at eight cents per 1,000 messages
+2. A cost-quality Pareto frontier for LLM translation, judged on 4,245 cases
+3. Measuring LLM translation quality per dollar across 72 languages
 
-Draft status: first draft. Items marked [CHECK] need verification and items marked [BLAKE: ...] need your input.
+Draft status: second draft. Items marked [CHECK] need verification.
 
 ---
 
-I ran 4,245 translation cases across 72 languages through 15 LLMs and had one judge model score every output. GPT-6 Luna, DeepSeek V4.1 Flash and Gemini 3.1 Flash-Lite sit on the cost-quality frontier. GPT-6 Luna is the cheapest at $0.021 per 1,000 messages. DeepSeek V4.1 Flash costs $0.050. Gemini 3.1 Flash-Lite costs $0.080 and has the highest score. Every other model I tested is both more expensive and worse than one of those three.
+I ran 4,245 English-to-X translation cases across 72 languages through 15 LLMs, scored every output with one judge model, and plotted quality against billed cost. The cost-quality frontier has GPT-6 Luna at $0.021 per 1,000 messages, DeepSeek V4.1 Flash at $0.050 and Gemini 3.1 Flash-Lite at $0.080. Every other model tested costs more than one of those three and scores clearly lower.
 
-The average scores are close: 4.56, 4.56 and 4.73 on a 1-5 scale. The critical-error rates are not. On the same subsample, Luna made a serious mistake on 7.9% of messages, DeepSeek on 4.4% and Gemini 3.1 Flash-Lite on 1.7%. For my use case, that difference outweighs the cost difference.
+Their mean scores are 4.56, 4.56 and 4.73 on a 1-5 scale. Their critical-error rates differ more. On the shared subsample, Luna made a serious mistake on 7.9% of messages, DeepSeek on 4.4% and Gemini 3.1 Flash-Lite on 1.7%.
 
-## Why I cared
-
-I'm building say.as, a pass-the-phone translation chat app. Two people who don't share a language sit together, and each types or speaks in their own language. The app translates each message for the other person. [BLAKE: a sentence or two on where the idea came from or who it's for.]
-
-The messages in an app like that don't look like benchmark sentences. They are short and informal, with typos, missing accents, slang, and pronouns that refer back three messages. Each message is a separate API call, so per-message cost adds up, and one mistranslated message in the middle of a conversation does more damage than a slightly stiff one. I wanted to know which model to use and what I'd give up by going cheaper.
-
-I picked Gemini 3.1 Flash-Lite for the app. This post is the data behind that choice.
+The test set is weighted toward conversational messages: short, informal lines with typos, missing accents, slang and references to earlier turns. I built it while choosing a model for say.as, a two-person translation chat app (https://say.as [CHECK: link live?]).
 
 ## Method
 
-**Cases.** Each of the 72 non-English languages gets up to 40 benchmark cases and 20 chat cases, English into the target language. Benchmark items come from WMT24++ where available, preferring the social and speech domains and shorter segments, then NTREX-128, then Tatoeba. FLORES+ is gated on Hugging Face and I didn't use it. Languages with fewer than 40 clean segments use every segment available, so a few have fewer cases. Bhojpuri has 30 and Sundanese 34. The chat items are synthetic multi-turn conversations written by Claude Opus 5.5, with the kind of typos and slang the app will see. That gives 2,805 benchmark cases and 1,440 chat cases, 4,245 in total.
+### Test cases
 
-**Translation.** Every model got the same system prompt, which asks it to act as an interpreter in a live conversation, use the history for pronouns and tone, forgive typos and missing accents, and output only the translation. Chat items include the conversation history.
+Each of the 72 non-English languages gets up to 40 benchmark cases and 20 chat cases, all translating out of English. That gives 2,805 benchmark cases and 1,440 chat cases.
 
-**Judging.** One judge, Claude Opus 5.5, scored each case with all candidate translations shown together, shuffled and anonymous. It gave each one an integer from 1 to 5 for meaning, naturalness and handling (repairing typos, slang, autocorrect, diacritics, code-switching and honorifics), plus a critical-error flag. A critical error is a wrong or reversed meaning, the wrong target language, a flipped negation, a wrong number, dose or price, or an offensive mistranslation. Awkward wording alone doesn't count. The score is the mean of the three 1-5 ratings. The judge saw the reference translation for benchmark items, and chat items have none.
+Benchmark items come from WMT24++ where the language is covered, preferring the social and speech domains and shorter segments. Languages WMT24++ lacks fall back to NTREX-128, then Tatoeba. FLORES+ requires an approved Hugging Face account, and I ran without it. Languages with fewer than 40 clean segments use every segment available, so a few have fewer cases. Bhojpuri has 30 and Sundanese 34. Per-language counts are in `data/coverage.json`, and source licenses in `data/LICENSES.md`.
 
-**Statistics.** Each language counts equally in the overall mean. The 95% intervals come from a hierarchical bootstrap that resamples languages, then cases within each language (2,000 draws). A model is off the frontier only if another model that costs no more is clearly better. Clearly better means the paired bootstrap interval of the difference excludes zero.
+Chat items are synthetic multi-turn conversations drafted by Claude Opus 5.5. Each one has the earlier turns as history, with the typos, slang and pronoun references that real chat messages have. Drafting them cost $10.67, the second-largest line in the budget.
 
-**Cost.** Cost is what OpenRouter actually billed (`usage.cost`) for each successful translation, including reasoning tokens, scaled to 1,000 messages. It doesn't include judging.
+### Translation
 
-**The supplement.** After the main run of 11 models, I added four newer ones: GPT-6 Luna, GLM 5.3 Flash, MiniMax M3.1 Flash and Muse Spark 1.3. Rate limits on a new OpenRouter account kept Luna and Muse Spark to 20 requests per minute, so I judged all four on a fixed subsample of 1,080 cases (10 benchmark and 5 chat per language). Gemini 3.1 Flash-Lite and DeepSeek were included as anchors in the same judge prompts. Each new model is placed on the main-run scale as Gemini's full-run mean plus its paired gap to Gemini on the subsample. As a check, the Gemini-DeepSeek gap was +0.12 under the main judge on that subsample and +0.14 in the supplement pass.
+Every model received the same system prompt (`eval/prompts/v1.txt`):
 
-The whole run cost $39.71 on OpenRouter: $10.67 for drafting chat cases, $5.23 for translations and $23.81 for judging. The supplement added $3.97. [CHECK: the $3.97 supplement figure comes from my notes, not a file in the repo; confirm it against the ledger.]
+> You are a professional interpreter for a live face-to-face conversation. Use the full history for pronouns, tone, slang, and references. Be forgiving of typos, missing accents, and bad autocorrect, and infer the intended meaning. Output only the translation with no commentary.
 
-### Limitations
+Chat items include the conversation history. All calls went through OpenRouter. Models that allow it ran with reasoning off. For the supplement models where OpenRouter requires reasoning (GLM 5.3 Flash, MiniMax M3.1 Flash and Muse Spark 1.3), I used the lowest accepted effort, `minimal`, with temperature 0.2 and `max_tokens` 1200. [CHECK: confirm the reasoning and temperature settings for the 11 main-run models in `eval/pareto/models.json`.]
 
-- **One LLM judge.** No native speaker reviewed any of these outputs. The scores show what Opus 5.5 thinks of the translations, and for low-resource languages its own judgment may be weak.
-- **Family bias.** A judge can favor outputs that resemble its own. Opus 5.5 is an Anthropic model, and Claude Haiku 5.5 landed mid-table, so there's no obvious favoritism, but I didn't test for it with a second judge in this run. [CHECK: the earlier pilot used two judges; say whether they agreed.]
-- **English source only.** Every case translates out of English. The app translates in both directions, and I didn't measure the reverse.
-- **Noisy per-language cells.** With up to 60 cases per language in the main run, and 15 per language in the supplement, single-language numbers can move a lot.
-- **Listwise scoring is relative.** Candidates are scored side by side, so a model's absolute score depends a little on who else is in the prompt. The anchor check suggests the drift is small, but it isn't zero.
-- **Language varieties.** WMT24++ uses specific locales, such as Mexican Spanish and Egyptian Arabic, and I treated each as the whole language.
+### Judging
+
+One judge, Claude Opus 5.5, scored all candidates for a case in one prompt. The candidates were shuffled and labelled A, B, C and so on, with no model names. For each candidate the judge returned four integers:
+
+- meaning, 1-5
+- naturalness, 1-5
+- handling, 1-5, covering repair of typos, slang, autocorrect, diacritics, code-switching and honorifics
+- a critical-error flag, set only for a wrong or reversed meaning, the wrong target language, a flipped negation, a wrong number, dose or price, or an offensive mistranslation. Awkward wording or a register miss alone does not count.
+
+A candidate's score is the mean of the three 1-5 ratings. Benchmark items showed the judge the reference translation. Chat items have no reference, so the judge scored from the source line and the history. Cases went to the judge in batches of 150. The judge returned compact `m,n,h,c` strings and had no parse failures across the 4,245 cases.
+
+Scoring all candidates side by side (listwise) is cheaper than scoring each one alone, and it makes the judge compare translations directly. In exchange, scores are partly relative to the other candidates in the prompt.
+
+### Statistics and the frontier rule
+
+Each language counts equally in the overall mean, so high-resource languages don't dominate. The 95% intervals come from a hierarchical bootstrap with 2,000 draws (seed 20261025) that resamples languages, then cases within each language.
+
+A model is off the frontier only if another model costs no more and is clearly better. Clearly better means the paired bootstrap interval of the per-case difference lies entirely above zero. Models within noise of each other can all stay on the frontier.
+
+Cost is what OpenRouter billed (`usage.cost`) for each successful translation call, including reasoning tokens, scaled to 1,000 messages. It excludes judging and chat drafting.
+
+### The supplement and anchoring
+
+After the main run of 11 models, I added four newer ones: GPT-6 Luna, GLM 5.3 Flash, MiniMax M3.1 Flash and Muse Spark 1.3. Luna and Muse Spark were limited to 20 requests per minute on a new OpenRouter account, so all four were judged on a fixed subsample of 1,080 cases, the first 10 benchmark and first 5 chat cases per language in file order.
+
+The supplement used the same judge, rubric and batch format, with a six-candidate panel: the four new models plus Gemini 3.1 Flash-Lite and DeepSeek V4.1 Flash from the main run as anchors. Each new model is placed on the main-run scale as Gemini's full-run mean plus the new model's paired gap to Gemini on the subsample.
+
+The anchors make the placement checkable. Under the main judge pass, the Gemini-DeepSeek gap on the subsample was +0.12 (0.04 to 0.20). In the supplement pass it was +0.14 (0.06 to 0.22). The subsample is slightly harder for Gemini: it scores 4.69 there in the main run against 4.73 on all cases. Placing models through the paired gap corrects for that.
+
+Where a new model is compared with a main-run model other than the anchors, the two were never in the same prompt. The frontier rule then uses a conservative combined interval rather than a direct paired one.
+
+During the supplement, one 150-case judge batch was refused by the provider's content filter as a false positive, and I re-judged those cases in batches of 30. Also, 11 translations failed on a local ledger file lock and were re-run, and their stale judge scores were discarded.
+
+### Spend
+
+| Step | USD |
+| --- | ---: |
+| Chat drafting | $10.67 |
+| Translations | $5.23 |
+| Judging | $23.81 |
+| Supplement (four extra models, translation and judging) | $3.97 |
+| Total | $43.68 [CHECK: supplement share is from notes, not a repo file. Confirm against the ledger.] |
+
+That works out to $0.0094 per case including drafting and judging, and $0.00010 per model-case for translation alone. Those per-case figures are for the 11-model main run, where judging was 60% of the spend.
+
+### Reproducing it
+
+Everything is at https://github.com/blake-raymond/translation-pareto. Put `OPENROUTER_API_KEY=...` in `.openrouter.env`, then:
+
+```
+node eval/pareto/run.mjs --pilot   # 5-language pilot, stops before the paid full run
+node eval/pareto/run.mjs --full    # 72 languages, all main-run models, one judge
+```
+
+The run keeps a spend ledger in `eval/pareto/results/ledger.json`, with a hard cap and a soft stop set in `eval/pareto/meta.mjs`. Sampling uses a fixed seed, and the sampled cases are committed in `data/benchmark-cases.json` and `data/chat-cases.json`. A rerun uses the same cases. Judge output will vary somewhat between runs. The supplement report is produced by `eval/pareto/supp-report.mjs`. [CHECK: add the exact command for the supplement run.] Without `HF_TOKEN` the sampler skips FLORES+.
 
 ## Results
 
@@ -69,26 +112,24 @@ Main run, all 4,245 cases:
 | Qwen3 235B A22B | 3.86 (3.68-4.00) | 14.4% | $0.051 |
 | GPT-5 nano | 3.17 (3.02-3.32) | 26.1% | $0.030 |
 
-Supplement, 1,080-case subsample, scores placed on the main-run scale:
+Supplement, 1,080-case subsample, scores placed on the main-run scale. † marks the four models judged in the separate anchored pass. Their scores don't come from the same listwise judge prompts as the other 11, and the combined chart puts them on the main scale through the anchors.
 
 | Model | Score (main scale) | Critical (subsample) | $ / 1k msgs |
 | --- | --- | ---: | ---: |
 | Gemini 3.1 Flash-Lite (anchor) | 4.73 | 1.7% | $0.080 |
 | DeepSeek V4.1 Flash (anchor) | 4.56 | 4.4% | $0.050 |
-| GPT-6 Luna | 4.56 ±0.09 | 7.9% | $0.021 |
-| Muse Spark 1.3 | 4.48 ±0.10 | 9.0% | $0.843 |
-| GLM 5.3 Flash | 4.38 ±0.11 | 6.5% | $0.025 |
-| MiniMax M3.1 Flash | 3.86 ±0.20 | 18.5% | $0.101 |
+| GPT-6 Luna† | 4.56 ±0.09 | 7.9% | $0.021 |
+| Muse Spark 1.3† | 4.48 ±0.10 | 9.0% | $0.843 |
+| GLM 5.3 Flash† | 4.38 ±0.11 | 6.5% | $0.025 |
+| MiniMax M3.1 Flash† | 3.86 ±0.20 | 18.5% | $0.101 |
 
 The anchors' critical-error rates are higher on the subsample than in the full run (Gemini 1.7% against 0.9%, DeepSeek 4.4% against 2.7%). When comparing the new models with the anchors, use the subsample column.
-
-A few things stood out to me.
 
 **Newer and bigger didn't win.** Gemini 3.5 Flash-Lite is a newer version than 3.1 Flash-Lite and costs half as much again per message ($0.120 against $0.080), yet it scored 0.24 lower (95% CI 0.21-0.29). Grok 4.20 is the most expensive model in the main run at $0.265 per 1,000 messages and scored 4.36. Muse Spark 1.3 costs $0.843 per 1,000 messages, about ten times the Gemini price, because its reasoning can't be turned off on OpenRouter, and it still scored lower.
 
 **Luna's place on the frontier is narrow.** GPT-6 Luna matches DeepSeek's mean (a paired gap of -0.03, CI -0.14 to 0.07) at less than half the price. Its critical-error rate is the highest of the three frontier models, though. Luna and Gemini 2.5 Flash-Lite were never judged in the same prompt, so the call that Luna scores higher rests on a conservative combined interval rather than a direct comparison.
 
-**Benchmark and chat agree on the winner.** Gemini 3.1 Flash-Lite had the highest mean on both the benchmark cases (4.70) and the chat cases (4.80). Most models scored higher on chat than on benchmark items, likely because the chat messages are short. [CHECK: that explanation is my guess; the repo doesn't test it.]
+**Benchmark and chat agree on the winner.** Gemini 3.1 Flash-Lite had the highest mean on both the benchmark cases (4.70) and the chat cases (4.80). Most models scored higher on chat than on benchmark items, likely because the chat messages are short. [CHECK: that explanation is my guess. The repo doesn't test it.]
 
 ## Where models fail
 
@@ -105,33 +146,45 @@ The flags that surprised me came from otherwise good models:
 
 Gemini 3.1 Flash-Lite had no flags. Its lowest language means were Zulu (4.23), Cebuano (4.41), Igbo (4.46) and Somali (4.46).
 
-[CHECK: in an earlier, smaller test the weakest languages for my app were Vietnamese, Khmer, Japanese and Korean. In this run Gemini 3.1 Flash-Lite scores 4.67, 4.77, 4.70 and 4.76 on them. Decide whether to mention the earlier result and how to reconcile it; it was a different case set and judge setup.]
+[CHECK: in an earlier, smaller test the weakest languages for my app were Vietnamese, Khmer, Japanese and Korean. In this run Gemini 3.1 Flash-Lite scores 4.67, 4.77, 4.70 and 4.76 on them. Decide whether to mention the earlier result and how to reconcile it. It was a different case set and judge setup.]
 
 ## The cost math
 
-Per message, all of these are cheap. The full-run translation spend for 11 models across 4,245 cases was $5.23.
+At these prices, translation cost is small in absolute terms. Translating all 4,245 cases with 11 models cost $5.23.
 
-At 1,000,000 messages:
+Per 1,000,000 messages:
 
-- GPT-6 Luna: about $21
-- DeepSeek V4.1 Flash: about $50
-- Gemini 3.1 Flash-Lite: about $80
-- Grok 4.20: about $265
-- Muse Spark 1.3: about $843
+| Model | Cost | Messages with a critical error |
+| --- | ---: | ---: |
+| GPT-6 Luna | about $21 | about 79,000 (7.9%) |
+| DeepSeek V4.1 Flash | about $50 | about 44,000 (4.4%) |
+| Gemini 3.1 Flash-Lite | about $80 | about 17,000 (1.7%) |
+| Grok 4.20 | about $265 | |
+| Muse Spark 1.3 | about $843 | about 90,000 (9.0%) |
 
-Switching from Gemini 3.1 Flash-Lite to Luna saves about $59 per million messages. On the subsample's critical-error rates, it would also mean roughly 79,000 messages with a serious mistake instead of 17,000. For a chat app, I'd rather pay the $59.
+Critical-error rates are from the 1,080-case subsample, where all three frontier models were judged together. Grok 4.20 wasn't in the supplement, and its full-run rate is 3.4%.
 
-These figures are per-message averages from this test set. Real messages in say.as will have different lengths and history depths, and cost scales with tokens. [BLAKE: if you have real traffic numbers, add what the app actually costs to run.]
+Going from Gemini 3.1 Flash-Lite to Luna saves about $59 per million messages and adds roughly 62,000 messages with a wrong meaning, wrong number or similar serious error. Whether that trade is acceptable depends on what a mistake costs. Actual bills also depend on message length and history depth, since billing is per token.
 
-## What I'd do next
+## Limitations
 
-- Get native speakers to review a sample, starting with the languages the app's users actually use. [BLAKE: which languages those are.]
-- Run a second judge from a different model family on the same cases to measure judge bias.
-- Look at the actual outputs behind the surprising flags, especially DeepSeek on Slovak.
-- Test non-English source languages and both directions of a conversation.
-- Add FLORES+ once I have access, and compare against automatic metrics such as COMET or MetricX.
-- Re-run GPT-6 Luna on the full set once rate limits allow it, since its cost and score come from 1,080 cases.
+- **One LLM judge.** No native speaker checked these outputs. The scores show what Opus 5.5 thinks, and its judgment is probably weakest in exactly the low-resource languages where models differ most.
+- **Judge family bias.** A judge can favor outputs that resemble its own. Claude Haiku 5.5 landed mid-table at 4.35, so there is no obvious favoritism, but this run didn't use a second judge to measure it. [CHECK: the earlier pilot used two judges. Say whether they agreed.]
+- **English source only.** Every case translates out of English. The reverse direction and non-English pairs are untested.
+- **Synthetic chat.** The chat cases were written by an LLM from the same family as the judge, not collected from real users.
+- **Listwise drift.** Scores depend a little on which candidates share the prompt. The anchor check suggests the effect is small, not zero.
+- **Noisy per-language cells.** Up to 60 cases per language in the main run and 15 in the supplement. One or two bad outputs can move a cell past a threshold.
+- **Separate judge pass.** GPT-6 Luna, GLM 5.3 Flash, MiniMax M3.1 Flash and Muse Spark 1.3† were judged in a separate pass with a six-candidate panel on 1,080 cases, then anchored to the main scale through Gemini 3.1 Flash-Lite and DeepSeek V4.1 Flash. Their scores include the anchor's uncertainty, and comparing them with non-anchor main-run models relies on a conservative combined interval rather than a direct paired one.
+- **Subsample costs.** Luna and Muse Spark costs come from 1,080 calls, not 4,245.
+- **Language varieties.** WMT24++ uses specific locales, such as Mexican Spanish and Egyptian Arabic, and I treated each as the whole language.
 
-For now, say.as stays on Gemini 3.1 Flash-Lite. If cost ever matters more than error rate, DeepSeek V4.1 Flash is the next step down, and Luna after that.
+## Next steps
 
-The code, cases, judge prompts and full result tables are at https://github.com/blake-raymond/translation-pareto. The detailed numbers are in `docs/results.md` and `docs/results-supplement.md`.
+- Native-speaker review of a sample, starting with the flagged languages.
+- A second judge from a different model family on the same cases.
+- Reading the outputs behind the surprising flags, starting with DeepSeek on Slovak.
+- Non-English source languages and the reverse direction.
+- FLORES+, plus automatic metrics such as COMET or MetricX for comparison.
+- Luna and Muse Spark on the full case set.
+
+Code, cases, judge prompts and the full result tables are at https://github.com/blake-raymond/translation-pareto, with the detailed numbers in `docs/results.md` and `docs/results-supplement.md`.

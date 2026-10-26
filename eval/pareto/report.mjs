@@ -338,7 +338,7 @@ function markdown(opts, analysis, spend) {
     : [
       "# Pareto translation eval",
       "",
-      "Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), 12 models, one judge (`anthropic/claude-opus-5.5`).",
+      "Full run: 72 non-English languages, up to 40 benchmark and 20 chat cases each (fewer when the source set is shorter), 11 models, one judge (`anthropic/claude-opus-5.5`).",
       "",
     ];
   const langTable = langs.length > 8
