@@ -1,0 +1,73 @@
+{
+  "description": "Raw results of the single 15-model pass reported in docs/results.md.",
+  "judge": "anthropic/claude-opus-5.5",
+  "rubric_version": "2026-10-25-pareto-v1",
+  "panel": [
+    "google/gemini-3.1-flash-lite",
+    "google/gemini-3.5-flash-lite",
+    "google/gemini-2.5-flash",
+    "deepseek/deepseek-v4.1-flash-1017",
+    "anthropic/claude-haiku-5.5",
+    "qwen/qwen3-235b-a22b-2507",
+    "x-ai/grok-4.20",
+    "google/gemini-2.5-flash-lite",
+    "meta-llama/llama-4-maverick",
+    "openai/gpt-5-mini",
+    "openai/gpt-5-nano",
+    "openai/gpt-6-luna",
+    "z-ai/glm-5.3-flash",
+    "minimax/minimax-m3.1-flash",
+    "meta/muse-spark-1.3"
+  ],
+  "n_cases": 4245,
+  "n_scored": 4242,
+  "system_prompt": "You are a professional interpreter for a live face-to-face conversation. Use the full history for pronouns, tone, slang, and references. Be forgiving of typos, missing accents, and bad autocorrect, and infer the intended meaning. Output only the translation with no commentary.",
+  "inputs": [
+    {
+      "file": "eval/prompts/interpreter.txt",
+      "sha256": "3d6b7edd35bd5fb0bbc2accb1aa9f1f50a409cbf34458dc84e5bc408dc587421"
+    },
+    {
+      "file": "eval/pareto/prompts.mjs",
+      "sha256": "a7d22900cc8bbe8f3c54738bed26b8bfb798c1dddcc20d6d7039385df6875e07"
+    },
+    {
+      "file": "eval/pareto/judge.mjs",
+      "sha256": "5ae23dcea7ec8b481014f0f45aaab8228ed556d9c2499f0d2618d6717ebe0f50"
+    },
+    {
+      "file": "eval/pareto/models.json",
+      "sha256": "732fb4585ceda9db5a718b3b610fbbffa241be4848a6c306d9cd2f57255cba49"
+    },
+    {
+      "file": "data/benchmark-cases.json",
+      "sha256": "d9f282263d6900109d8b2145853c5d129c3e428bf7940693dbc749729e8d9407"
+    },
+    {
+      "file": "data/chat-cases.json",
+      "sha256": "f0ae27a54cb5ec7aa90cd57b9306adcdb1e52210cce2a276e7f64efd17e90e7a"
+    }
+  ],
+  "files": [
+    {
+      "file": "data/results/translations.json.gz",
+      "bytes": 2665231,
+      "sha256_uncompressed": "bcae4a5793d83b2e9755290e57ba16ef20009dc508827ed8bf3f38f718886681"
+    },
+    {
+      "file": "data/results/judgements.json.gz",
+      "bytes": 205849,
+      "sha256_uncompressed": "58f90a7df6b76ef04a5ea4379f41169c217f19e4acc4de9f8a888ba35841c36a"
+    },
+    {
+      "file": "data/results/judge-batches.json.gz",
+      "bytes": 522053,
+      "sha256_uncompressed": "4595aa82b469b058663dbd18b7396342beeab327ed6cfa27694cef0d14dcd352"
+    }
+  ],
+  "formats": {
+    "translations.json.gz": "{ cases: [case id], models: [slug], runs: [{ case_id, slug, output, error, cost_usd, prompt_tokens, completion_tokens, reasoning_tokens, latency_ms, temperature, reasoning }] }",
+    "judgements.json.gz": "{ judge, rubric, slugs, scores: { case_id: { slug: { meaning, naturalness, handling, critical_error, score } } }, batches, parse_failures }",
+    "judge-batches.json.gz": "{ file name: { order: { case_id: [slug for label A, B, ...] }, raw: judge reply text, scores, cost_usd, usage } } - every judge call, including retried batches"
+  }
+}

@@ -6,6 +6,8 @@
   "description": "Open cost-vs-quality benchmark of LLMs for conversational translation.",
   "scripts": {
     "test": "node --test eval/pareto/judge.test.mjs",
+    "verify": "node eval/pareto/verify.mjs",
+    "smoke": "node eval/pareto/smoke.mjs",
     "pareto:data": "node eval/pareto/data.mjs",
     "pareto:chat": "node eval/pareto/chat.mjs",
     "pareto:translate": "node eval/pareto/run-translate.mjs",
@@ -13,6 +15,9 @@
     "pareto:report": "node eval/pareto/report.mjs",
     "pareto:pilot": "node eval/pareto/run.mjs --pilot",
     "pareto:full": "node eval/pareto/run.mjs --full",
-    "pareto:sanity": "node eval/pareto/sanity-all15.mjs eval/pareto/results/judgements-all15.json eval/pareto/results/translations-all15.json"
+    "pareto:sanity": "node eval/pareto/sanity-all15.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

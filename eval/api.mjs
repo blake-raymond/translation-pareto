@@ -2,7 +2,8 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CAP_USD } from "./meta.mjs";
+// Default cap for a ledger that does not set its own (the benchmark ledger sets one in eval/pareto/meta.mjs).
+const CAP_USD = 10;
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const API_URL = "https://openrouter.ai/api/v1/chat/completions";
@@ -23,12 +24,14 @@ export function ensureUtf8Console() {
 }
 
 export function loadKey() {
+  const fromEnv = (process.env.OPENROUTER_API_KEY || "").trim();
+  if (fromEnv) return fromEnv;
   const file = path.join(ROOT, ".openrouter.env");
   let text;
   try {
     text = fs.readFileSync(file, "utf8");
   } catch {
-    throw new Error("Could not read .openrouter.env");
+    throw new Error("Set OPENROUTER_API_KEY in the environment or in .openrouter.env");
   }
   for (const line of text.split(/\r?\n/)) {
     const trimmed = line.trim();

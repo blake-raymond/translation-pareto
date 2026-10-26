@@ -1,6 +1,8 @@
 # Data licenses
 
-This folder holds sampled evaluation items. Raw downloads stay in `data/raw/` and are git-ignored.
+This folder holds the sampled evaluation cases (`benchmark-cases.json`, `chat-cases.json`) and the raw results of the 15-model run (`results/`). Raw downloads stay in `data/raw/` and are git-ignored. Every case records its `dataset` and `license`.
+
+Counts in `benchmark-cases.json`: WMT24++ 1,800, NTREX-128 840, Tatoeba 165 (90 from the Tatoeba.org API, 75 from OPUS). FLORES+ 0.
 
 ## WMT24++
 
@@ -25,10 +27,17 @@ This folder holds sampled evaluation items. Raw downloads stay in `data/raw/` an
 ## Tatoeba (OPUS / Tatoeba.org)
 
 - Source: OPUS Tatoeba v2023-04-12 (https://opus.nlpl.eu/Tatoeba.php) and the Tatoeba.org search API
-- License: sentences on Tatoeba are generally CC BY 2.0 (see https://tatoeba.org/en/terms_of_use)
+- License: CC BY 2.0 FR (some sentences CC0), see https://tatoeba.org/en/terms_of_use. Attribution: sentences by the Tatoeba contributors, https://tatoeba.org.
+- Known issue: the 75 OPUS-derived cases (Javanese, Odia, Sundanese) have misaligned `reference` fields that contain lines from the corpus's license file instead of translations. The English `text` fields are correct Tatoeba sentences.
 - Use: short conversational pairs for languages missing from both WMT24++ and NTREX-128 (Assamese, Bhojpuri, Cebuano, Javanese, Odia, Sundanese).
 
 ## Synthetic chat layer
 
 - `data/chat-cases.json` is drafted by `anthropic/claude-opus-5.5` for this project.
 - License: original to this repository (MIT for the JSON as project output). Not a third-party corpus.
+
+## Raw results (`data/results/`)
+
+- Model translations of the benchmark and chat cases, judge scores and raw judge replies, produced for this project through OpenRouter.
+- Translations of NTREX-128 items are adaptations of CC BY-SA 4.0 material and are shared under CC BY-SA 4.0. Translations of WMT24++ items follow Apache 2.0, and of Tatoeba items CC BY 2.0 FR, with the attribution above. Everything else in `data/results/` is project output under the repository's MIT license.
+- Model outputs are also subject to each provider's terms of use.

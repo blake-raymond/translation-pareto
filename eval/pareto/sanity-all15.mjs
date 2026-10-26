@@ -1,9 +1,12 @@
 // Free sanity checks on a combined judge pass. Usage:
-// node eval/pareto/sanity-all15.mjs <judgements.json> <translations.json> [old judgements.json]
+// node eval/pareto/sanity-all15.mjs [judgements.json[.gz]] [translations.json[.gz]] [old judgements.json]
+// Defaults to the committed raw results in data/results/.
 import fs from "node:fs";
-const [jf, tf, oldf = "eval/pareto/results/judgements.json"] = process.argv.slice(2);
-const J = JSON.parse(fs.readFileSync(jf, "utf8"));
-const T = JSON.parse(fs.readFileSync(tf, "utf8"));
+import zlib from "node:zlib";
+const [jf = "data/results/judgements.json.gz", tf = "data/results/translations.json.gz", oldf = "eval/pareto/results/judgements.json"] = process.argv.slice(2);
+const load = (file) => JSON.parse(file.endsWith(".gz") ? zlib.gunzipSync(fs.readFileSync(file)).toString("utf8") : fs.readFileSync(file, "utf8"));
+const J = load(jf);
+const T = load(tf);
 const out = {};
 for (const r of T.runs) out[r.case_id + "|" + r.slug] = { o: (r.output || "").trim(), e: r.error };
 const ids = Object.keys(J.scores);
