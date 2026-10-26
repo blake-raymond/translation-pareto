@@ -72,11 +72,11 @@ The raw results are committed in `data/results/` (3.4 MB gzip): every translatio
 npm run verify
 ```
 
-`verify` unpacks the raw results, recomputes every table above "Spend" in `docs/results.md` and the chart `docs/pareto.svg` with `eval/pareto/report.mjs`, and fails if anything differs. It makes no API calls and needs no key. `npm run pareto:sanity` reruns the identical-output check on the same data; its output should match `docs/sanity-all15.txt`. `npm test` runs the unit tests. All three are offline.
+`verify` unpacks the raw results, recomputes every table above "Spend" in `docs/results.md` and the chart `docs/pareto.svg` with `eval/pareto/report.mjs`, and fails if anything differs. It makes no API calls and needs no key. `npm run pareto:sanity` reruns the identical-output check on the same data; its output should match `docs/sanity-all15.txt` except the last line, which compares with an earlier pass whose judgements are not published. `npm test` runs the unit tests. All three are offline.
 
 ## Reproduce with money
 
-Requirements: Node.js 20 or newer. There are no npm dependencies. An OpenRouter API key, in the environment (`OPENROUTER_API_KEY`) or in a git-ignored `.openrouter.env` file (`OPENROUTER_API_KEY=...`).
+Requirements: Node.js 20 or newer. There are no npm dependencies (`npm ci` installs nothing). An OpenRouter API key, in the environment (`OPENROUTER_API_KEY`) or in a git-ignored `.openrouter.env` file (`OPENROUTER_API_KEY=...`).
 
 1. **Smoke test** (about $0.02): `npm run smoke` translates 3 Spanish cases with two cheap models, judges them with the real judge and writes a report under `eval/pareto/results/smoke/`.
 2. **Cases** are committed: `data/benchmark-cases.json` (2,805) and `data/chat-cases.json` (1,440). To rebuild them:
